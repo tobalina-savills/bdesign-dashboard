@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Design Dashboard 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── TOKENS YTD ── */
+body[data-view="ytd"]{
+  --bg:#E5F2FE;
+  --bar-rest:#E4E6E8;
+}
+/* ── TOKENS MES ── */
+body[data-view="mes"]{
+  --bg:#E4E6E8;
+  --bar-rest:#99a0a6;
+}
+/* ── SHARED TOKENS ── */
+body{
+  --bg:#E5F2FE;
+  --bar-rest:#E4E6E8;
+  --white:#ffffff;
+  --dark:#3C4146;
+  --yellow:#FFDF00;
+  --green:#0CB458;
+  --red:#D94C50;
+  --text:#1a1c20;
+  --muted:#7a8494;
+  --light:#aab0bc;
+  --font:'Inter',sans-serif;
+  font-family:var(--font);font-size:12px;color:var(--text);
+  background:var(--bg);
+}
+
+/* ── SHELL ── */
+.shell{display:flex;flex-direction:column;height:100vh;background:var(--bg);}
+
+/* ── HEADER ── */
+.hdr{
+  display:flex;align-items:center;gap:14px;
+  padding:0 18px;height:36px;flex-shrink:0;
+  background:var(--bg);
+}
+.badge{background:var(--dark);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;}
+.hdr-l{font-size:13px;font-weight:300;color:var(--muted);}
+.hdr-l b{font-weight:700;color:var(--text);}
+.hdr-c{flex:1;text-align:center;font-size:12px;color:var(--muted);}
+.hdr-c b{font-weight:700;color:var(--text);}
+.hdr-r{font-size:12px;color:var(--muted);}
+.hdr-r b{font-weight:700;color:var(--text);}
+
+/* ── BODY ── */
+.body{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:108px;flex-shrink:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  padding:10px 8px 0;
+}
+.btn-ytd{
+  width:100%;padding:7px 6px;
+  background:var(--dark);color:#fff;
+  font-size:11px;font-weight:600;
+  border:none;border-radius:7px;
+  cursor:pointer;text-align:center;
+  margin-bottom:8px;letter-spacing:0.01em;
+}
+.btn-ytd:hover{opacity:.85;}
+.month-ul{list-style:none;flex:1;overflow-y:auto;}
+.month-ul li a{
+  display:block;padding:5px 6px;
+  font-size:11.5px;color:var(--muted);
+  cursor:pointer;text-decoration:none;
+  border-radius:5px;
+}
+.month-ul li a:hover{color:var(--text);background:rgba(60,65,70,.09);}
+.month-ul li a.active{color:var(--text);font-weight:700;background:rgba(60,65,70,.1);}
+.month-ul li a.disabled{color:var(--light);cursor:default;pointer-events:none;}
+.sb-footer{padding:8px 0;margin-top:auto;}
+.btn-xls{display:block;font-size:11px;color:var(--muted);text-align:center;padding:5px;border-radius:5px;cursor:pointer;background:rgba(60,65,70,.07);}
+.btn-xls:hover{background:rgba(60,65,70,.14);}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow:auto;padding:9px;}
+
+/* ── VIEWS ── */
+.view{display:none;}
+.view.active{display:grid;}
+.grid{
+  grid-template-columns:185px 1fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:8px;
+}
+
+/* ── CARD ── */
+.card{background:var(--white);border-radius:9px;padding:11px 13px;overflow:hidden;}
+
+/* ── SEC TITLE ── */
+.sec{font-size:11px;font-weight:300;color:var(--muted);margin-bottom:3px;}
+.sec b{font-weight:700;color:var(--text);}
+
+/* ── DELTA ── */
+.delta{font-size:10px;font-weight:600;margin-bottom:1px;}
+.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--muted)}
+
+/* ── KPI ── */
+.kval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1.05;}
+.ksub{font-size:10px;color:var(--muted);margin-top:2px;}
+.col1{display:flex;flex-direction:column;gap:8px;}
+
+/* ── HORIZONTAL BAR ── */
+.br{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.bl{font-size:9px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bt{flex:1;height:14px;background:var(--bar-rest);border-radius:2px;overflow:hidden;}
+.bf{height:100%;border-radius:2px;background:var(--dark);}
+.bv{font-size:9px;color:var(--muted);min-width:96px;white-space:nowrap;}
+
+/* ── GEO SCATTER ── */
+.geo{position:relative;flex:1;min-height:155px;}
+.gb{position:absolute;border-radius:50%;background:rgba(30,30,38,.82);transform:translate(-50%,-50%);}
+.gt{position:absolute;font-size:8.5px;color:var(--muted);white-space:nowrap;line-height:1.4;}
+.gay{position:absolute;left:0;top:0;bottom:18px;display:flex;flex-direction:column;justify-content:space-between;font-size:7.5px;color:var(--light);}
+
+/* ── PITCH ── */
+.pval{font-size:52px;font-weight:900;letter-spacing:-.05em;line-height:1;}
+.pi{font-size:10px;color:var(--muted);padding:1px 0;}
+.pi::before{content:"› ";color:var(--light);}
+.g{color:#2a9a5c;font-weight:600;}
+.bl2{color:#2a6fb8;font-weight:600;}
+.col4{display:flex;flex-direction:column;gap:8px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* ── RRSS ── */
+.rval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1;}
+
+/* ── DEST ── */
+.di{font-size:10px;color:var(--muted);padding:1.5px 0;}
+.di::before{content:"› ";color:var(--light);}
+
+/* ── VOL MES ── */
+.vr{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
+.vl{font-size:9px;color:var(--muted);min-width:18px;text-align:right;}
+.vt{height:12px;background:var(--bar-rest);border-radius:2px;overflow:hidden;flex:1;}
+.vf{height:100%;border-radius:2px;}
+.vv{font-size:9px;color:var(--muted);white-space:nowrap;min-width:90px;}
+
+/* ── DEPT ── */
+.dg{margin-bottom:7px;}
+.dn{font-size:11px;font-weight:700;color:var(--text);}
+.ds{font-size:9px;color:var(--muted);margin-bottom:3px;}
+.dr{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
+.dl{font-size:9px;color:var(--muted);min-width:55px;text-align:right;flex-shrink:0;}
+.dtk{flex:1;height:13px;background:var(--bar-rest);border-radius:2px;overflow:hidden;}
+.db{height:100%;border-radius:2px;}
+.dv{font-size:9px;color:var(--muted);min-width:85px;white-space:nowrap;}
+.dsep{border:none;border-top:1px dashed #cdd7e3;margin:5px 0;}
+
+/* ── GANTT ── */
+.gl{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+.gli{display:flex;align-items:center;gap:3px;font-size:8px;color:var(--muted);}
+.glb{width:11px;height:11px;border-radius:2px;}
+.gll{width:16px;height:2px;background:var(--dark);}
+.gchart{display:flex;align-items:flex-end;gap:3px;padding-bottom:24px;position:relative;flex:1;}
+.gc{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.gbw{width:100%;display:flex;flex-direction:column;justify-content:flex-end;}
+.gbar{width:100%;border-radius:3px 3px 0 0;position:relative;}
+.gnum{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:8.5px;font-weight:700;color:var(--text);}
+.glbl{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%) rotate(-45deg);transform-origin:top center;font-size:7px;color:var(--muted);white-space:nowrap;}
+.gavg{position:absolute;left:0;right:0;height:1.5px;background:var(--dark);z-index:5;}
+.gavgt{position:absolute;right:0;background:var(--dark);color:#fff;font-size:8px;font-weight:600;padding:2px 5px;border-radius:3px;transform:translateY(-50%);white-space:nowrap;}
+.pnote{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.pnote b{font-weight:700;color:var(--text);}
+.fn{font-size:8px;color:var(--light);margin-top:3px;font-style:italic;}
+.plus{float:right;width:18px;height:18px;border-radius:50%;background:var(--dark);color:#fff;font-size:16px;line-height:18px;text-align:center;cursor:pointer;font-weight:300;}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:rgba(60,65,70,.2);border-radius:2px}
+</style>
+</head>
+<body data-view="ytd">
+<div class="shell">
+
+<!-- HEADER -->
+<header class="hdr">
+  <span class="badge">2026</span>
+  <span class="hdr-l"><b>Retail</b> Design Dashboard</span>
+  <div class="hdr-c"><b>Iberia.</b> Foco en España &nbsp;<b>Beatriz</b> Tobalina González</div>
+  <div class="hdr-r">Savills <b>Iberia</b></div>
+</header>
+
+<div class="body">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <button class="btn-ytd" onclick="setView('ytd',this)" id="btn-ytd">Abril YTD</button>
+  <ul class="month-ul">
+    <li><a onclick="setView('ene',this)">Enero</a></li>
+    <li><a onclick="setView('feb',this)">Febrero</a></li>
+    <li><a onclick="setView('mar',this)">Marzo</a></li>
+    <li><a onclick="setView('abr',this)">Abril</a></li>
+    <li><a onclick="setView('may',this)">Mayo</a></li>
+    <li><a class="disabled">Junio</a></li>
+    <li><a class="disabled">Julio</a></li>
+    <li><a class="disabled">Agosto</a></li>
+    <li><a class="disabled">Septiembre</a></li>
+    <li><a class="disabled">Octubre</a></li>
+    <li><a class="disabled">Noviembre</a></li>
+    <li><a class="disabled">Diciembre</a></li>
+  </ul>
+  <div class="sb-footer">
+    <span class="btn-xls">Excel →</span>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- ═══ YTD ═══ -->
+<div class="view active grid" id="view-ytd">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta down">↓8,9% YoY</div>
+      <div class="kval">92</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta up">↑10,3% YoY</div>
+      <div class="kval">784h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta down">↓71,2% YoY</div>
+      <div class="kval">1,8</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-ytd"></div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-ytd"></div>
+  </div>
+
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta up">↑20% YoY</div>
+      <div class="pval">12</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">50% Ganados (12)</div>
+      <div id="pitch-ytd"></div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta flat">0% YoY</div>
+        <div class="rval">3</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (53h)<br><span class="up">↑341% YoY</span></div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div id="dest-ytd"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓0,8% YoY</div>
+    <div class="kval" style="font-size:34px;">23,0</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-ytd"></div>
+  </div>
+
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-ytd"></div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div style="font-size:10px;font-weight:700;margin:3px 0 1px;">Patrón detectado.</div>
+    <div class="pnote">Concentración del 60% de la carga mensual en la una semana, el volumen en esta semana se duplica.</div>
+    <div class="gl" style="margin-top:6px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega diseñadora</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Gradiente Gris= Fase definición Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Gradiente Amarillo= Fase ejecución Diseño</div>
+    </div>
+    <div style="flex:1;position:relative;min-height:100px;">
+      <div class="gchart" id="gantt-ytd" style="height:100%;"></div>
+    </div>
+    <div class="fn">*Los datos muestran solo proyectos con entrega semanal, no el total de horas semanales, ya que algunos proyectos duran más.</div>
+  </div>
+</div>
+
+<!-- ═══ MES: ABRIL ═══ -->
+<div class="view grid" id="view-abr">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta up">↑22,7% YoY</div>
+      <div class="kval">27</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta up">↑10,2% YoY</div>
+      <div class="kval">146,8h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta down">↓33,6% YoY</div>
+      <div class="kval">1,7</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-abr"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-abr"></div>
+  </div>
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta up">↑100% YoY</div>
+      <div class="pval">2</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">50% Ganados (1)</div>
+      <div>
+        <div class="pi">Ores. CC-Capital Markets (17h)</div>
+        <div class="pi"><span class="bl2">R.Victoria.</span> CC-Capital Markets (12h)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta up">↑100% YoY</div>
+        <div class="rval">1</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (26h)</div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div style="font-size:10px;">
+          <div class="di">Dossier Entrenasas</div>
+          <div class="di">Boletín HS ESP+ING</div>
+          <div class="di">Boletín Retail – ESP+ING</div>
+          <div class="di">Template FM - Property Mgmt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓0,8% YoY</div>
+    <div class="kval" style="font-size:34px;">23,0</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-abr"></div>
+  </div>
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-abr"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div class="gl" style="margin-top:4px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega diseñadora</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase def. Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase ejec. Diseño</div>
+    </div>
+    <div style="flex:1;position:relative;min-height:100px;">
+      <div class="gchart" id="gantt-abr" style="height:100%;"></div>
+    </div>
+    <div class="fn">*Los datos muestran solo proyectos con entrega semanal.</div>
+  </div>
+</div>
+
+<!-- ═══ OTROS MESES (placeholder) ═══ -->
+<div class="view" id="view-ene" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Enero — próximamente</div>
+<div class="view" id="view-feb" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Febrero — próximamente</div>
+<div class="view" id="view-mar" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Marzo — próximamente</div>
+<div class="view" id="view-may" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Mayo — próximamente</div>
+
+</div></div></div>
+
+<script>
+
+// ── GOOGLE SHEET CONFIG ───────────────────────────────────────────────────
+// PASO 1: Pega aquí la URL de tu Google Sheet publicado como CSV
+// (Archivo → Publicar en la web → CSV → copiar URL)
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQvtbeBrQvZtpmO3qhAnh8UevUkTzWLFz56xmX921QO29vVqv5IK5ZHL0I0mgkoZa4B51buWDygs_2j/pub?gid=192838795&single=true&output=csv";
+
+// ── SHEET LOADER ──────────────────────────────────────────────────────────
+async function loadSheetData() {
+  if (!SHEET_URL || SHEET_URL === "PEGA_TU_URL_AQUI") {
+    console.log("Sheet no configurado — usando datos de ejemplo");
+    return null;
+  }
+  try {
+    const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error("No se pudo cargar");
+    const csv = await res.text();
+    return parseCSV(csv);
+  } catch(e) {
+    showSheetError(e.message);
+    return null;
+  }
+}
+
+function parseCSV(csv) {
+  const lines = csv.trim().split("\n");
+  const headers = lines[0].split(",").map(h => h.trim().replace(/"/g,""));
+  return lines.slice(1).map(line => {
+    const vals = line.split(",").map(v => v.trim().replace(/"/g,""));
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = vals[i] || "");
+    return obj;
+  });
+}
+
+function showSheetError(msg) {
+  const el = document.createElement("div");
+  el.style.cssText = "position:fixed;top:10px;right:10px;background:#D94C50;color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;z-index:999;";
+  el.textContent = "Sheet: " + msg + " — mostrando datos de ejemplo";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 5000);
+}
+
+function buildFromSheet(rows) {
+  if (!rows || rows.length === 0) return false;
+  window.SHEET_ROWS = rows;
+  const byMonth = {};
+  rows.forEach(r => {
+    const mes = r["Mes"] || r["MES"] || r["mes"] || "";
+    if (!mes) return;
+    if (!byMonth[mes]) byMonth[mes] = [];
+    byMonth[mes].push(r);
+  });
+  window.SHEET_BY_MONTH = byMonth;
+  console.log("Sheet cargado:", rows.length, "proyectos");
+  return true;
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+const SVC_YTD=[
+  {l:"Dossier",h:258,p:34,pct:100},
+  {l:"Pitch",h:232,p:12,pct:90},
+  {l:"Otros",h:72,p:21,pct:28},
+  {l:"Cartelería",h:53,p:5,pct:21},
+  {l:"Motion+Video",h:24,p:4,pct:9},
+  {l:"Web",h:23,p:3,pct:9},
+  {l:"RRSS",h:19,p:3,pct:7},
+  {l:"Infografía",h:18,p:3,pct:7},
+  {l:"Merchandising",h:11,p:1,pct:4},
+];
+const SVC_ABR=[
+  {l:"Dossier",h:38,p:9,pct:100},
+  {l:"Otros",h:28,p:5,pct:74},
+  {l:"Cartelería",h:26,p:2,pct:68},
+  {l:"RRSS",h:18,p:1,pct:47},
+  {l:"Pitch",h:14,p:2,pct:37},
+  {l:"Emailing",h:11,p:2,pct:29},
+];
+
+const GEO_YTD=[
+  {c:"Madrid",h:617,p:73,x:50,y:18,r:46},
+  {c:"Barcelona",h:50,p:9,x:68,y:50,r:16},
+  {c:"Málaga",h:15,p:4,x:45,y:60,r:9},
+  {c:"Portugal",h:33,p:3,x:35,y:68,r:11},
+  {c:"Valencia",h:17,p:2,x:56,y:68,r:9},
+  {c:"Iberia",h:17,p:1,x:26,y:78,r:7},
+];
+const GEO_ABR=[
+  {c:"Madrid",h:144,p:25,x:50,y:22,r:42},
+  {c:"Málaga",h:3,p:1,x:44,y:64,r:7},
+  {c:"Barcelona",h:1,p:1,x:67,y:56,r:6},
+];
+
+const PITCH_YTD=[
+  {n:"Elcano. 21h",g:1},{n:"Oasiz. 30h"},{n:"Caleido. 22h"},
+  {n:"Teatro Barceló. 16h",b:1},{n:"Serrano 53. 16h"},
+  {n:"Torre Sevilla. 15,5h"},{n:"Albufera Plaza. 9h"},
+  {n:"GV52. 9h",g:1},{n:"Primark. 42h",g:1},
+  {n:"City Park. 22h",g:1},{n:"Ores. 17h",g:1},{n:"R.Victoria. 12h",g:1},
+];
+
+const DEST_YTD=[
+  "Dossier LVMH","Stand Feria ZIG-ZAG","Web para Teatro Barceló",
+  "Consejo UK y Portugal (COO+CFO)","Ayuda Técnica Office Pulse Template",
+  "Aplicación nuevas Guidelines Research",
+  "Video Caleido y Primark (Conceptualización+Ejecución)",
+];
+
+const VOL_YTD=[
+  {l:"En",pct:69,note:"173h (0 proy.)"},
+  {l:"Feb",pct:93,note:"234h (25 proy.)"},
+  {l:"Mar",pct:100,dark:1,note:"250h (proy.)"},
+  {l:"Abr",pct:52,note:"129h (proy.)"},
+  {l:"May",pct:0},{l:"Jun",pct:0},{l:"Jul",pct:0},
+  {l:"Ago",pct:0},{l:"Sep",pct:0},{l:"Oct",pct:0},
+  {l:"Nov",pct:0},{l:"Dic",pct:0},
+];
+const VOL_ABR=VOL_YTD.map((v,i)=>({...v,dark:i===3?1:0}));
+
+const DEPT_YTD=[
+  {name:"High Street",sub:"252h (29 proy.)",rows:[
+    {l:"All HS",h:70,p:8,pct:46,dark:1},
+    {l:"CM",h:141,p:11,pct:93,dark:1},
+    {l:"Leasing",h:41,p:10,pct:27,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"235h (24 proy.)",rows:[
+    {l:"CM",h:62,p:7,pct:41,dark:0},
+    {l:"Servicios",h:173,p:17,pct:100,dark:1},
+  ]},
+  {name:"Research",sub:"144h (16 proy.)",rows:[
+    {l:"Research",h:71,p:10,pct:47,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"144h (16 proy.)",rows:[
+    {l:"Design",h:2,p:1,pct:1,dark:0},
+    {l:"MKT",h:89,p:12,pct:59,dark:0},
+    {l:"RRSS",h:53,p:3,pct:35,dark:0},
+  ]},
+  {name:"Corporativo",sub:"103h (16 proy.)",rows:[
+    {l:"Corporativo",h:76,p:12,pct:50,dark:0},
+    {l:"Comité",h:27,p:4,pct:18,dark:0},
+  ]},
+];
+const DEPT_ABR=[
+  {name:"High Street",sub:"36h (4 proy.)",rows:[
+    {l:"All HS",h:18,p:2,pct:58,dark:0},
+    {l:"CM",h:0,p:0,pct:0,dark:0},
+    {l:"Leasing",h:18,p:2,pct:58,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"35h (10 proy.)",rows:[
+    {l:"CM",h:31,p:5,pct:100,dark:1},
+    {l:"Servicios",h:4,p:5,pct:13,dark:1},
+  ]},
+  {name:"Research",sub:"31h (4 proy.)",rows:[
+    {l:"Research",h:24,p:5,pct:77,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"31h (4 proy.)",rows:[
+    {l:"Design",h:0,p:0,pct:0,dark:0},
+    {l:"MKT",h:5,p:3,pct:16,dark:0},
+    {l:"RRSS",h:26,p:1,pct:84,dark:1},
+  ]},
+  {name:"Corporativo",sub:"19h (4 proy.)",rows:[
+    {l:"Corporativo",h:19,p:4,pct:61,dark:0},
+    {l:"Comité",h:0,p:0,pct:0,dark:0},
+  ]},
+];
+
+const GANTT_YTD=[
+  {l:"Ene-1Sem",n:4,y:0},{l:"Ene-2Sem",n:7,y:1},
+  {l:"Ene-3Sem",n:3,y:0},{l:"Ene-4Sem",n:9,y:1},
+  {l:"Ene-5Sem",n:4,y:0},{l:"Feb-1Sem",n:9,y:1},
+  {l:"Feb-2Sem",n:3,y:0},{l:"Feb-3Sem",n:3,y:0},
+  {l:"Feb-4Sem",n:8,y:1},{l:"Mar-1Sem",n:7,y:1},
+  {l:"Mar-2Sem",n:7,y:1},{l:"Mar-3Sem",n:6,y:1},
+  {l:"Mar-4Sem",n:9,y:1},{l:"Mar-5Sem",n:4,y:0},
+  {l:"Abr-1Sem",n:7,y:0},{l:"Abr-2Sem",n:8,y:1},
+  {l:"Abr-3Sem",n:7,y:1},{l:"Abr-4Sem",n:4,y:0},
+];
+const GANTT_ABR=[
+  {l:"Abr-1Sem",n:7,y:1},{l:"Abr-2Sem",n:9,y:1},
+  {l:"Abr-3Sem",n:4,y:0},{l:"Abr-4Sem",n:7,y:0},
+];
+
+// ── RENDER FUNCTIONS ──────────────────────────────────────────────────────
+
+function renderSvc(id,data){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map(d=>`
+    <div class="br">
+      <div class="bl">${d.l}</div>
+      <div class="bt"><div class="bf" style="width:${d.pct}%"></div></div>
+      <div class="bv">${d.h}h (${d.p} proy.)</div>
+    </div>`).join('');
+}
+
+function renderGeo(id,data){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML='';
+  const ay=document.createElement('div');
+  ay.className='gay';
+  ['200','20','2','0.2'].forEach(v=>{const s=document.createElement('span');s.textContent=v;ay.appendChild(s);});
+  el.appendChild(ay);
+  data.forEach(d=>{
+    const b=document.createElement('div');
+    b.className='gb';
+    b.style.cssText=`left:${d.x}%;top:${d.y}%;width:${d.r*2}px;height:${d.r*2}px;`;
+    b.title=`${d.c}: ${d.h}h · ${d.p} proy.`;
+    el.appendChild(b);
+    const t=document.createElement('div');
+    t.className='gt';
+    t.style.cssText=`left:${d.x+3}%;top:${d.y-5}%;`;
+    t.innerHTML=`<b>${d.c}.</b> ${d.h}h. ${d.p} Proy.`;
+    el.appendChild(t);
+  });
+}
+
+function renderPitch(id,data){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map(d=>`<div class="pi"><span class="${d.g?'g':d.b?'bl2':''}">${d.n}</span></div>`).join('');
+}
+
+function renderDest(id,data){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map(d=>`<div class="di">${d}</div>`).join('');
+}
+
+function renderVol(id,data,isMes){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map(d=>`
+    <div class="vr">
+      <div class="vl">${d.l}</div>
+      <div class="vt" style="max-width:${Math.round(d.pct*1.4)}px;min-width:${d.pct>0?'4px':'0'};">
+        <div class="vf" style="width:100%;background:${d.dark?'var(--dark)':'var(--bar-rest)'}"></div>
+      </div>
+      ${d.note?`<div class="vv">${d.note}</div>`:''}
+    </div>`).join('');
+}
+
+function renderDept(id,data){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map((dept,i)=>`
+    <div class="dg">
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px;">
+        <div class="dn">${dept.name}</div>
+        <div class="ds">${dept.sub}</div>
+      </div>
+      ${dept.rows.map(r=>`
+        <div class="dr">
+          <div class="dl">${r.l}</div>
+          <div class="dtk"><div class="db" style="width:${r.pct}%;background:${r.dark?'var(--dark)':'var(--bar-rest)'}"></div></div>
+          <div class="dv">${r.h}h (${r.p} proy.)</div>
+        </div>`).join('')}
+      ${i<data.length-1?'<hr class="dsep">':''}
+    </div>`).join('');
+}
+
+function renderGantt(id,data,avgLabel){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML='';
+  const maxN=Math.max(...data.map(d=>d.n));
+  const BAR_H=88;
+  const avgPct=0.25;
+  const avgBottom=24+BAR_H*avgPct;
+
+  const avgLine=document.createElement('div');
+  avgLine.className='gavg';
+  avgLine.style.cssText=`bottom:${avgBottom}px;`;
+  const avgTag=document.createElement('div');
+  avgTag.className='gavgt';
+  avgTag.style.cssText=`bottom:${avgBottom}px;`;
+  avgTag.textContent=`Media ${avgLabel}`;
+  el.appendChild(avgLine);
+  el.appendChild(avgTag);
+
+  data.forEach(d=>{
+    const col=document.createElement('div');
+    col.className='gc';
+    const h=Math.round((d.n/maxN)*BAR_H);
+    const bg=d.y?'var(--yellow)':'#c8cdd1';
+    col.innerHTML=`
+      <div class="gbw" style="height:${BAR_H}px;">
+        <div class="gbar" style="height:${h}px;background:${bg};">
+          <div class="gnum">${d.n}</div>
+        </div>
+      </div>
+      <div class="glbl">${d.l}</div>`;
+    el.appendChild(col);
+  });
+}
+
+// ── VIEW SWITCHING ────────────────────────────────────────────────────────
+
+const MES_VIEWS=['abr','ene','feb','mar','may'];
+
+function setView(id,el){
+  // Toggle body color scheme
+  const isMes=MES_VIEWS.includes(id);
+  document.body.setAttribute('data-view', isMes?'mes':'ytd');
+  // Set CSS vars manually since attr selector doesn't update custom props live in all browsers
+  if(isMes){
+    document.body.style.setProperty('--bg','#E4E6E8');
+    document.body.style.setProperty('--bar-rest','#99a0a6');
+  } else {
+    document.body.style.setProperty('--bg','#E5F2FE');
+    document.body.style.setProperty('--bar-rest','#E4E6E8');
+  }
+
+  document.querySelectorAll('.view').forEach(v=>{
+    v.classList.remove('active');
+    v.style.display='none';
+  });
+  document.querySelectorAll('.month-ul a, .btn-ytd').forEach(a=>a.classList.remove('active'));
+
+  const v=document.getElementById('view-'+id);
+  if(v){
+    v.classList.add('active');
+    v.style.display=v.classList.contains('grid')?'grid':'flex';
+  }
+  if(el) el.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+async function init(){
+  const rows = await loadSheetData();
+  if(rows) buildFromSheet(rows);
+
+  renderSvc('svc-ytd',SVC_YTD);
+  renderSvc('svc-abr',SVC_ABR);
+  renderGeo('geo-ytd',GEO_YTD);
+  renderGeo('geo-abr',GEO_ABR);
+  renderPitch('pitch-ytd',PITCH_YTD);
+  renderDest('dest-ytd',DEST_YTD);
+  renderVol('vol-ytd',VOL_YTD,false);
+  renderVol('vol-abr',VOL_ABR,true);
+  renderDept('dept-ytd',DEPT_YTD);
+  renderDept('dept-abr',DEPT_ABR);
+  renderGantt('gantt-ytd',GANTT_YTD,'1,8 d/proy.');
+  renderGantt('gantt-abr',GANTT_ABR,'1,7 d/proy.');
+  // Mark YTD button active
+  document.getElementById('btn-ytd').classList.add('active');
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
