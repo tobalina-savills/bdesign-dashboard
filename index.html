@@ -7,43 +7,16 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-
-/* ── TOKENS YTD ── */
-body[data-view="ytd"]{
-  --bg:#E5F2FE;
-  --bar-rest:#E4E6E8;
-}
-/* ── TOKENS MES ── */
-body[data-view="mes"]{
-  --bg:#E4E6E8;
-  --bar-rest:#99a0a6;
-}
-/* ── SHARED TOKENS ── */
+body[data-view="ytd"]{--bg:#E5F2FE;--bar-rest:#E4E6E8;}
+body[data-view="mes"]{--bg:#E4E6E8;--bar-rest:#99a0a6;}
 body{
-  --bg:#E5F2FE;
-  --bar-rest:#E4E6E8;
-  --white:#ffffff;
-  --dark:#3C4146;
-  --yellow:#FFDF00;
-  --green:#0CB458;
-  --red:#D94C50;
-  --text:#1a1c20;
-  --muted:#7a8494;
-  --light:#aab0bc;
-  --font:'Inter',sans-serif;
-  font-family:var(--font);font-size:12px;color:var(--text);
-  background:var(--bg);
+  --bg:#E5F2FE;--bar-rest:#E4E6E8;--white:#ffffff;--dark:#3C4146;
+  --yellow:#FFDF00;--green:#0CB458;--red:#D94C50;
+  --text:#1a1c20;--muted:#7a8494;--light:#aab0bc;--font:'Inter',sans-serif;
+  font-family:var(--font);font-size:12px;color:var(--text);background:var(--bg);
 }
-
-/* ── SHELL ── */
 .shell{display:flex;flex-direction:column;height:100vh;background:var(--bg);}
-
-/* ── HEADER ── */
-.hdr{
-  display:flex;align-items:center;gap:14px;
-  padding:0 18px;height:36px;flex-shrink:0;
-  background:var(--bg);
-}
+.hdr{display:flex;align-items:center;gap:14px;padding:0 18px;height:36px;flex-shrink:0;background:var(--bg);}
 .badge{background:var(--dark);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;}
 .hdr-l{font-size:13px;font-weight:300;color:var(--muted);}
 .hdr-l b{font-weight:700;color:var(--text);}
@@ -51,82 +24,39 @@ body{
 .hdr-c b{font-weight:700;color:var(--text);}
 .hdr-r{font-size:12px;color:var(--muted);}
 .hdr-r b{font-weight:700;color:var(--text);}
-
-/* ── BODY ── */
 .body{display:flex;flex:1;overflow:hidden;}
-
-/* ── SIDEBAR ── */
-.sidebar{
-  width:108px;flex-shrink:0;
-  background:var(--bg);
-  display:flex;flex-direction:column;
-  padding:10px 8px 0;
-}
-.btn-ytd{
-  width:100%;padding:7px 6px;
-  background:var(--dark);color:#fff;
-  font-size:11px;font-weight:600;
-  border:none;border-radius:7px;
-  cursor:pointer;text-align:center;
-  margin-bottom:8px;letter-spacing:0.01em;
-}
+.sidebar{width:108px;flex-shrink:0;background:var(--bg);display:flex;flex-direction:column;padding:10px 8px 0;}
+.btn-ytd{width:100%;padding:7px 6px;background:var(--dark);color:#fff;font-size:11px;font-weight:600;border:none;border-radius:7px;cursor:pointer;text-align:center;margin-bottom:8px;letter-spacing:0.01em;}
 .btn-ytd:hover{opacity:.85;}
 .month-ul{list-style:none;flex:1;overflow-y:auto;}
-.month-ul li a{
-  display:block;padding:5px 6px;
-  font-size:11.5px;color:var(--muted);
-  cursor:pointer;text-decoration:none;
-  border-radius:5px;
-}
+.month-ul li a{display:block;padding:5px 6px;font-size:11.5px;color:var(--muted);cursor:pointer;text-decoration:none;border-radius:5px;}
 .month-ul li a:hover{color:var(--text);background:rgba(60,65,70,.09);}
 .month-ul li a.active{color:var(--text);font-weight:700;background:rgba(60,65,70,.1);}
 .month-ul li a.disabled{color:var(--light);cursor:default;pointer-events:none;}
 .sb-footer{padding:8px 0;margin-top:auto;}
 .btn-xls{display:block;font-size:11px;color:var(--muted);text-align:center;padding:5px;border-radius:5px;cursor:pointer;background:rgba(60,65,70,.07);}
 .btn-xls:hover{background:rgba(60,65,70,.14);}
-
-/* ── CONTENT ── */
 .content{flex:1;overflow:auto;padding:9px;}
-
-/* ── VIEWS ── */
 .view{display:none;}
 .view.active{display:grid;}
-.grid{
-  grid-template-columns:185px 1fr 1fr 1fr;
-  grid-template-rows:auto auto;
-  gap:8px;
-}
-
-/* ── CARD ── */
+.grid{grid-template-columns:185px 1fr 1fr 1fr;grid-template-rows:auto auto;gap:8px;}
 .card{background:var(--white);border-radius:9px;padding:11px 13px;overflow:hidden;}
-
-/* ── SEC TITLE ── */
 .sec{font-size:11px;font-weight:300;color:var(--muted);margin-bottom:3px;}
 .sec b{font-weight:700;color:var(--text);}
-
-/* ── DELTA ── */
 .delta{font-size:10px;font-weight:600;margin-bottom:1px;}
 .up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--muted)}
-
-/* ── KPI ── */
 .kval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1.05;}
 .ksub{font-size:10px;color:var(--muted);margin-top:2px;}
 .col1{display:flex;flex-direction:column;gap:8px;}
-
-/* ── HORIZONTAL BAR ── */
 .br{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
 .bl{font-size:9px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .bt{flex:1;height:14px;background:var(--bar-rest);border-radius:2px;overflow:hidden;}
 .bf{height:100%;border-radius:2px;background:var(--dark);}
 .bv{font-size:9px;color:var(--muted);min-width:96px;white-space:nowrap;}
-
-/* ── GEO SCATTER ── */
-.geo{position:relative;flex:1;min-height:155px;}
+.geo{position:relative;flex:1;min-height:160px;height:160px;}
 .gb{position:absolute;border-radius:50%;background:rgba(30,30,38,.82);transform:translate(-50%,-50%);}
-.gt{position:absolute;font-size:8.5px;color:var(--muted);white-space:nowrap;line-height:1.4;}
-.gay{position:absolute;left:0;top:0;bottom:18px;display:flex;flex-direction:column;justify-content:space-between;font-size:7.5px;color:var(--light);}
-
-/* ── PITCH ── */
+.gt{position:absolute;font-size:8px;color:var(--muted);white-space:nowrap;line-height:1.4;}
+.gay{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-size:7.5px;color:var(--light);padding:4px 0;}
 .pval{font-size:52px;font-weight:900;letter-spacing:-.05em;line-height:1;}
 .pi{font-size:10px;color:var(--muted);padding:1px 0;}
 .pi::before{content:"› ";color:var(--light);}
@@ -134,22 +64,14 @@ body{
 .bl2{color:#2a6fb8;font-weight:600;}
 .col4{display:flex;flex-direction:column;gap:8px;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-
-/* ── RRSS ── */
 .rval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1;}
-
-/* ── DEST ── */
 .di{font-size:10px;color:var(--muted);padding:1.5px 0;}
 .di::before{content:"› ";color:var(--light);}
-
-/* ── VOL MES ── */
 .vr{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
 .vl{font-size:9px;color:var(--muted);min-width:18px;text-align:right;}
 .vt{height:12px;background:var(--bar-rest);border-radius:2px;overflow:hidden;flex:1;}
 .vf{height:100%;border-radius:2px;}
 .vv{font-size:9px;color:var(--muted);white-space:nowrap;min-width:90px;}
-
-/* ── DEPT ── */
 .dg{margin-bottom:7px;}
 .dn{font-size:11px;font-weight:700;color:var(--text);}
 .ds{font-size:9px;color:var(--muted);margin-bottom:3px;}
@@ -159,13 +81,11 @@ body{
 .db{height:100%;border-radius:2px;}
 .dv{font-size:9px;color:var(--muted);min-width:85px;white-space:nowrap;}
 .dsep{border:none;border-top:1px dashed #cdd7e3;margin:5px 0;}
-
-/* ── GANTT ── */
 .gl{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
 .gli{display:flex;align-items:center;gap:3px;font-size:8px;color:var(--muted);}
 .glb{width:11px;height:11px;border-radius:2px;}
 .gll{width:16px;height:2px;background:var(--dark);}
-.gchart{display:flex;align-items:flex-end;gap:3px;padding-bottom:24px;position:relative;flex:1;}
+.gchart{display:flex;align-items:flex-end;gap:3px;padding-bottom:24px;position:relative;}
 .gc{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
 .gbw{width:100%;display:flex;flex-direction:column;justify-content:flex-end;}
 .gbar{width:100%;border-radius:3px 3px 0 0;position:relative;}
@@ -177,8 +97,6 @@ body{
 .pnote b{font-weight:700;color:var(--text);}
 .fn{font-size:8px;color:var(--light);margin-top:3px;font-style:italic;}
 .plus{float:right;width:18px;height:18px;border-radius:50%;background:var(--dark);color:#fff;font-size:16px;line-height:18px;text-align:center;cursor:pointer;font-weight:300;}
-
-/* scrollbar */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:rgba(60,65,70,.2);border-radius:2px}
 </style>
@@ -186,7 +104,6 @@ body{
 <body data-view="ytd">
 <div class="shell">
 
-<!-- HEADER -->
 <header class="hdr">
   <span class="badge">2026</span>
   <span class="hdr-l"><b>Retail</b> Design Dashboard</span>
@@ -195,9 +112,8 @@ body{
 </header>
 
 <div class="body">
-<!-- SIDEBAR -->
 <nav class="sidebar">
-  <button class="btn-ytd" onclick="setView('ytd',this)" id="btn-ytd">Abril YTD</button>
+  <button class="btn-ytd" onclick="setView('ytd',this)" id="btn-ytd">Mayo YTD</button>
   <ul class="month-ul">
     <li><a onclick="setView('ene',this)">Enero</a></li>
     <li><a onclick="setView('feb',this)">Febrero</a></li>
@@ -217,26 +133,25 @@ body{
   </div>
 </nav>
 
-<!-- CONTENT -->
 <div class="content">
 
-<!-- ═══ YTD ═══ -->
+<!-- ═══ YTD (Mayo YTD) ═══ -->
 <div class="view active grid" id="view-ytd">
   <div class="col1">
     <div class="card">
       <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓8,9% YoY</div>
-      <div class="kval">92</div>
+      <div class="delta down">↓8,4% YoY</div>
+      <div class="kval">97</div>
     </div>
     <div class="card">
       <div class="sec">Total Horas</div>
-      <div class="delta up">↑10,3% YoY</div>
-      <div class="kval">784h</div>
+      <div class="delta up">↑9,8% YoY</div>
+      <div class="kval">785h</div>
     </div>
     <div class="card">
       <div class="sec">Plazo de entrega</div>
-      <div class="delta down">↓71,2% YoY</div>
-      <div class="kval">1,8</div>
+      <div class="delta down">↓45,3% YoY</div>
+      <div class="kval">2,3</div>
       <div class="ksub">Días/Proy.</div>
     </div>
   </div>
@@ -254,9 +169,9 @@ body{
   <div class="col4">
     <div class="card" style="flex:1;">
       <div class="sec">Pitches</div>
-      <div class="delta up">↑20% YoY</div>
-      <div class="pval">12</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">50% Ganados (12)</div>
+      <div class="delta up">↑8,3% YoY</div>
+      <div class="pval">13</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">38,5% Ganados (5)</div>
       <div id="pitch-ytd"></div>
     </div>
     <div class="row2">
@@ -264,7 +179,7 @@ body{
         <div class="sec"><b>Redes</b> sociales y medios</div>
         <div class="delta flat">0% YoY</div>
         <div class="rval">3</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (53h)<br><span class="up">↑341% YoY</span></div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (39h)<br><span class="up">↑290% YoY</span></div>
       </div>
       <div class="card">
         <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
@@ -276,8 +191,8 @@ body{
   <!-- ROW 2 -->
   <div class="card" style="display:flex;flex-direction:column;">
     <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓0,8% YoY</div>
-    <div class="kval" style="font-size:34px;">23,0</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
     <div class="ksub">Media Mes/Proy.</div>
     <div style="margin-top:8px;flex:1;" id="vol-ytd"></div>
   </div>
@@ -290,37 +205,292 @@ body{
   <div class="card" style="display:flex;flex-direction:column;">
     <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
     <div style="font-size:10px;font-weight:700;margin:3px 0 1px;">Patrón detectado.</div>
-    <div class="pnote">Concentración del 60% de la carga mensual en la una semana, el volumen en esta semana se duplica.</div>
+    <div class="pnote">Concentración de carga en sem. 1 y 4 de cada mes. Mayo destaca con pico en sem. 5.</div>
     <div class="gl" style="margin-top:6px;">
       <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
       <div class="gli"><div class="gll"></div>Plazo entrega diseñadora</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Gradiente Gris= Fase definición Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Gradiente Amarillo= Fase ejecución Diseño</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase def. Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase ejec. Diseño</div>
     </div>
-    <div style="flex:1;position:relative;min-height:100px;">
-      <div class="gchart" id="gantt-ytd" style="height:100%;"></div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-ytd" style="height:120px;"></div>
     </div>
-    <div class="fn">*Los datos muestran solo proyectos con entrega semanal, no el total de horas semanales, ya que algunos proyectos duran más.</div>
+    <div class="fn">*Los datos muestran proyectos con entrega semanal asignada.</div>
   </div>
 </div>
 
-<!-- ═══ MES: ABRIL ═══ -->
+<!-- ═══ ENERO ═══ -->
+<div class="view grid" id="view-ene">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta down">↓40,7% YoY</div>
+      <div class="kval">13</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta down">↓31,4% YoY</div>
+      <div class="kval">79,2h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta down">↓17,4% YoY</div>
+      <div class="kval">1,7</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-ene"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-ene"></div>
+  </div>
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta flat">0% YoY</div>
+      <div class="pval">1</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">100% Ganados (1)</div>
+      <div>
+        <div class="pi"><span class="g">Elcano.</span> Corporativo–Hoteles (20,5h)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta up">↑100% YoY</div>
+        <div class="rval">1</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (11,5h)</div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div style="font-size:10px;">
+          <div class="di">Pitch Hoteles Elcano</div>
+          <div class="di">Spain Bids Training</div>
+          <div class="di">Tarjetón Borja – Comité</div>
+          <div class="di">Consejo Enero Portugal</div>
+          <div class="di">Baby Pelones RRSS V3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-ene"></div>
+  </div>
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-ene"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div class="gl" style="margin-top:4px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
+    </div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-ene" style="height:120px;"></div>
+    </div>
+    <div class="fn">*Proyectos con semana de entrega asignada.</div>
+  </div>
+</div>
+
+<!-- ═══ FEBRERO ═══ -->
+<div class="view grid" id="view-feb">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta flat">↓4,0% YoY</div>
+      <div class="kval">24</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta up">↑17,7% YoY</div>
+      <div class="kval">228,5h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta up">↑23,9% YoY</div>
+      <div class="kval">2,3</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-feb"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-feb"></div>
+  </div>
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta up">↑25% YoY</div>
+      <div class="pval">5</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">40% Ganados (2)</div>
+      <div>
+        <div class="pi"><span class="g">Oasiz.</span> CC-Servicios (30h)</div>
+        <div class="pi"><span class="g">Caleido.</span> CC-Servicios (22h)</div>
+        <div class="pi">Torre Sevilla. CC-Serv. (15,5h)</div>
+        <div class="pi">Serrano 53. HS-CM (19h)</div>
+        <div class="pi">Albufera Plaza. Cap.Mkt (9h)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta down">↓100% YoY</div>
+        <div class="rval">0</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div style="font-size:10px;">
+          <div class="di">Dossier LVMH Cross Border</div>
+          <div class="di">Torre Sevilla Enviada</div>
+          <div class="di">Los Patios Málaga</div>
+          <div class="di">Ecommerce PPT+Datos</div>
+          <div class="di">Office Pulse Template</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-feb"></div>
+  </div>
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-feb"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div class="gl" style="margin-top:4px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
+    </div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-feb" style="height:120px;"></div>
+    </div>
+    <div class="fn">*Proyectos con semana de entrega asignada.</div>
+  </div>
+</div>
+
+<!-- ═══ MARZO ═══ -->
+<div class="view grid" id="view-mar">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta down">↓4,2% YoY</div>
+      <div class="kval">23</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta down">↓9,1% YoY</div>
+      <div class="kval">241,2h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta up">↑79,1% YoY</div>
+      <div class="kval">2,9</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-mar"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-mar"></div>
+  </div>
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta flat">0% YoY</div>
+      <div class="pval">3</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">33,3% Ganados (1)</div>
+      <div>
+        <div class="pi"><span class="g">GV52.</span> Corporativo–Hoteles (9h)</div>
+        <div class="pi">Primark. HS-CM (41h)</div>
+        <div class="pi">City Park. Cap.Mkt (21,5h)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta down">↓50% YoY</div>
+        <div class="rval">1</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (15,5h)</div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div style="font-size:10px;">
+          <div class="di">Stand Feria Retail ZIG-ZAG</div>
+          <div class="di">Teatro Barceló – Web+Dossier</div>
+          <div class="di">Primark – Pitch+Video+Branding</div>
+          <div class="di">Hoteles IM Fergus Calvia</div>
+          <div class="di">Post Boletín Retail RRSS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-mar"></div>
+  </div>
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-mar"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div class="gl" style="margin-top:4px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
+    </div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-mar" style="height:120px;"></div>
+    </div>
+    <div class="fn">*Proyectos con semana de entrega asignada.</div>
+  </div>
+</div>
+
+<!-- ═══ ABRIL ═══ -->
 <div class="view grid" id="view-abr">
   <div class="col1">
     <div class="card">
       <div class="sec">Total Proyectos</div>
-      <div class="delta up">↑22,7% YoY</div>
-      <div class="kval">27</div>
+      <div class="delta down">↓21,7% YoY</div>
+      <div class="kval">18</div>
     </div>
     <div class="card">
       <div class="sec">Total Horas</div>
-      <div class="delta up">↑10,2% YoY</div>
-      <div class="kval">146,8h</div>
+      <div class="delta down">↓2,9% YoY</div>
+      <div class="kval">113,2h</div>
     </div>
     <div class="card">
       <div class="sec">Plazo de entrega</div>
-      <div class="delta down">↓33,6% YoY</div>
-      <div class="kval">1,7</div>
+      <div class="delta up">↑44,4% YoY</div>
+      <div class="kval">2,5</div>
       <div class="ksub">Días/Proy.</div>
     </div>
   </div>
@@ -335,36 +505,37 @@ body{
   <div class="col4">
     <div class="card" style="flex:1;">
       <div class="sec">Pitches</div>
-      <div class="delta up">↑100% YoY</div>
+      <div class="delta down">↓33,3% YoY</div>
       <div class="pval">2</div>
       <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">50% Ganados (1)</div>
       <div>
-        <div class="pi">Ores. CC-Capital Markets (17h)</div>
-        <div class="pi"><span class="bl2">R.Victoria.</span> CC-Capital Markets (12h)</div>
+        <div class="pi">Ores. CC-Cap.Markets (16,5h)</div>
+        <div class="pi"><span class="g">Rincón Victoria.</span> Cap.Mkt (11,5h)</div>
       </div>
     </div>
     <div class="row2">
       <div class="card">
         <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta up">↑100% YoY</div>
-        <div class="rval">1</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (26h)</div>
+        <div class="delta down">↓100% YoY</div>
+        <div class="rval">0</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
       </div>
       <div class="card">
         <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
         <div style="font-size:10px;">
-          <div class="di">Dossier Entrenasas</div>
-          <div class="di">Boletín HS ESP+ING</div>
-          <div class="di">Boletín Retail – ESP+ING</div>
-          <div class="di">Template FM - Property Mgmt</div>
+          <div class="di">San Fermín Cabecera+Footer</div>
+          <div class="di">Cartelería Alicante Lola</div>
+          <div class="di">Desempeño 2026</div>
+          <div class="di">Boletines HS ESP+ING</div>
+          <div class="di">Template FM Draft</div>
         </div>
       </div>
     </div>
   </div>
   <div class="card" style="display:flex;flex-direction:column;">
     <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓0,8% YoY</div>
-    <div class="kval" style="font-size:34px;">23,0</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
     <div class="ksub">Media Mes/Proy.</div>
     <div style="margin-top:8px;flex:1;" id="vol-abr"></div>
   </div>
@@ -376,206 +547,412 @@ body{
     <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
     <div class="gl" style="margin-top:4px;">
       <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega diseñadora</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase def. Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase ejec. Diseño</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
     </div>
-    <div style="flex:1;position:relative;min-height:100px;">
-      <div class="gchart" id="gantt-abr" style="height:100%;"></div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-abr" style="height:120px;"></div>
     </div>
-    <div class="fn">*Los datos muestran solo proyectos con entrega semanal.</div>
+    <div class="fn">*Proyectos con semana de entrega asignada.</div>
   </div>
 </div>
 
-<!-- ═══ OTROS MESES (placeholder) ═══ -->
-<div class="view" id="view-ene" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Enero — próximamente</div>
-<div class="view" id="view-feb" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Febrero — próximamente</div>
-<div class="view" id="view-mar" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Marzo — próximamente</div>
-<div class="view" id="view-may" style="display:none;align-items:center;justify-content:center;height:300px;color:var(--muted);font-size:13px;">Vista Mayo — próximamente</div>
+<!-- ═══ MAYO ═══ -->
+<div class="view grid" id="view-may">
+  <div class="col1">
+    <div class="card">
+      <div class="sec">Total Proyectos</div>
+      <div class="delta down">↓20,8% YoY</div>
+      <div class="kval">19</div>
+    </div>
+    <div class="card">
+      <div class="sec">Total Horas</div>
+      <div class="delta down">↓10,4% YoY</div>
+      <div class="kval">122,8h</div>
+    </div>
+    <div class="card">
+      <div class="sec">Plazo de entrega</div>
+      <div class="delta up">↑27,7% YoY</div>
+      <div class="kval">2,1</div>
+      <div class="ksub">Días/Proy.</div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Principales</b> servicios</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-may"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Distribución</b> geográfica</div>
+    <div class="geo" id="geo-may"></div>
+  </div>
+  <div class="col4">
+    <div class="card" style="flex:1;">
+      <div class="sec">Pitches</div>
+      <div class="delta down">↓83,3% YoY</div>
+      <div class="pval">1</div>
+      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">0% Ganados (0)</div>
+      <div>
+        <div class="pi">Imperial Portfolio Lidl. Cap.Mkt (8,5h)</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="sec"><b>Redes</b> sociales y medios</div>
+        <div class="delta down">↓100% YoY</div>
+        <div class="rval">0</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
+      </div>
+      <div class="card">
+        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
+        <div style="font-size:10px;">
+          <div class="di">Template Research – Outlook</div>
+          <div class="di">Template FM – Obras Doc Final</div>
+          <div class="di">Dashboard Retail Design</div>
+          <div class="di">Boletín Medianas ING+ESP</div>
+          <div class="di">Boletín High Street ING</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Volumen</b> por mes</div>
+    <div class="delta down">↓8,4% YoY</div>
+    <div class="kval" style="font-size:34px;">19,4</div>
+    <div class="ksub">Media Mes/Proy.</div>
+    <div style="margin-top:8px;flex:1;" id="vol-may"></div>
+  </div>
+  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
+    <div class="sec"><b>Esfuerzo</b> por departamento</div>
+    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-may"></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;">
+    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
+    <div class="gl" style="margin-top:4px;">
+      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
+      <div class="gli"><div class="gll"></div>Plazo entrega</div>
+      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
+      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
+    </div>
+    <div style="position:relative;min-height:130px;">
+      <div class="gchart" id="gantt-may" style="height:120px;"></div>
+    </div>
+    <div class="fn">*Proyectos con semana de entrega asignada.</div>
+  </div>
+</div>
 
 </div></div></div>
 
 <script>
+// ── DATA ─────────────────────────────────────────────────────────────────
 
-// ── GOOGLE SHEET CONFIG ───────────────────────────────────────────────────
-// PASO 1: Pega aquí la URL de tu Google Sheet publicado como CSV
-// (Archivo → Publicar en la web → CSV → copiar URL)
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQvtbeBrQvZtpmO3qhAnh8UevUkTzWLFz56xmX921QO29vVqv5IK5ZHL0I0mgkoZa4B51buWDygs_2j/pub?gid=192838795&single=true&output=csv";
-
-// ── SHEET LOADER ──────────────────────────────────────────────────────────
-async function loadSheetData() {
-  if (!SHEET_URL || SHEET_URL === "PEGA_TU_URL_AQUI") {
-    console.log("Sheet no configurado — usando datos de ejemplo");
-    return null;
-  }
-  try {
-    const res = await fetch(SHEET_URL);
-    if (!res.ok) throw new Error("No se pudo cargar");
-    const csv = await res.text();
-    return parseCSV(csv);
-  } catch(e) {
-    showSheetError(e.message);
-    return null;
-  }
-}
-
-function parseCSV(csv) {
-  const lines = csv.trim().split("\n");
-  const headers = lines[0].split(",").map(h => h.trim().replace(/"/g,""));
-  return lines.slice(1).map(line => {
-    const vals = line.split(",").map(v => v.trim().replace(/"/g,""));
-    const obj = {};
-    headers.forEach((h,i) => obj[h] = vals[i] || "");
-    return obj;
-  });
-}
-
-function showSheetError(msg) {
-  const el = document.createElement("div");
-  el.style.cssText = "position:fixed;top:10px;right:10px;background:#D94C50;color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;z-index:999;";
-  el.textContent = "Sheet: " + msg + " — mostrando datos de ejemplo";
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 5000);
-}
-
-function buildFromSheet(rows) {
-  if (!rows || rows.length === 0) return false;
-  window.SHEET_ROWS = rows;
-  const byMonth = {};
-  rows.forEach(r => {
-    const mes = r["Mes"] || r["MES"] || r["mes"] || "";
-    if (!mes) return;
-    if (!byMonth[mes]) byMonth[mes] = [];
-    byMonth[mes].push(r);
-  });
-  window.SHEET_BY_MONTH = byMonth;
-  console.log("Sheet cargado:", rows.length, "proyectos");
-  return true;
-}
-
-// ── DATA ──────────────────────────────────────────────────────────────────
-
+// SERVICIOS
 const SVC_YTD=[
-  {l:"Dossier",h:258,p:34,pct:100},
-  {l:"Pitch",h:232,p:12,pct:90},
-  {l:"Otros",h:72,p:21,pct:28},
-  {l:"Cartelería",h:53,p:5,pct:21},
-  {l:"Motion+Video",h:24,p:4,pct:9},
-  {l:"Web",h:23,p:3,pct:9},
-  {l:"RRSS",h:19,p:3,pct:7},
-  {l:"Infografía",h:18,p:3,pct:7},
-  {l:"Merchandising",h:11,p:1,pct:4},
+  {l:"Dossier",h:224,p:39,pct:100},
+  {l:"Pitch",h:216,p:13,pct:96},
+  {l:"Otros",h:104,p:17,pct:46},
+  {l:"RRSS",h:27,p:2,pct:12},
+  {l:"Motion+Vídeo",h:21,p:4,pct:9},
+  {l:"Web",h:23,p:2,pct:10},
+  {l:"Infografía",h:17,p:3,pct:8},
+  {l:"Cartelería",h:22,p:6,pct:10},
+  {l:"Training",h:17,p:2,pct:8},
+];
+const SVC_ENE=[
+  {l:"Pitch",h:20,p:1,pct:100},
+  {l:"Training",h:17,p:1,pct:85},
+  {l:"Dossier",h:14,p:4,pct:70},
+  {l:"RRSS",h:12,p:1,pct:59},
+  {l:"Merchandising",h:11,p:1,pct:54},
+  {l:"Motion+Vídeo",h:2,p:1,pct:7},
+  {l:"Otros",h:2,p:2,pct:7},
+  {l:"Infografía",h:1,p:1,pct:5},
+];
+const SVC_FEB=[
+  {l:"Dossier",h:110,p:10,pct:100},
+  {l:"Pitch",h:96,p:5,pct:87},
+  {l:"Otros",h:12,p:6,pct:11},
+  {l:"Infografía",h:5,p:1,pct:5},
+  {l:"Motion+Vídeo",h:4,p:1,pct:4},
+  {l:"Cartelería",h:2,p:1,pct:2},
+];
+const SVC_MAR=[
+  {l:"Pitch",h:72,p:3,pct:100},
+  {l:"Dossier",h:59,p:8,pct:82},
+  {l:"Otros",h:44,p:3,pct:62},
+  {l:"Web",h:23,p:2,pct:32},
+  {l:"RRSS",h:16,p:1,pct:22},
+  {l:"Motion+Vídeo",h:14,p:2,pct:19},
+  {l:"Stand",h:11,p:1,pct:15},
+  {l:"Branding",h:2,p:2,pct:3},
 ];
 const SVC_ABR=[
   {l:"Dossier",h:38,p:9,pct:100},
-  {l:"Otros",h:28,p:5,pct:74},
-  {l:"Cartelería",h:26,p:2,pct:68},
-  {l:"RRSS",h:18,p:1,pct:47},
-  {l:"Pitch",h:14,p:2,pct:37},
-  {l:"Emailing",h:11,p:2,pct:29},
+  {l:"Pitch",h:28,p:2,pct:74},
+  {l:"Cartelería",h:18,p:2,pct:47},
+  {l:"Infografía",h:11,p:1,pct:29},
+  {l:"Otros",h:10,p:2,pct:26},
+  {l:"Emailing",h:9,p:2,pct:23},
+];
+const SVC_MAY=[
+  {l:"Dossier",h:82,p:8,pct:100},
+  {l:"Otros",h:26,p:4,pct:32},
+  {l:"Pitch",h:9,p:1,pct:11},
+  {l:"Cartelería",h:4,p:3,pct:5},
+  {l:"Web",h:2,p:1,pct:2},
+  {l:"Training",h:1,p:1,pct:1},
 ];
 
+// GEO
 const GEO_YTD=[
-  {c:"Madrid",h:617,p:73,x:50,y:18,r:46},
-  {c:"Barcelona",h:50,p:9,x:68,y:50,r:16},
-  {c:"Málaga",h:15,p:4,x:45,y:60,r:9},
-  {c:"Portugal",h:33,p:3,x:35,y:68,r:11},
-  {c:"Valencia",h:17,p:2,x:56,y:68,r:9},
-  {c:"Iberia",h:17,p:1,x:26,y:78,r:7},
+  {c:"Madrid",h:655,p:77,x:50,y:38},
+  {c:"Barcelona",h:43,p:7,x:70,y:20},
+  {c:"Portugal",h:34,p:3,x:26,y:48},
+  {c:"Málaga",h:15,p:4,x:45,y:75},
+  {c:"Valencia",h:16,p:2,x:62,y:50},
+  {c:"Iberia",h:17,p:1,x:30,y:58},
+  {c:"Norte",h:1,p:1,x:42,y:10},
+];
+const GEO_ENE=[
+  {c:"Madrid",h:62,p:6,x:50,y:38},
+  {c:"Portugal",h:12,p:2,x:26,y:48},
+  {c:"Barcelona",h:3,p:2,x:70,y:20},
+  {c:"Málaga",h:3,p:3,x:45,y:75},
+];
+const GEO_FEB=[
+  {c:"Madrid",h:192,p:19,x:50,y:38},
+  {c:"Barcelona",h:22,p:3,x:70,y:20},
+  {c:"Málaga",h:12,p:1,x:45,y:75},
+  {c:"Valencia",h:2,p:1,x:62,y:50},
+];
+const GEO_MAR=[
+  {c:"Madrid",h:204,p:21,x:50,y:38},
+  {c:"Portugal",h:22,p:1,x:26,y:48},
+  {c:"Barcelona",h:16,p:1,x:70,y:20},
 ];
 const GEO_ABR=[
-  {c:"Madrid",h:144,p:25,x:50,y:22,r:42},
-  {c:"Málaga",h:3,p:1,x:44,y:64,r:7},
-  {c:"Barcelona",h:1,p:1,x:67,y:56,r:6},
+  {c:"Madrid",h:79,p:15,x:50,y:38},
+  {c:"Iberia",h:16,p:1,x:30,y:58},
+  {c:"Valencia",h:14,p:1,x:62,y:50},
+  {c:"Barcelona",h:3,p:1,x:70,y:20},
+];
+const GEO_MAY=[
+  {c:"Madrid",h:118,p:16,x:50,y:38},
+  {c:"Barcelona",h:2,p:1,x:70,y:20},
+  {c:"Norte",h:1,p:1,x:42,y:10},
+  {c:"Valencia",h:1,p:1,x:62,y:50},
 ];
 
+// PITCHES YTD
 const PITCH_YTD=[
-  {n:"Elcano. 21h",g:1},{n:"Oasiz. 30h"},{n:"Caleido. 22h"},
-  {n:"Teatro Barceló. 16h",b:1},{n:"Serrano 53. 16h"},
-  {n:"Torre Sevilla. 15,5h"},{n:"Albufera Plaza. 9h"},
-  {n:"GV52. 9h",g:1},{n:"Primark. 42h",g:1},
-  {n:"City Park. 22h",g:1},{n:"Ores. 17h",g:1},{n:"R.Victoria. 12h",g:1},
+  {n:"Elcano. Corporativo (20,5h)",g:1},
+  {n:"Oasiz. CC-Servicios (30h)",g:1},
+  {n:"Caleido. CC-Servicios (22h)",g:1},
+  {n:"Serrano 53. HS-CM (19h)"},
+  {n:"Torre Sevilla. CC-Serv. (15,5h)"},
+  {n:"Albufera Plaza. Cap.Mkt (9h)"},
+  {n:"GV52. Corporativo (9h)",g:1},
+  {n:"Primark. HS-CM (41h)"},
+  {n:"City Park. Cap.Mkt (21,5h)"},
+  {n:"Ores. CC-Cap.Mkt (16,5h)"},
+  {n:"Rincón Victoria. Cap.Mkt (11,5h)",g:1},
+  {n:"Imperial Portfolio Lidl (8,5h)"},
+  {n:"Teatro Barceló. HS-CM (16h)",b:1},
 ];
 
+// DESTACADOS YTD
 const DEST_YTD=[
-  "Dossier LVMH","Stand Feria ZIG-ZAG","Web para Teatro Barceló",
-  "Consejo UK y Portugal (COO+CFO)","Ayuda Técnica Office Pulse Template",
-  "Aplicación nuevas Guidelines Research",
-  "Video Caleido y Primark (Conceptualización+Ejecución)",
+  "Dossier LVMH Cross Border (Feb)","Stand Feria Retail ZIG-ZAG (Mar)",
+  "Teatro Barceló – Web+Dossier (Mar)","Hoteles IM Fergus Calvia (Mar)",
+  "Template FM – Obras Doc Final (May)","Dashboard Retail Design (May)",
+  "Template Research – Outlook (May)","Boletines Medianas ING+ESP (May)",
 ];
 
-const VOL_YTD=[
-  {l:"En",pct:69,note:"173h (0 proy.)"},
-  {l:"Feb",pct:93,note:"234h (25 proy.)"},
-  {l:"Mar",pct:100,dark:1,note:"250h (proy.)"},
-  {l:"Abr",pct:52,note:"129h (proy.)"},
-  {l:"May",pct:0},{l:"Jun",pct:0},{l:"Jul",pct:0},
-  {l:"Ago",pct:0},{l:"Sep",pct:0},{l:"Oct",pct:0},
-  {l:"Nov",pct:0},{l:"Dic",pct:0},
-];
-const VOL_ABR=VOL_YTD.map((v,i)=>({...v,dark:i===3?1:0}));
+// VOLUMEN POR MES
+function makeVol(darkIdx){
+  const data=[
+    {l:"En",v:79,p:13},{l:"Feb",v:229,p:24},{l:"Mar",v:241,p:23},
+    {l:"Abr",v:113,p:18},{l:"May",v:123,p:19},{l:"Jun",v:0},{l:"Jul",v:0},
+    {l:"Ago",v:0},{l:"Sep",v:0},{l:"Oct",v:0},{l:"Nov",v:0},{l:"Dic",v:0},
+  ];
+  const maxV=241;
+  return data.map((d,i)=>({
+    l:d.l,pct:d.v?Math.round(d.v/maxV*100):0,
+    note:d.p?`${d.v}h (${d.p} proy.)`:'',
+    dark:i===darkIdx?1:0
+  }));
+}
+const VOL_YTD=makeVol(-1);
+const VOL_ENE=makeVol(0);
+const VOL_FEB=makeVol(1);
+const VOL_MAR=makeVol(2);
+const VOL_ABR=makeVol(3);
+const VOL_MAY=makeVol(4);
 
+// DEPARTAMENTOS
 const DEPT_YTD=[
-  {name:"High Street",sub:"252h (29 proy.)",rows:[
-    {l:"All HS",h:70,p:8,pct:46,dark:1},
-    {l:"CM",h:141,p:11,pct:93,dark:1},
-    {l:"Leasing",h:41,p:10,pct:27,dark:0},
+  {name:"High Street",sub:"349h (30 proy.)",rows:[
+    {l:"All HS",h:70,p:7,pct:45,dark:0},
+    {l:"CM",h:207,p:14,pct:100,dark:1},
+    {l:"Leasing",h:72,p:9,pct:37,dark:0},
   ]},
-  {name:"C.Comerciales",sub:"235h (24 proy.)",rows:[
-    {l:"CM",h:62,p:7,pct:41,dark:0},
-    {l:"Servicios",h:173,p:17,pct:100,dark:1},
+  {name:"C.Comerciales",sub:"228h (20 proy.)",rows:[
+    {l:"Cap.Markets",h:55,p:7,pct:28,dark:0},
+    {l:"Servicios",h:173,p:13,pct:89,dark:1},
   ]},
-  {name:"Research",sub:"144h (16 proy.)",rows:[
-    {l:"Research",h:71,p:10,pct:47,dark:0},
+  {name:"Research",sub:"104h (14 proy.)",rows:[
+    {l:"Research",h:104,p:14,pct:53,dark:0},
   ]},
-  {name:"Retail MKT",sub:"144h (16 proy.)",rows:[
-    {l:"Design",h:2,p:1,pct:1,dark:0},
-    {l:"MKT",h:89,p:12,pct:59,dark:0},
-    {l:"RRSS",h:53,p:3,pct:35,dark:0},
+  {name:"Retail MKT",sub:"43h (9 proy.)",rows:[
+    {l:"Design",h:20,p:3,pct:10,dark:0},
+    {l:"MKT",h:3,p:5,pct:2,dark:0},
+    {l:"RRSS",h:27,p:2,pct:14,dark:0},
   ]},
-  {name:"Corporativo",sub:"103h (16 proy.)",rows:[
-    {l:"Corporativo",h:76,p:12,pct:50,dark:0},
-    {l:"Comité",h:27,p:4,pct:18,dark:0},
+  {name:"Corporativo",sub:"180h (24 proy.)",rows:[
+    {l:"Corporativo",h:152,p:19,pct:78,dark:1},
+    {l:"Comité",h:28,p:5,pct:14,dark:0},
   ]},
 ];
-const DEPT_ABR=[
-  {name:"High Street",sub:"36h (4 proy.)",rows:[
-    {l:"All HS",h:18,p:2,pct:58,dark:0},
+const DEPT_ENE=[
+  {name:"High Street",sub:"7h (5 proy.)",rows:[
+    {l:"All HS",h:2,p:1,pct:14,dark:0},
     {l:"CM",h:0,p:0,pct:0,dark:0},
-    {l:"Leasing",h:18,p:2,pct:58,dark:0},
+    {l:"Leasing",h:2,p:3,pct:14,dark:0},
   ]},
-  {name:"C.Comerciales",sub:"35h (10 proy.)",rows:[
-    {l:"CM",h:31,p:5,pct:100,dark:1},
-    {l:"Servicios",h:4,p:5,pct:13,dark:1},
+  {name:"C.Comerciales",sub:"0h (0 proy.)",rows:[
+    {l:"Cap.Markets",h:0,p:0,pct:0,dark:0},
+    {l:"Servicios",h:0,p:0,pct:0,dark:0},
   ]},
-  {name:"Research",sub:"31h (4 proy.)",rows:[
-    {l:"Research",h:24,p:5,pct:77,dark:0},
+  {name:"Research",sub:"1h (2 proy.)",rows:[
+    {l:"Research",h:1,p:2,pct:6,dark:0},
   ]},
-  {name:"Retail MKT",sub:"31h (4 proy.)",rows:[
-    {l:"Design",h:0,p:0,pct:0,dark:0},
-    {l:"MKT",h:5,p:3,pct:16,dark:0},
-    {l:"RRSS",h:26,p:1,pct:84,dark:1},
+  {name:"Retail MKT",sub:"25h (3 proy.)",rows:[
+    {l:"Training",h:17,p:1,pct:100,dark:1},
+    {l:"MKT",h:1,p:1,pct:6,dark:0},
+    {l:"RRSS",h:12,p:1,pct:70,dark:0},
   ]},
-  {name:"Corporativo",sub:"19h (4 proy.)",rows:[
-    {l:"Corporativo",h:19,p:4,pct:61,dark:0},
+  {name:"Corporativo",sub:"46h (3 proy.)",rows:[
+    {l:"Corporativo",h:21,p:1,pct:100,dark:1},
+    {l:"Comité",h:22,p:2,pct:100,dark:1},
+  ]},
+];
+const DEPT_FEB=[
+  {name:"High Street",sub:"85h (10 proy.)",rows:[
+    {l:"All HS",h:8,p:3,pct:9,dark:0},
+    {l:"CM",h:54,p:4,pct:62,dark:1},
+    {l:"Leasing",h:18,p:4,pct:21,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"137h (8 proy.)",rows:[
+    {l:"Cap.Markets",h:9,p:1,pct:10,dark:0},
+    {l:"Servicios",h:137,p:7,pct:100,dark:1},
+  ]},
+  {name:"Research",sub:"13h (3 proy.)",rows:[
+    {l:"Research",h:13,p:3,pct:15,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"3h (2 proy.)",rows:[
+    {l:"Design",h:2,p:1,pct:2,dark:0},
+    {l:"MKT",h:2,p:1,pct:2,dark:0},
+    {l:"RRSS",h:0,p:0,pct:0,dark:0},
+  ]},
+  {name:"Corporativo",sub:"4h (2 proy.)",rows:[
+    {l:"Corporativo",h:4,p:2,pct:5,dark:0},
     {l:"Comité",h:0,p:0,pct:0,dark:0},
   ]},
 ];
+const DEPT_MAR=[
+  {name:"High Street",sub:"125h (9 proy.)",rows:[
+    {l:"All HS",h:41,p:1,pct:33,dark:0},
+    {l:"CM",h:83,p:6,pct:66,dark:1},
+    {l:"Leasing",h:4,p:2,pct:3,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"49h (6 proy.)",rows:[
+    {l:"Cap.Markets",h:22,p:1,pct:17,dark:0},
+    {l:"Servicios",h:27,p:5,pct:22,dark:0},
+  ]},
+  {name:"Research",sub:"0h (0 proy.)",rows:[
+    {l:"Research",h:0,p:0,pct:0,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"27h (3 proy.)",rows:[
+    {l:"Design",h:0,p:0,pct:0,dark:0},
+    {l:"MKT",h:1,p:2,pct:1,dark:0},
+    {l:"RRSS",h:16,p:1,pct:13,dark:0},
+    {l:"Stand",h:11,p:1,pct:9,dark:0},
+  ]},
+  {name:"Corporativo",sub:"60h (5 proy.)",rows:[
+    {l:"Corporativo",h:55,p:3,pct:44,dark:1},
+    {l:"Comité",h:1,p:2,pct:1,dark:0},
+  ]},
+];
+const DEPT_ABR=[
+  {name:"High Street",sub:"33h (5 proy.)",rows:[
+    {l:"All HS",h:18,p:1,pct:47,dark:0},
+    {l:"CM",h:0,p:0,pct:0,dark:0},
+    {l:"Leasing",h:14,p:4,pct:37,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"29h (7 proy.)",rows:[
+    {l:"Cap.Markets",h:29,p:4,pct:76,dark:1},
+    {l:"Servicios",h:4,p:3,pct:10,dark:0},
+  ]},
+  {name:"Research",sub:"34h (5 proy.)",rows:[
+    {l:"Research",h:34,p:5,pct:89,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"9h (2 proy.)",rows:[
+    {l:"Design",h:0,p:0,pct:0,dark:0},
+    {l:"MKT",h:0,p:1,pct:0,dark:0},
+    {l:"RRSS",h:0,p:0,pct:0,dark:0},
+    {l:"Emailing",h:9,p:1,pct:23,dark:0},
+  ]},
+  {name:"Corporativo",sub:"19h (4 proy.)",rows:[
+    {l:"Corporativo",h:19,p:4,pct:50,dark:0},
+    {l:"Comité",h:0,p:0,pct:0,dark:0},
+  ]},
+];
+const DEPT_MAY=[
+  {name:"High Street",sub:"6h (4 proy.)",rows:[
+    {l:"All HS",h:0,p:0,pct:0,dark:0},
+    {l:"CM",h:1,p:1,pct:2,dark:0},
+    {l:"Leasing",h:5,p:3,pct:9,dark:0},
+  ]},
+  {name:"C.Comerciales",sub:"8h (1 proy.)",rows:[
+    {l:"Cap.Markets",h:8,p:1,pct:14,dark:0},
+    {l:"Servicios",h:0,p:0,pct:0,dark:0},
+  ]},
+  {name:"Research",sub:"34h (4 proy.)",rows:[
+    {l:"Research",h:34,p:4,pct:58,dark:0},
+  ]},
+  {name:"Retail MKT",sub:"19h (2 proy.)",rows:[
+    {l:"Design",h:19,p:2,pct:33,dark:1},
+    {l:"MKT",h:0,p:1,pct:0,dark:0},
+    {l:"RRSS",h:0,p:0,pct:0,dark:0},
+  ]},
+  {name:"Corporativo",sub:"56h (6 proy.)",rows:[
+    {l:"Corporativo",h:55,p:5,pct:95,dark:1},
+    {l:"Comité",h:1,p:1,pct:2,dark:0},
+  ]},
+];
 
+// GANTT
 const GANTT_YTD=[
-  {l:"Ene-1Sem",n:4,y:0},{l:"Ene-2Sem",n:7,y:1},
-  {l:"Ene-3Sem",n:3,y:0},{l:"Ene-4Sem",n:9,y:1},
-  {l:"Ene-5Sem",n:4,y:0},{l:"Feb-1Sem",n:9,y:1},
-  {l:"Feb-2Sem",n:3,y:0},{l:"Feb-3Sem",n:3,y:0},
-  {l:"Feb-4Sem",n:8,y:1},{l:"Mar-1Sem",n:7,y:1},
-  {l:"Mar-2Sem",n:7,y:1},{l:"Mar-3Sem",n:6,y:1},
-  {l:"Mar-4Sem",n:9,y:1},{l:"Mar-5Sem",n:4,y:0},
-  {l:"Abr-1Sem",n:7,y:0},{l:"Abr-2Sem",n:8,y:1},
-  {l:"Abr-3Sem",n:7,y:1},{l:"Abr-4Sem",n:4,y:0},
+  {l:"Ene-2",n:2,y:0},{l:"Ene-3",n:6,y:0},{l:"Ene-4",n:2,y:0},{l:"Ene-5",n:3,y:1},
+  {l:"Feb-1",n:9,y:1},{l:"Feb-2",n:4,y:0},{l:"Feb-3",n:2,y:0},{l:"Feb-4",n:9,y:1},
+  {l:"Mar-1",n:6,y:0},{l:"Mar-2",n:8,y:1},{l:"Mar-3",n:6,y:1},{l:"Mar-4",n:3,y:0},
+  {l:"Abr-2",n:3,y:0},{l:"Abr-3",n:7,y:1},{l:"Abr-4",n:4,y:0},{l:"Abr-5",n:4,y:0},
+  {l:"May-1",n:4,y:1},{l:"May-2",n:7,y:0},{l:"May-4",n:1,y:0},{l:"May-5",n:7,y:1},
+];
+const GANTT_ENE=[
+  {l:"Ene-2",n:2,y:0},{l:"Ene-3",n:6,y:0},{l:"Ene-4",n:2,y:0},{l:"Ene-5",n:3,y:1},
+];
+const GANTT_FEB=[
+  {l:"Feb-1",n:9,y:1},{l:"Feb-2",n:4,y:1},{l:"Feb-3",n:2,y:0},{l:"Feb-4",n:9,y:1},
+];
+const GANTT_MAR=[
+  {l:"Mar-1",n:6,y:0},{l:"Mar-2",n:8,y:1},{l:"Mar-3",n:6,y:1},{l:"Mar-4",n:3,y:0},
 ];
 const GANTT_ABR=[
-  {l:"Abr-1Sem",n:7,y:1},{l:"Abr-2Sem",n:9,y:1},
-  {l:"Abr-3Sem",n:4,y:0},{l:"Abr-4Sem",n:7,y:0},
+  {l:"Abr-2",n:3,y:0},{l:"Abr-3",n:7,y:1},{l:"Abr-4",n:4,y:0},{l:"Abr-5",n:4,y:0},
+];
+const GANTT_MAY=[
+  {l:"May-1",n:4,y:1},{l:"May-2",n:7,y:0},{l:"May-4",n:1,y:0},{l:"May-5",n:7,y:1},
 ];
 
 // ── RENDER FUNCTIONS ──────────────────────────────────────────────────────
@@ -593,20 +970,19 @@ function renderSvc(id,data){
 function renderGeo(id,data){
   const el=document.getElementById(id);if(!el)return;
   el.innerHTML='';
-  const ay=document.createElement('div');
-  ay.className='gay';
-  ['200','20','2','0.2'].forEach(v=>{const s=document.createElement('span');s.textContent=v;ay.appendChild(s);});
-  el.appendChild(ay);
+  const maxH=Math.max(...data.map(d=>d.h));
   data.forEach(d=>{
+    // Radio proporcional a raíz cuadrada de horas, máx 46px mín 7px
+    const r=Math.max(7,Math.round(Math.sqrt(d.h/maxH)*46));
     const b=document.createElement('div');
     b.className='gb';
-    b.style.cssText=`left:${d.x}%;top:${d.y}%;width:${d.r*2}px;height:${d.r*2}px;`;
+    b.style.cssText=`left:${d.x}%;top:${d.y}%;width:${r*2}px;height:${r*2}px;opacity:0.85;`;
     b.title=`${d.c}: ${d.h}h · ${d.p} proy.`;
     el.appendChild(b);
     const t=document.createElement('div');
     t.className='gt';
-    t.style.cssText=`left:${d.x+3}%;top:${d.y-5}%;`;
-    t.innerHTML=`<b>${d.c}.</b> ${d.h}h. ${d.p} Proy.`;
+    t.style.cssText=`left:${d.x}%;top:${d.y}%;margin-left:${r+3}px;margin-top:-8px;`;
+    t.innerHTML=`<b>${d.c}</b><br>${d.h}h · ${d.p}p.`;
     el.appendChild(t);
   });
 }
@@ -621,7 +997,7 @@ function renderDest(id,data){
   el.innerHTML=data.map(d=>`<div class="di">${d}</div>`).join('');
 }
 
-function renderVol(id,data,isMes){
+function renderVol(id,data){
   const el=document.getElementById(id);if(!el)return;
   el.innerHTML=data.map(d=>`
     <div class="vr">
@@ -655,10 +1031,11 @@ function renderGantt(id,data,avgLabel){
   const el=document.getElementById(id);if(!el)return;
   el.innerHTML='';
   const maxN=Math.max(...data.map(d=>d.n));
-  const BAR_H=88;
-  const avgPct=0.25;
-  const avgBottom=24+BAR_H*avgPct;
-
+  const avg=data.reduce((s,d)=>s+d.n,0)/data.length;
+  const BAR_H=90;
+  const LABEL_H=24;
+  // Posición de la línea de media: proporcional a avg/maxN
+  const avgBottom=LABEL_H+Math.round((avg/maxN)*BAR_H);
   const avgLine=document.createElement('div');
   avgLine.className='gavg';
   avgLine.style.cssText=`bottom:${avgBottom}px;`;
@@ -668,11 +1045,10 @@ function renderGantt(id,data,avgLabel){
   avgTag.textContent=`Media ${avgLabel}`;
   el.appendChild(avgLine);
   el.appendChild(avgTag);
-
   data.forEach(d=>{
     const col=document.createElement('div');
     col.className='gc';
-    const h=Math.round((d.n/maxN)*BAR_H);
+    const h=Math.max(4,Math.round((d.n/maxN)*BAR_H));
     const bg=d.y?'var(--yellow)':'#c8cdd1';
     col.innerHTML=`
       <div class="gbw" style="height:${BAR_H}px;">
@@ -686,14 +1062,11 @@ function renderGantt(id,data,avgLabel){
 }
 
 // ── VIEW SWITCHING ────────────────────────────────────────────────────────
-
-const MES_VIEWS=['abr','ene','feb','mar','may'];
+const MES_VIEWS=['ene','feb','mar','abr','may'];
 
 function setView(id,el){
-  // Toggle body color scheme
   const isMes=MES_VIEWS.includes(id);
-  document.body.setAttribute('data-view', isMes?'mes':'ytd');
-  // Set CSS vars manually since attr selector doesn't update custom props live in all browsers
+  document.body.setAttribute('data-view',isMes?'mes':'ytd');
   if(isMes){
     document.body.style.setProperty('--bg','#E4E6E8');
     document.body.style.setProperty('--bar-rest','#99a0a6');
@@ -701,39 +1074,53 @@ function setView(id,el){
     document.body.style.setProperty('--bg','#E5F2FE');
     document.body.style.setProperty('--bar-rest','#E4E6E8');
   }
-
-  document.querySelectorAll('.view').forEach(v=>{
-    v.classList.remove('active');
-    v.style.display='none';
-  });
+  document.querySelectorAll('.view').forEach(v=>{v.classList.remove('active');v.style.display='none';});
   document.querySelectorAll('.month-ul a, .btn-ytd').forEach(a=>a.classList.remove('active'));
-
   const v=document.getElementById('view-'+id);
-  if(v){
-    v.classList.add('active');
-    v.style.display=v.classList.contains('grid')?'grid':'flex';
-  }
+  if(v){v.classList.add('active');v.style.display=v.classList.contains('grid')?'grid':'flex';}
   if(el) el.classList.add('active');
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────
-async function init(){
-  const rows = await loadSheetData();
-  if(rows) buildFromSheet(rows);
-
+// ── INIT ─────────────────────────────────────────────────────────────────
+function init(){
   renderSvc('svc-ytd',SVC_YTD);
+  renderSvc('svc-ene',SVC_ENE);
+  renderSvc('svc-feb',SVC_FEB);
+  renderSvc('svc-mar',SVC_MAR);
   renderSvc('svc-abr',SVC_ABR);
+  renderSvc('svc-may',SVC_MAY);
+
   renderGeo('geo-ytd',GEO_YTD);
+  renderGeo('geo-ene',GEO_ENE);
+  renderGeo('geo-feb',GEO_FEB);
+  renderGeo('geo-mar',GEO_MAR);
   renderGeo('geo-abr',GEO_ABR);
+  renderGeo('geo-may',GEO_MAY);
+
   renderPitch('pitch-ytd',PITCH_YTD);
   renderDest('dest-ytd',DEST_YTD);
-  renderVol('vol-ytd',VOL_YTD,false);
-  renderVol('vol-abr',VOL_ABR,true);
+
+  renderVol('vol-ytd',VOL_YTD);
+  renderVol('vol-ene',VOL_ENE);
+  renderVol('vol-feb',VOL_FEB);
+  renderVol('vol-mar',VOL_MAR);
+  renderVol('vol-abr',VOL_ABR);
+  renderVol('vol-may',VOL_MAY);
+
   renderDept('dept-ytd',DEPT_YTD);
+  renderDept('dept-ene',DEPT_ENE);
+  renderDept('dept-feb',DEPT_FEB);
+  renderDept('dept-mar',DEPT_MAR);
   renderDept('dept-abr',DEPT_ABR);
-  renderGantt('gantt-ytd',GANTT_YTD,'1,8 d/proy.');
-  renderGantt('gantt-abr',GANTT_ABR,'1,7 d/proy.');
-  // Mark YTD button active
+  renderDept('dept-may',DEPT_MAY);
+
+  renderGantt('gantt-ytd',GANTT_YTD,'2,3 d/proy.');
+  renderGantt('gantt-ene',GANTT_ENE,'1,7 d/proy.');
+  renderGantt('gantt-feb',GANTT_FEB,'2,3 d/proy.');
+  renderGantt('gantt-mar',GANTT_MAR,'2,9 d/proy.');
+  renderGantt('gantt-abr',GANTT_ABR,'2,5 d/proy.');
+  renderGantt('gantt-may',GANTT_MAY,'2,1 d/proy.');
+
   document.getElementById('btn-ytd').classList.add('active');
 }
 document.addEventListener('DOMContentLoaded',init);
