@@ -3,1127 +3,908 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail Design Dashboard 2026</title>
+<title>BT Design · Executive Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-body[data-view="ytd"]{--bg:#E5F2FE;--bar-rest:#E4E6E8;}
-body[data-view="mes"]{--bg:#E4E6E8;--bar-rest:#99a0a6;}
-body{
-  --bg:#E5F2FE;--bar-rest:#E4E6E8;--white:#ffffff;--dark:#3C4146;
-  --yellow:#FFDF00;--green:#0CB458;--red:#D94C50;
-  --text:#1a1c20;--muted:#7a8494;--light:#aab0bc;--font:'Inter',sans-serif;
-  font-family:var(--font);font-size:12px;color:var(--text);background:var(--bg);
-}
-.shell{display:flex;flex-direction:column;height:100vh;background:var(--bg);}
-.hdr{display:flex;align-items:center;gap:14px;padding:0 18px;height:36px;flex-shrink:0;background:var(--bg);}
-.badge{background:var(--dark);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:3px;}
-.hdr-l{font-size:13px;font-weight:300;color:var(--muted);}
-.hdr-l b{font-weight:700;color:var(--text);}
-.hdr-c{flex:1;text-align:center;font-size:12px;color:var(--muted);}
-.hdr-c b{font-weight:700;color:var(--text);}
-.hdr-r{font-size:12px;color:var(--muted);}
-.hdr-r b{font-weight:700;color:var(--text);}
-.body{display:flex;flex:1;overflow:hidden;}
-.sidebar{width:108px;flex-shrink:0;background:var(--bg);display:flex;flex-direction:column;padding:10px 8px 0;}
-.btn-ytd{width:100%;padding:7px 6px;background:var(--dark);color:#fff;font-size:11px;font-weight:600;border:none;border-radius:7px;cursor:pointer;text-align:center;margin-bottom:8px;letter-spacing:0.01em;}
-.btn-ytd:hover{opacity:.85;}
-.month-ul{list-style:none;flex:1;overflow-y:auto;}
-.month-ul li a{display:block;padding:5px 6px;font-size:11.5px;color:var(--muted);cursor:pointer;text-decoration:none;border-radius:5px;}
-.month-ul li a:hover{color:var(--text);background:rgba(60,65,70,.09);}
-.month-ul li a.active{color:var(--text);font-weight:700;background:rgba(60,65,70,.1);}
-.month-ul li a.disabled{color:var(--light);cursor:default;pointer-events:none;}
-.sb-footer{padding:8px 0;margin-top:auto;}
-.btn-xls{display:block;font-size:11px;color:var(--muted);text-align:center;padding:5px;border-radius:5px;cursor:pointer;background:rgba(60,65,70,.07);}
-.btn-xls:hover{background:rgba(60,65,70,.14);}
-.content{flex:1;overflow:auto;padding:9px;}
-.view{display:none;}
-.view.active{display:grid;}
-.grid{grid-template-columns:185px 1fr 1fr 1fr;grid-template-rows:auto auto;gap:8px;}
-.card{background:var(--white);border-radius:9px;padding:11px 13px;overflow:hidden;}
-.sec{font-size:11px;font-weight:300;color:var(--muted);margin-bottom:3px;}
-.sec b{font-weight:700;color:var(--text);}
-.delta{font-size:10px;font-weight:600;margin-bottom:1px;}
-.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--muted)}
-.kval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1.05;}
-.ksub{font-size:10px;color:var(--muted);margin-top:2px;}
-.col1{display:flex;flex-direction:column;gap:8px;}
-.br{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
-.bl{font-size:9px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bt{flex:1;height:14px;background:var(--bar-rest);border-radius:2px;overflow:hidden;}
-.bf{height:100%;border-radius:2px;background:var(--dark);}
-.bv{font-size:9px;color:var(--muted);min-width:96px;white-space:nowrap;}
-.geo{position:relative;flex:1;min-height:160px;height:160px;}
-.gb{position:absolute;border-radius:50%;background:rgba(30,30,38,.82);transform:translate(-50%,-50%);}
-.gt{position:absolute;font-size:8px;color:var(--muted);white-space:nowrap;line-height:1.4;}
-.gay{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-size:7.5px;color:var(--light);padding:4px 0;}
-.pval{font-size:52px;font-weight:900;letter-spacing:-.05em;line-height:1;}
-.pi{font-size:10px;color:var(--muted);padding:1px 0;}
-.pi::before{content:"› ";color:var(--light);}
-.g{color:#2a9a5c;font-weight:600;}
-.bl2{color:#2a6fb8;font-weight:600;}
-.col4{display:flex;flex-direction:column;gap:8px;}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.rval{font-size:40px;font-weight:900;letter-spacing:-.04em;line-height:1;}
-.di{font-size:10px;color:var(--muted);padding:1.5px 0;}
-.di::before{content:"› ";color:var(--light);}
-.vr{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
-.vl{font-size:9px;color:var(--muted);min-width:18px;text-align:right;}
-.vt{height:12px;background:var(--bar-rest);border-radius:2px;overflow:hidden;flex:1;}
-.vf{height:100%;border-radius:2px;}
-.vv{font-size:9px;color:var(--muted);white-space:nowrap;min-width:90px;}
-.dg{margin-bottom:7px;}
-.dn{font-size:11px;font-weight:700;color:var(--text);}
-.ds{font-size:9px;color:var(--muted);margin-bottom:3px;}
-.dr{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
-.dl{font-size:9px;color:var(--muted);min-width:55px;text-align:right;flex-shrink:0;}
-.dtk{flex:1;height:13px;background:var(--bar-rest);border-radius:2px;overflow:hidden;}
-.db{height:100%;border-radius:2px;}
-.dv{font-size:9px;color:var(--muted);min-width:85px;white-space:nowrap;}
-.dsep{border:none;border-top:1px dashed #cdd7e3;margin:5px 0;}
-.gl{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
-.gli{display:flex;align-items:center;gap:3px;font-size:8px;color:var(--muted);}
-.glb{width:11px;height:11px;border-radius:2px;}
-.gll{width:16px;height:2px;background:var(--dark);}
-.gchart{display:flex;align-items:flex-end;gap:3px;padding-bottom:24px;position:relative;}
-.gc{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
-.gbw{width:100%;display:flex;flex-direction:column;justify-content:flex-end;}
-.gbar{width:100%;border-radius:3px 3px 0 0;position:relative;}
-.gnum{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:8.5px;font-weight:700;color:var(--text);}
-.glbl{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%) rotate(-45deg);transform-origin:top center;font-size:7px;color:var(--muted);white-space:nowrap;}
-.gavg{position:absolute;left:0;right:0;height:1.5px;background:var(--dark);z-index:5;}
-.gavgt{position:absolute;right:0;background:var(--dark);color:#fff;font-size:8px;font-weight:600;padding:2px 5px;border-radius:3px;transform:translateY(-50%);white-space:nowrap;}
-.pnote{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5;}
-.pnote b{font-weight:700;color:var(--text);}
-.fn{font-size:8px;color:var(--light);margin-top:3px;font-style:italic;}
-.plus{float:right;width:18px;height:18px;border-radius:50%;background:var(--dark);color:#fff;font-size:16px;line-height:18px;text-align:center;cursor:pointer;font-weight:300;}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-thumb{background:rgba(60,65,70,.2);border-radius:2px}
+  :root{
+    --bg-0:#EAF2F1; --bg-1:#F2F7F6; --bg-2:#E2ECEB;
+    --glass:rgba(255,255,255,.60); --glass-2:rgba(255,255,255,.72);
+    --stroke:rgba(20,148,148,.10); --stroke-hover:rgba(20,148,148,.40);
+    --ink:#0A2B2B; --ink-dim:#3D6B6B; --ink-faint:#7BA3A3;
+    --cyan:#0E9488; --cyan-soft:rgba(14,148,136,.10);
+    --rose:#E11D48; --rose-soft:rgba(225,29,72,.06);
+    --amber:#D97706; --amber-soft:rgba(217,119,6,.08);
+    --green:#0F9D6E; --green-soft:rgba(15,157,110,.10);
+    --violet:#5B8A8A;
+    --radius:18px;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --font-display:'Inter','Inter Tight',-apple-system,sans-serif;
+    --mono:'SF Mono','Consolas',monospace;
+    --gap:24px; --pad-cell:24px; --pad-app:34px 30px 100px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg-0);
+    background-image:linear-gradient(160deg, #F2F7F6 0%, #EAF2F1 45%, #E2ECEB 100%);
+    background-attachment:fixed;
+    color:var(--ink); font-family:var(--font); -webkit-font-smoothing:antialiased;
+    transition:background .3s ease,color .3s ease;
+  }
+  #app{max-width:1500px;margin:0 auto;padding:var(--pad-app);transition:padding .5s ease;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px;}
+  .brand .kicker{font-family:var(--font);font-size:11px;text-transform:uppercase;color:var(--ink-dim);font-weight:600;margin-bottom:5px;}
+  .brand h1{font-family:var(--font-display);font-size:21px;margin:0;font-weight:600;color:var(--ink);}
+  .brand h1 b{font-weight:800;color:var(--cyan);}
+  .chrome{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+
+  .tabs{display:flex;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--stroke);border-radius:13px;padding:4px;gap:3px;}
+  .tab{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 17px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
+  .tab.active{background:linear-gradient(180deg,rgba(14,148,136,.16),rgba(14,148,136,.05));color:var(--ink);border:1px solid var(--stroke-hover);box-shadow:inset 0 0 12px rgba(14,148,136,.10);}
+  .tab:not(.active):hover{color:var(--ink);}
+
+  .seg{display:flex;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--stroke);border-radius:13px;padding:4px;gap:3px;}
+  .seg button{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:12px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
+  .seg button.active{background:rgba(14,148,136,.10);color:var(--cyan);}
+
+  select{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;padding:9px 13px;font-size:13px;font-family:var(--font);cursor:pointer;transition:all .25s ease;}
+  select:hover{border-color:var(--stroke-hover);}
+  .iconbtn{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;height:39px;min-width:39px;padding:0 13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-family:var(--font);font-weight:600;transition:all .3s ease-out;}
+  .iconbtn:hover{border-color:var(--stroke-hover);box-shadow:0 0 18px rgba(14,148,136,.12);}
+  .iconbtn svg{width:15px;height:15px;}
+
+  /* Focus Mode toggle — estado propio, distinto del resto de iconbtn */
+  .focusbtn{position:relative;}
+  .focusbtn.is-on{background:linear-gradient(180deg,rgba(14,148,136,.20),rgba(14,148,136,.07));border-color:rgba(14,148,136,.4);color:var(--cyan);box-shadow:0 0 16px rgba(14,148,136,.18);}
+  .focusbtn svg{transition:transform .3s ease;}
+  .focusbtn.is-on svg{transform:scale(1.05);}
+
+  .periodline{font-family:var(--font);font-size:11px;color:var(--ink-faint);margin:0 2px 22px;transition:opacity .5s ease;}
+  .periodline b{color:var(--ink-dim);font-weight:600;}
+
+  .insight{position:relative;border-radius:var(--radius);padding:26px 28px;margin-bottom:24px;background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(14,148,136,.05));backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--stroke);box-shadow:0 8px 24px rgba(10,43,43,.04);overflow:hidden;transition:padding .5s ease,margin .5s ease;}
+  .insight::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(14,148,136,.5),transparent);}
+  .insight .eyebrow{font-family:var(--font);font-size:10px;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px;}
+  .insight .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2.4s ease-in-out infinite;}
+  body.focus-mode .insight .eyebrow .pulse{animation:none;opacity:.85;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .insight p{margin:0;font-family:var(--font-display);font-size:clamp(18px,2.2vw,24px);line-height:1.45;font-weight:450;max-width:74ch;color:var(--ink);}
+  .insight b{font-weight:700;}
+  .insight .hl{color:var(--cyan);font-weight:600;}
+  .insight .pos{color:var(--green);font-weight:600;}
+  .insight .neg{color:var(--rose);font-weight:600;}
+
+  .bento{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap);transition:gap .5s ease;}
+  .col-2{grid-column:span 2;}.col-3{grid-column:span 3;}.col-4{grid-column:span 4;}
+  .col-5{grid-column:span 5;}.col-6{grid-column:span 6;}.col-7{grid-column:span 7;}
+  .col-8{grid-column:span 8;}.col-9{grid-column:span 9;}.col-12{grid-column:span 12;}
+
+  .cell{position:relative;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:var(--radius);padding:var(--pad-cell);box-shadow:0 1px 3px rgba(10,43,43,.05),0 8px 24px rgba(10,43,43,.04);transition:all .3s ease-out,padding .5s ease;opacity:0;transform:translateY(12px);animation:rise .55s cubic-bezier(.22,.61,.36,1) forwards;display:flex;flex-direction:column;overflow:hidden;}
+  .cell::before{content:"";position:absolute;inset:0;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.45),transparent 45%);pointer-events:none;}
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+  .cell:hover{border-color:var(--stroke-hover);box-shadow:0 0 0 1px rgba(14,148,136,.06),0 10px 32px rgba(14,148,136,.10);transform:translateY(-2px);}
+
+  /* Focus Mode: estática total, sin entrada animada, sin glows pulsantes */
+  body.focus-mode .cell{animation:none;opacity:1;transform:none;}
+  body.focus-mode .cell:hover{transform:none;}
+
+  /* Focus Mode: ocultar tarjetas secundarias marcadas data-focus="hide" */
+  .cell[data-focus="hide"]{transition:opacity .5s ease,max-height .5s ease,margin .5s ease,padding .5s ease;}
+  body.focus-mode .cell[data-focus="hide"]{display:none;}
+
+  /* Focus Mode: las tarjetas críticas (data-focus="primary") se expanden a todo lo ancho disponible */
+  body.focus-mode .bento{grid-template-columns:repeat(12,1fr);}
+  body.focus-mode .cell[data-focus="primary"].col-4{grid-column:span 6;}
+  body.focus-mode .cell[data-focus="primary"].col-3{grid-column:span 6;}
+  body.focus-mode .cell[data-focus="primary"].col-8{grid-column:span 12;}
+  body.focus-mode .cell[data-focus="primary"].col-6{grid-column:span 12;}
+
+  .cell.glow-rose{background:linear-gradient(180deg,rgba(225,29,72,.05),var(--glass));box-shadow:inset 0 0 12px rgba(225,29,72,.05);border-color:rgba(225,29,72,.22);}
+  .cell.glow-rose:hover{border-color:rgba(225,29,72,.35);box-shadow:inset 0 0 14px rgba(225,29,72,.07),0 10px 32px rgba(225,29,72,.08);}
+  .cell.glow-amber{background:linear-gradient(180deg,rgba(217,119,6,.05),var(--glass));box-shadow:inset 0 0 12px rgba(217,119,6,.05);border-color:rgba(217,119,6,.22);}
+  .cell.glow-amber:hover{border-color:rgba(217,119,6,.35);box-shadow:inset 0 0 14px rgba(217,119,6,.07),0 10px 32px rgba(217,119,6,.08);}
+  .cell.glow-green{background:linear-gradient(180deg,rgba(15,157,110,.04),var(--glass));box-shadow:inset 0 0 12px rgba(15,157,110,.05);border-color:rgba(15,157,110,.20);}
+  /* En Focus Mode los glows quedan fijos y suaves, sin hover-intensify, para evitar parpadeo de atención */
+  body.focus-mode .cell.glow-rose:hover,body.focus-mode .cell.glow-amber:hover{box-shadow:inset 0 0 14px rgba(225,29,72,.15);}
+
+  .lbl{font-family:var(--font);font-size:10px;text-transform:uppercase;color:var(--ink-dim);font-weight:700;margin:0 0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1;}
+  .lbl .sub{font-weight:500;text-transform:none;color:var(--ink-faint);font-size:11px;}
+
+  .aitag{font-family:var(--font);display:inline-flex;align-items:center;gap:4px;background:var(--cyan-soft);color:var(--cyan);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid rgba(14,148,136,.20);white-space:nowrap;}
+  .aitag.rose{background:var(--rose-soft);color:var(--rose);border-color:rgba(225,29,72,.25);}
+  .aitag.amber{background:var(--amber-soft);color:var(--amber);border-color:rgba(217,119,6,.25);}
+  .aitag.green{background:var(--green-soft);color:var(--green);border-color:rgba(15,157,110,.22);}
+  .aitag::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;}
+  body.focus-mode .aitag::before{box-shadow:none;}
+
+  .metric{font-family:var(--font-display);font-size:clamp(36px,4.8vw,56px);font-weight:300;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;position:relative;z-index:1;}
+  .metric .unit{font-size:.38em;color:var(--ink-dim);font-weight:500;margin-left:4px;}
+  .verdict{font-family:var(--font);display:inline-flex;align-items:center;gap:6px;margin-top:15px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:30px;width:fit-content;position:relative;z-index:1;}
+  .v-up{color:var(--green);background:var(--green-soft);}
+  .v-down{color:var(--rose);background:var(--rose-soft);}
+  .v-flat{color:var(--ink-dim);background:rgba(10,43,43,.05);}
+  .word{font-family:var(--font);font-size:12px;color:var(--ink-dim);margin-top:10px;font-weight:400;position:relative;z-index:1;}
+  .spark{margin-top:15px;height:36px;width:100%;position:relative;z-index:1;}
+  .subnote{font-family:var(--font);font-size:11px;color:var(--ink-faint);margin-top:9px;position:relative;z-index:1;}
+  .subnote.divider{border-top:1px solid var(--stroke);padding-top:11px;margin-top:13px;}
+  .subnote b{color:var(--ink-dim);font-weight:600;}
+
+  .ranklist{display:flex;flex-direction:column;gap:11px;margin-top:2px;position:relative;z-index:1;}
+  .rankrow{font-family:var(--font);display:flex;align-items:center;gap:12px;font-size:12.5px;}
+  .rankrow .nm{flex:1;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rankrow .vl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);white-space:nowrap;}
+  .track{height:6px;background:rgba(10,43,43,.06);border-radius:4px;overflow:hidden;flex:0 0 92px;}
+  .fill{height:100%;border-radius:4px;background:linear-gradient(90deg,rgba(148,163,184,.6),rgba(148,163,184,.9));}
+  .fill.hl{background:linear-gradient(90deg,rgba(14,148,136,.6),var(--cyan));box-shadow:0 0 10px rgba(14,148,136,.4);}
+
+  .chip{font-family:var(--font);display:flex;align-items:center;gap:10px;background:rgba(10,43,43,.03);border:1px solid var(--stroke);border-radius:11px;padding:10px 12px;font-size:12.5px;margin-bottom:8px;position:relative;z-index:1;transition:all .25s ease;}
+  .chip:hover{border-color:var(--stroke-hover);}
+  .chip .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-dim);}
+  .chip .hrs{font-family:var(--mono);font-size:11px;color:var(--ink-faint);}
+  .chip .rank{font-family:var(--font);width:19px;height:19px;border-radius:6px;background:rgba(10,43,43,.07);color:var(--ink-dim);font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .chip.top{border-color:rgba(14,148,136,.25);}
+  .chip.top .rank{background:linear-gradient(135deg,rgba(14,148,136,.3),rgba(14,148,136,.15));color:var(--cyan);}
+
+  .pitchhead{display:flex;align-items:center;gap:18px;margin-bottom:16px;position:relative;z-index:1;}
+  .ring{position:relative;width:66px;height:66px;flex-shrink:0;}
+  .ring .pctxt{font-family:var(--font-display);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .pitchlist{max-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;position:relative;z-index:1;}
+  .pitem{font-family:var(--font);display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(10,43,43,.03);border-radius:9px;padding:8px 11px;font-size:12px;}
+  .pitem .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-dim);}
+  .badge{font-family:var(--font);font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .b-won{color:var(--green);background:var(--green-soft);}
+  .b-lost{color:var(--rose);background:var(--rose-soft);}
+  .b-pend{color:var(--ink-dim);background:rgba(10,43,43,.05);}
+
+  canvas{max-width:100%;position:relative;z-index:1;}
+
+  .loading{position:fixed;inset:0;background:var(--bg-0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:60;}
+  .spin{width:32px;height:32px;border-radius:50%;border:3px solid rgba(10,43,43,.1);border-top-color:var(--cyan);animation:sp .8s linear infinite;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  .loadtx{font-family:var(--font);color:var(--ink-dim);font-size:13px;}
+  .errbox{font-family:var(--font);background:var(--rose-soft);border:1px solid rgba(225,29,72,.3);border-radius:16px;padding:20px 22px;color:var(--ink);font-size:13px;max-width:560px;line-height:1.5;}
+  .rfbtn{font-family:var(--font);background:var(--cyan);color:#06121a;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
+
+  @media (max-width:1080px){
+    .col-3{grid-column:span 6;}.col-4{grid-column:span 6;}
+    .col-5,.col-7,.col-8,.col-9{grid-column:span 12;}
+  }
+  @media (max-width:680px){
+    #app{padding:18px 14px 80px;}
+    .col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9{grid-column:span 12;}
+    .topbar{flex-direction:column;align-items:stretch;}
+    .chrome{justify-content:space-between;}
+    .metric{font-size:40px;}
+  }
+  body.focus-mode .cell[data-focus="primary"]{grid-column:span 12 !important;}
+  @media (min-width:900px){
+    body.focus-mode .cell[data-focus="primary"]{grid-column:span 6 !important;}
+    body.focus-mode .cell[data-focus="primary"].col-wide{grid-column:span 12 !important;}
+  }
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:rgba(10,43,43,.1);border-radius:8px;}
+  ::-webkit-scrollbar-track{background:transparent;}
 </style>
 </head>
-<body data-view="ytd">
-<div class="shell">
+<body>
 
-<header class="hdr">
-  <span class="badge">2026</span>
-  <span class="hdr-l"><b>Retail</b> Design Dashboard</span>
-  <div class="hdr-c"><b>Iberia.</b> Foco en España &nbsp;<b>Beatriz</b> Tobalina González</div>
-  <div class="hdr-r">Savills <b>Iberia</b></div>
-</header>
-
-<div class="body">
-<nav class="sidebar">
-  <button class="btn-ytd" onclick="setView('ytd',this)" id="btn-ytd">Mayo YTD</button>
-  <ul class="month-ul">
-    <li><a onclick="setView('ene',this)">Enero</a></li>
-    <li><a onclick="setView('feb',this)">Febrero</a></li>
-    <li><a onclick="setView('mar',this)">Marzo</a></li>
-    <li><a onclick="setView('abr',this)">Abril</a></li>
-    <li><a onclick="setView('may',this)">Mayo</a></li>
-    <li><a class="disabled">Junio</a></li>
-    <li><a class="disabled">Julio</a></li>
-    <li><a class="disabled">Agosto</a></li>
-    <li><a class="disabled">Septiembre</a></li>
-    <li><a class="disabled">Octubre</a></li>
-    <li><a class="disabled">Noviembre</a></li>
-    <li><a class="disabled">Diciembre</a></li>
-  </ul>
-  <div class="sb-footer">
-    <span class="btn-xls">Excel →</span>
-  </div>
-</nav>
-
-<div class="content">
-
-<!-- ═══ YTD (Mayo YTD) ═══ -->
-<div class="view active grid" id="view-ytd">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓8,4% YoY</div>
-      <div class="kval">97</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta up">↑9,8% YoY</div>
-      <div class="kval">785h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta down">↓45,3% YoY</div>
-      <div class="kval">2,3</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-ytd"></div>
-  </div>
-
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-ytd"></div>
-  </div>
-
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta up">↑8,3% YoY</div>
-      <div class="pval">13</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">38,5% Ganados (5)</div>
-      <div id="pitch-ytd"></div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta flat">0% YoY</div>
-        <div class="rval">3</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (39h)<br><span class="up">↑290% YoY</span></div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div id="dest-ytd"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ROW 2 -->
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-ytd"></div>
-  </div>
-
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-ytd"></div>
-  </div>
-
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div style="font-size:10px;font-weight:700;margin:3px 0 1px;">Patrón detectado.</div>
-    <div class="pnote">Concentración de carga en sem. 1 y 4 de cada mes. Mayo destaca con pico en sem. 5.</div>
-    <div class="gl" style="margin-top:6px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega diseñadora</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase def. Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase ejec. Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-ytd" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Los datos muestran proyectos con entrega semanal asignada.</div>
-  </div>
+<div id="loading" class="loading">
+  <div class="spin"></div>
+  <div class="loadtx">Cargando inteligencia ejecutiva&hellip;</div>
 </div>
 
-<!-- ═══ ENERO ═══ -->
-<div class="view grid" id="view-ene">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓40,7% YoY</div>
-      <div class="kval">13</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta down">↓31,4% YoY</div>
-      <div class="kval">79,2h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta down">↓17,4% YoY</div>
-      <div class="kval">1,7</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-ene"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-ene"></div>
-  </div>
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta flat">0% YoY</div>
-      <div class="pval">1</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">100% Ganados (1)</div>
-      <div>
-        <div class="pi"><span class="g">Elcano.</span> Corporativo–Hoteles (20,5h)</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta up">↑100% YoY</div>
-        <div class="rval">1</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (11,5h)</div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div style="font-size:10px;">
-          <div class="di">Pitch Hoteles Elcano</div>
-          <div class="di">Spain Bids Training</div>
-          <div class="di">Tarjetón Borja – Comité</div>
-          <div class="di">Consejo Enero Portugal</div>
-          <div class="di">Baby Pelones RRSS V3</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-ene"></div>
-  </div>
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-ene"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div class="gl" style="margin-top:4px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-ene" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Proyectos con semana de entrega asignada.</div>
-  </div>
-</div>
-
-<!-- ═══ FEBRERO ═══ -->
-<div class="view grid" id="view-feb">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta flat">↓4,0% YoY</div>
-      <div class="kval">24</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta up">↑17,7% YoY</div>
-      <div class="kval">228,5h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta up">↑23,9% YoY</div>
-      <div class="kval">2,3</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-feb"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-feb"></div>
-  </div>
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta up">↑25% YoY</div>
-      <div class="pval">5</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">40% Ganados (2)</div>
-      <div>
-        <div class="pi"><span class="g">Oasiz.</span> CC-Servicios (30h)</div>
-        <div class="pi"><span class="g">Caleido.</span> CC-Servicios (22h)</div>
-        <div class="pi">Torre Sevilla. CC-Serv. (15,5h)</div>
-        <div class="pi">Serrano 53. HS-CM (19h)</div>
-        <div class="pi">Albufera Plaza. Cap.Mkt (9h)</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta down">↓100% YoY</div>
-        <div class="rval">0</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div style="font-size:10px;">
-          <div class="di">Dossier LVMH Cross Border</div>
-          <div class="di">Torre Sevilla Enviada</div>
-          <div class="di">Los Patios Málaga</div>
-          <div class="di">Ecommerce PPT+Datos</div>
-          <div class="di">Office Pulse Template</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-feb"></div>
-  </div>
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-feb"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div class="gl" style="margin-top:4px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-feb" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Proyectos con semana de entrega asignada.</div>
-  </div>
-</div>
-
-<!-- ═══ MARZO ═══ -->
-<div class="view grid" id="view-mar">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓4,2% YoY</div>
-      <div class="kval">23</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta down">↓9,1% YoY</div>
-      <div class="kval">241,2h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta up">↑79,1% YoY</div>
-      <div class="kval">2,9</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-mar"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-mar"></div>
-  </div>
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta flat">0% YoY</div>
-      <div class="pval">3</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">33,3% Ganados (1)</div>
-      <div>
-        <div class="pi"><span class="g">GV52.</span> Corporativo–Hoteles (9h)</div>
-        <div class="pi">Primark. HS-CM (41h)</div>
-        <div class="pi">City Park. Cap.Mkt (21,5h)</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta down">↓50% YoY</div>
-        <div class="rval">1</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (15,5h)</div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div style="font-size:10px;">
-          <div class="di">Stand Feria Retail ZIG-ZAG</div>
-          <div class="di">Teatro Barceló – Web+Dossier</div>
-          <div class="di">Primark – Pitch+Video+Branding</div>
-          <div class="di">Hoteles IM Fergus Calvia</div>
-          <div class="di">Post Boletín Retail RRSS</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-mar"></div>
-  </div>
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-mar"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div class="gl" style="margin-top:4px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-mar" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Proyectos con semana de entrega asignada.</div>
-  </div>
-</div>
-
-<!-- ═══ ABRIL ═══ -->
-<div class="view grid" id="view-abr">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓21,7% YoY</div>
-      <div class="kval">18</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta down">↓2,9% YoY</div>
-      <div class="kval">113,2h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta up">↑44,4% YoY</div>
-      <div class="kval">2,5</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-abr"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-abr"></div>
-  </div>
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta down">↓33,3% YoY</div>
-      <div class="pval">2</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">50% Ganados (1)</div>
-      <div>
-        <div class="pi">Ores. CC-Cap.Markets (16,5h)</div>
-        <div class="pi"><span class="g">Rincón Victoria.</span> Cap.Mkt (11,5h)</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta down">↓100% YoY</div>
-        <div class="rval">0</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div style="font-size:10px;">
-          <div class="di">San Fermín Cabecera+Footer</div>
-          <div class="di">Cartelería Alicante Lola</div>
-          <div class="di">Desempeño 2026</div>
-          <div class="di">Boletines HS ESP+ING</div>
-          <div class="di">Template FM Draft</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-abr"></div>
-  </div>
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-abr"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div class="gl" style="margin-top:4px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-abr" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Proyectos con semana de entrega asignada.</div>
-  </div>
-</div>
-
-<!-- ═══ MAYO ═══ -->
-<div class="view grid" id="view-may">
-  <div class="col1">
-    <div class="card">
-      <div class="sec">Total Proyectos</div>
-      <div class="delta down">↓20,8% YoY</div>
-      <div class="kval">19</div>
-    </div>
-    <div class="card">
-      <div class="sec">Total Horas</div>
-      <div class="delta down">↓10,4% YoY</div>
-      <div class="kval">122,8h</div>
-    </div>
-    <div class="card">
-      <div class="sec">Plazo de entrega</div>
-      <div class="delta up">↑27,7% YoY</div>
-      <div class="kval">2,1</div>
-      <div class="ksub">Días/Proy.</div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Principales</b> servicios</div>
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:6px;" id="svc-may"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Distribución</b> geográfica</div>
-    <div class="geo" id="geo-may"></div>
-  </div>
-  <div class="col4">
-    <div class="card" style="flex:1;">
-      <div class="sec">Pitches</div>
-      <div class="delta down">↓83,3% YoY</div>
-      <div class="pval">1</div>
-      <div style="font-size:10px;color:var(--muted);margin:2px 0 5px;">0% Ganados (0)</div>
-      <div>
-        <div class="pi">Imperial Portfolio Lidl. Cap.Mkt (8,5h)</div>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="card">
-        <div class="sec"><b>Redes</b> sociales y medios</div>
-        <div class="delta down">↓100% YoY</div>
-        <div class="rval">0</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px;">Horas dedicadas (0h)</div>
-      </div>
-      <div class="card">
-        <div class="sec"><b>Proyectos</b> destacados<span class="plus">+</span></div>
-        <div style="font-size:10px;">
-          <div class="di">Template Research – Outlook</div>
-          <div class="di">Template FM – Obras Doc Final</div>
-          <div class="di">Dashboard Retail Design</div>
-          <div class="di">Boletín Medianas ING+ESP</div>
-          <div class="di">Boletín High Street ING</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Volumen</b> por mes</div>
-    <div class="delta down">↓8,4% YoY</div>
-    <div class="kval" style="font-size:34px;">19,4</div>
-    <div class="ksub">Media Mes/Proy.</div>
-    <div style="margin-top:8px;flex:1;" id="vol-may"></div>
-  </div>
-  <div class="card" style="grid-column:span 2;display:flex;flex-direction:column;">
-    <div class="sec"><b>Esfuerzo</b> por departamento</div>
-    <div style="flex:1;overflow-y:auto;margin-top:5px;" id="dept-may"></div>
-  </div>
-  <div class="card" style="display:flex;flex-direction:column;">
-    <div class="sec"><b>Ritmo de mercado.</b> Volumen / horas por <b>semanas</b></div>
-    <div class="gl" style="margin-top:4px;">
-      <div class="gli"><div class="glb" style="background:#c8cdd1"></div>Barras = Nº Proyectos</div>
-      <div class="gli"><div class="gll"></div>Plazo entrega</div>
-      <div class="gli"><div class="glb" style="background:#c8cdd1;opacity:.6"></div>Fase Negocio</div>
-      <div class="gli"><div class="glb" style="background:var(--yellow)"></div>Fase Diseño</div>
-    </div>
-    <div style="position:relative;min-height:130px;">
-      <div class="gchart" id="gantt-may" style="height:120px;"></div>
-    </div>
-    <div class="fn">*Proyectos con semana de entrega asignada.</div>
-  </div>
-</div>
-
-</div></div></div>
+<div id="app" style="display:none;"></div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────
+const RAW_2026 = [{"mesIdx":2,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Metromar - ECOP + MNGMT","ciudad":"Madrid","hTotales":3.5,"diasProy":1.0,"entrada":"2026-03-18"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Post Boletin HS","ciudad":"Madrid","hTotales":0.0,"diasProy":-46167.0,"entrada":"2026-05-25"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Family Cash","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2026-04-28"},{"mesIdx":4,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Vinilo Plaza de Lugo 22","ciudad":"Norte","hTotales":1.25,"diasProy":0.0,"entrada":"2026-05-13"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Propuesta Seryca - Draft","ciudad":"Valencia","hTotales":2.0,"diasProy":7.0,"entrada":"2026-05-25"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Mupi Formacion Castellana Properties","ciudad":"Madrid","hTotales":4.5,"diasProy":0.0,"entrada":"2026-06-16"},{"mesIdx":0,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones Navidad","ciudad":"Madrid","hTotales":8.0,"diasProy":0.0,"entrada":null},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Hoteles - IM - Fergus Club - Calvia","ciudad":"Madrid","hTotales":21.5,"diasProy":5.0,"entrada":"2026-03-11"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin Medianas - ING","ciudad":"Madrid","hTotales":10.5,"diasProy":0.0,"entrada":"2026-05-29"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Brochure - Hoteles General","ciudad":"Madrid","hTotales":2.5,"diasProy":4.0,"entrada":null},{"mesIdx":4,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Vinilo Pz.Catalunya 9","ciudad":"Barcelona","hTotales":2.0,"diasProy":0.0,"entrada":"2026-05-11"},{"mesIdx":4,"tipologia":"Emailing","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Cambio Fecha  Invitacion Formacion","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2026-05-12"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Dashboard Bdesign","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Portimao - One Page","ciudad":"Portugal","hTotales":8.0,"diasProy":0.0,"entrada":null},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"03 - Servicios","ganado":"SI","nombreProyecto":"Oasiz - Property Management","ciudad":"Madrid","hTotales":30.0,"diasProy":3.0,"entrada":null},{"mesIdx":3,"tipologia":"Emailing","deptRaw":"01 - All Retail","ganado":"","nombreProyecto":"Formacion retail | Invitación","ciudad":"Madrid","hTotales":1.75,"diasProy":0.0,"entrada":"2026-04-29"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Consejo Enero Portugal","ciudad":"Portugal","hTotales":11.0,"diasProy":2.0,"entrada":"2026-01-26"},{"mesIdx":2,"tipologia":"Stand","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Stand Feria Retail - ZIG ZAG","ciudad":"Madrid","hTotales":11.0,"diasProy":4.0,"entrada":"2026-03-23"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"03 - Servicios","ganado":"NO","nombreProyecto":"Torre Sevilla - Presentada","ciudad":"Madrid","hTotales":15.5,"diasProy":4.0,"entrada":"2026-02-21"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Spanish Board - CFO","ciudad":"Madrid","hTotales":1.25,"diasProy":0.0,"entrada":"2026-05-14"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"01 - All Retail","ganado":"","nombreProyecto":"Consejo Enero Portugal - Slide Retail","ciudad":"Portugal","hTotales":0.75,"diasProy":0.0,"entrada":"2026-01-23"},{"mesIdx":3,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Cartelería - Alicante - Lola CSDMNT","ciudad":"Valencia","hTotales":14.5,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"02- HS - CM","ganado":"NO","nombreProyecto":"Serrano 53 - Desinversion","ciudad":"Madrid","hTotales":19.0,"diasProy":2.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Ecommerce - Actualizar datos","ciudad":"Madrid","hTotales":5.0,"diasProy":1.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Template Paseo Gracia 100 - Cross Border","ciudad":"Barcelona","hTotales":3.0,"diasProy":3.0,"entrada":"2026-01-13"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin Outlet - Ingles","ciudad":"Madrid","hTotales":32.8,"diasProy":11.0,"entrada":null},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Subir Pitch - Torre Sevilla","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":"2026-04-28"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Template Research - Outlook","ciudad":"Madrid","hTotales":27.5,"diasProy":4.0,"entrada":"2026-05-21"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Dossier LVMH - Cross Border","ciudad":"Barcelona","hTotales":14.5,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Ecommerce - Pasar a PPT","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Otros","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Fotos Valencia HS","ciudad":"Valencia","hTotales":2.0,"diasProy":1.0,"entrada":"2026-02-18"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Ayuda Boletin Research - Oficinas","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Merchandaising","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Tarjetón Borja","ciudad":"Madrid","hTotales":11.0,"diasProy":1.0,"entrada":"2026-01-12"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Template Corporativo Vacio -  Potx","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2026-04-14"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"03 - Servicios","ganado":"SI","nombreProyecto":"Caleido - Enviada","ciudad":"Madrid","hTotales":22.0,"diasProy":1.0,"entrada":"2026-02-26"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Firma Pelayo","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-04-29"},{"mesIdx":5,"tipologia":"Branding","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Logo - HOT Trends","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Otros","deptRaw":"01 - All Retail","ganado":"","nombreProyecto":"Consulta Research - Guidelines","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-04-21"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"02- HS - CM","ganado":"SI","nombreProyecto":"Teatro Barcelo","ciudad":"Madrid","hTotales":16.0,"diasProy":5.0,"entrada":"2026-02-14"},{"mesIdx":2,"tipologia":"Branding","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Primark - Creacion de marca - Logos","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2026-03-18"},{"mesIdx":3,"tipologia":"Pitch","deptRaw":"03 - Capital Markets","ganado":"SI","nombreProyecto":"Rincon de la Victoria","ciudad":"Madrid","hTotales":11.5,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Office Pulse - Template","ciudad":"Madrid","hTotales":3.0,"diasProy":1.0,"entrada":"2026-02-12"},{"mesIdx":5,"tipologia":"Merchandaising","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Bolsa Formacion Castellana Properties","ciudad":"Madrid","hTotales":7.5,"diasProy":0.0,"entrada":null},{"mesIdx":2,"tipologia":"Otros","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Control BCN - HS","ciudad":"Madrid","hTotales":41.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"DAFO - Logistico","ciudad":"Barcelona","hTotales":3.0,"diasProy":1.0,"entrada":"2026-04-20"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin retail - Marzo 2026 - ING","ciudad":"Madrid","hTotales":3.5,"diasProy":0.0,"entrada":"2026-04-13"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Retail Park Waydh - Template","ciudad":"Madrid","hTotales":2.0,"diasProy":2.0,"entrada":null},{"mesIdx":1,"tipologia":"Otros","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Gestion Factura - Boletin Supermercados","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2026-02-24"},{"mesIdx":2,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Paseo de Gracia 115","ciudad":"Barcelona","hTotales":3.0,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Infografia","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Dossier LVMH - V2 - Cross Border","ciudad":"Barcelona","hTotales":5.0,"diasProy":3.0,"entrada":null},{"mesIdx":2,"tipologia":"Motion + Video","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Primark","ciudad":"Madrid","hTotales":2.5,"diasProy":4.0,"entrada":"2026-03-19"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Templates BCN - HS","ciudad":"Barcelona","hTotales":3.0,"diasProy":0.0,"entrada":"2026-02-23"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Subir Pitch - Caleido","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":"2026-04-28"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"SAVILLS EMEA - Finance Forum","ciudad":"Madrid","hTotales":19.6,"diasProy":2.0,"entrada":"2026-06-18"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Dashboard Onboarding Paula","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"NO","nombreProyecto":"Oasiz - Asset Management","ciudad":"Madrid","hTotales":10.0,"diasProy":3.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletín HS - ING","ciudad":"Madrid","hTotales":5.0,"diasProy":3.0,"entrada":"2026-04-27"},{"mesIdx":5,"tipologia":"Otros","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Foto Empleado","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2026-06-16"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Consejo - Castellana Properties","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2026-03-10"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Roll Up - RRHH","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2026-02-19"},{"mesIdx":2,"tipologia":"Motion + Video","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Caleido - Video","ciudad":"Madrid","hTotales":11.0,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Motion + Video","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Bootcamp BCN - Video","ciudad":"Barcelona","hTotales":1.5,"diasProy":1.0,"entrada":"2026-01-26"},{"mesIdx":2,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Post - Boletín Retail","ciudad":"Madrid","hTotales":15.5,"diasProy":3.0,"entrada":"2026-03-23"},{"mesIdx":5,"tipologia":"Emailing","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Cabecera - HOT Trends","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-06-18"},{"mesIdx":0,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones Esqui","ciudad":"Madrid","hTotales":8.0,"diasProy":0.0,"entrada":"2026-01-30"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"02- HS - CM","ganado":"NO","nombreProyecto":"Primark","ciudad":"Madrid","hTotales":41.0,"diasProy":4.0,"entrada":"2026-03-19"},{"mesIdx":0,"tipologia":"Training","deptRaw":"01 - All Retail","ganado":"","nombreProyecto":"Spain Bids","ciudad":"Madrid","hTotales":17.0,"diasProy":1.0,"entrada":"2026-01-22"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Template FM - Obras - Doc Final","ciudad":"Madrid","hTotales":11.5,"diasProy":3.0,"entrada":null},{"mesIdx":3,"tipologia":"Pitch","deptRaw":"03 - Capital Markets","ganado":"NO","nombreProyecto":"Ores","ciudad":"Iberia","hTotales":16.5,"diasProy":4.0,"entrada":"2026-04-22"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Post Boletin Medianas","ciudad":"Madrid","hTotales":0.0,"diasProy":-46167.0,"entrada":"2026-05-25"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Torre Sevilla Presentada","ciudad":"Madrid","hTotales":19.0,"diasProy":2.0,"entrada":"2026-02-24"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Entrenasas","ciudad":"Madrid","hTotales":1.0,"diasProy":3.0,"entrada":"2026-04-14"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"03 - Capital Markets","ganado":"NO","nombreProyecto":"Albufera Plaza","ciudad":"Madrid","hTotales":9.0,"diasProy":3.0,"entrada":"2026-02-23"},{"mesIdx":3,"tipologia":"Infografia","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"San Fermin - Cabecera + Footer","ciudad":"Madrid","hTotales":11.0,"diasProy":0.0,"entrada":"2026-04-16"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Subir Pitch - Oasiz","ciudad":"Madrid","hTotales":0.75,"diasProy":0.0,"entrada":"2026-04-28"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Resolucion Mapa","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-04-14"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Torre Sevilla - Enviada","ciudad":"Madrid","hTotales":39.0,"diasProy":3.0,"entrada":"2026-02-10"},{"mesIdx":5,"tipologia":"Stand","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Formulario - HOT Trends","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-06-18"},{"mesIdx":2,"tipologia":"Web","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Teatro Barcelo - Dossier Comercial","ciudad":"Madrid","hTotales":11.0,"diasProy":3.0,"entrada":null},{"mesIdx":2,"tipologia":"Branding","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Hoteles - GV52 - Branding","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2026-03-11"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Formación Research - Diseño + Comunicacion","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2026-04-10"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Desempeño 2026","ciudad":"Madrid","hTotales":9.0,"diasProy":0.0,"entrada":"2026-04-21"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Discurso Revolve - Tarjetones","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2026-03-13"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Template FM - Draft","ciudad":"Madrid","hTotales":6.0,"diasProy":1.0,"entrada":"2026-04-29"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"06 - Corporativo","ganado":"SI","nombreProyecto":"Hoteles - GV52","ciudad":"Madrid","hTotales":9.0,"diasProy":4.0,"entrada":"2026-03-11"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Infinity - Estudio Impacto","ciudad":"Valencia","hTotales":2.5,"diasProy":4.0,"entrada":"2026-06-16"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Nexum - Propuesta","ciudad":"Madrid","hTotales":5.0,"diasProy":2.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin Supermercados - ESP","ciudad":"Madrid","hTotales":0.5,"diasProy":2.0,"entrada":"2026-01-27"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Dashboard Retail Design","ciudad":"Madrid","hTotales":18.5,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Motion + Video","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Bootcamp MAD","ciudad":"Madrid","hTotales":4.0,"diasProy":0.0,"entrada":"2026-02-23"},{"mesIdx":4,"tipologia":"Pitch","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Imperial Portfolio Lidl","ciudad":"Madrid","hTotales":8.5,"diasProy":1.0,"entrada":"2026-05-13"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Template Word - Informe - gestion Patrimonial","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2026-04-14"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"01 - All Retail","ganado":"","nombreProyecto":"Eastdil","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Bootcamp BCN","ciudad":"Barcelona","hTotales":1.5,"diasProy":1.0,"entrada":"2026-01-26"},{"mesIdx":2,"tipologia":"Web","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Teatro Barcelo - Dossier Comercial - Web","ciudad":"Madrid","hTotales":12.0,"diasProy":2.0,"entrada":"2026-03-11"},{"mesIdx":1,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Carteleria - Portal del Angel 23","ciudad":"Madrid","hTotales":2.0,"diasProy":3.0,"entrada":"2026-02-23"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Baby Pelones - Entrega Regalo","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Los Patios","ciudad":"Malaga","hTotales":12.0,"diasProy":3.0,"entrada":"2026-02-10"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Resolucion Portada","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2026-04-14"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Editar Foto Niños Pixelar","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":"2026-01-12"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Presentaciones de éxito","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-03-19"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Caleido Presentada","ciudad":"Madrid","hTotales":8.5,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"Bootcamp MAD","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-02-23"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"PG97","ciudad":"Barcelona","hTotales":15.5,"diasProy":0.0,"entrada":"2026-03-10"},{"mesIdx":2,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Semana Santa","ciudad":"","hTotales":24.0,"diasProy":0.0,"entrada":"2026-03-30"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"03 - Capital Markets","ganado":"NO","nombreProyecto":"City Park - Template","ciudad":"Portugal","hTotales":21.5,"diasProy":2.0,"entrada":"2026-03-23"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Informe Cartelería","ciudad":"Madrid","hTotales":6.0,"diasProy":1.0,"entrada":"2026-05-13"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Templates Guía","ciudad":"Malaga","hTotales":1.0,"diasProy":0.0,"entrada":"2026-01-19"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Freelance NUR+Julia","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-01-19"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Consejo UK - Marzo","ciudad":"Madrid","hTotales":1.25,"diasProy":0.0,"entrada":"2026-03-24"},{"mesIdx":5,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Foto NP Boletin Medianas","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Template - One Page - Draft","ciudad":"Madrid","hTotales":8.0,"diasProy":0.0,"entrada":"2026-05-11"},{"mesIdx":2,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Trabajo - Revisar dashboard - IT(sin PC) - Sacar dashboard 2026 (En+Feb+Mar)\n\nReunion - Revolve - Spaind Bids -  Monthly - Weekly - Día Libre Luis (Pitches)","ciudad":"","hTotales":21.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin retail - Marzo 2026 - ESP","ciudad":"Madrid","hTotales":3.5,"diasProy":4.0,"entrada":null},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin Medianas - ESP","ciudad":"Madrid","hTotales":11.5,"diasProy":3.0,"entrada":"2026-05-26"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletin High Street - ING","ciudad":"Madrid","hTotales":11.0,"diasProy":3.0,"entrada":"2026-05-26"},{"mesIdx":4,"tipologia":"Web","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Prueba Ceros - High Street - Seryca","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2026-05-28"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Actualizar E-Commerce","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-05-28"},{"mesIdx":0,"tipologia":"Infografia","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"MockUp Canitas - Avenida Rosaleda","ciudad":"Malaga","hTotales":1.0,"diasProy":2.0,"entrada":"2026-01-17"},{"mesIdx":0,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Carteleria Canitas - Avenida Rosaleda","ciudad":"Malaga","hTotales":1.0,"diasProy":2.0,"entrada":"2026-01-17"},{"mesIdx":8,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"Consejo Portugal","ciudad":"","hTotales":0.0,"diasProy":4.0,"entrada":null},{"mesIdx":4,"tipologia":"Training","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Compliance Anual","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2026-05-20"},{"mesIdx":3,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Cartelería - PG55","ciudad":"Madrid","hTotales":3.5,"diasProy":1.0,"entrada":"2026-04-13"},{"mesIdx":5,"tipologia":"Pitch","deptRaw":"02- HS - CM","ganado":"SI","nombreProyecto":"PG87","ciudad":"Barcelona","hTotales":20.0,"diasProy":3.0,"entrada":"2026-06-11"},{"mesIdx":4,"tipologia":"Carteleria","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Vinilo Sorni 1","ciudad":"Valencia","hTotales":1.0,"diasProy":1.0,"entrada":"2026-05-25"},{"mesIdx":5,"tipologia":"Otros","deptRaw":"03 - Servicios","ganado":"","nombreProyecto":"Foto Empleado","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2026-06-16"},{"mesIdx":5,"tipologia":"Carteleria","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Ramblas 120","ciudad":"Barcelona","hTotales":1.5,"diasProy":3.0,"entrada":null},{"mesIdx":5,"tipologia":"Stand","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Photocall - HOT Trends","ciudad":"Madrid","hTotales":2.5,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"Emailing","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Reminder - PG87","ciudad":"Barcelona","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Pitch","deptRaw":"06 - Corporativo","ganado":"SI","nombreProyecto":"Pitch Hoteles - Sebastian Elcano","ciudad":"Madrid","hTotales":20.5,"diasProy":4.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Presentacion Formacion Castellana Properties","ciudad":"Madrid","hTotales":27.5,"diasProy":2.0,"entrada":"2026-06-15"},{"mesIdx":5,"tipologia":"Infografia","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Illustracion HOT Trends","ciudad":"Madrid","hTotales":2.5,"diasProy":0.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletín Supermercados - ING","ciudad":"Madrid","hTotales":7.0,"diasProy":4.0,"entrada":null},{"mesIdx":0,"tipologia":"Otros","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Analisis nuevos servicios IA - Reu","ciudad":"Madrid","hTotales":5.0,"diasProy":1.0,"entrada":"2026-06-22"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Milenium - One Page","ciudad":"Norte","hTotales":0.5,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"06 - Comite","ganado":"","nombreProyecto":"Consejo Segovia - Junio","ciudad":"Madrid","hTotales":9.0,"diasProy":0.0,"entrada":null},{"mesIdx":2,"tipologia":"Infografia","deptRaw":"02 - HS-L","ganado":"","nombreProyecto":"Fnac - Portada - IA","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":null},{"mesIdx":5,"tipologia":"Otros","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Automatizacion Dashboard","ciudad":"Madrid","hTotales":19.0,"diasProy":9.0,"entrada":"2026-06-15"},{"mesIdx":0,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Baby Pelones - V3","ciudad":"Madrid","hTotales":11.5,"diasProy":2.0,"entrada":null},{"mesIdx":3,"tipologia":"RRSS","deptRaw":"05 - MKT","ganado":"","nombreProyecto":"Post - Boletín Supermercados","ciudad":"Madrid","hTotales":26.0,"diasProy":21.0,"entrada":"2026-03-23"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Brochure -  HAMA - Hoteles","ciudad":"Madrid","hTotales":9.0,"diasProy":4.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"03 - Capital Markets","ganado":"","nombreProyecto":"Berango - One Page","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Weekly - Organizacion Mensual Diseño","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":7,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"","ciudad":"","hTotales":3.5,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"Web","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Brochure -  HAMA - Hoteles - Web","ciudad":"Madrid","hTotales":4.0,"diasProy":4.0,"entrada":null},{"mesIdx":3,"tipologia":"Emailing","deptRaw":"02 -  All HS","ganado":"","nombreProyecto":"San Fermines - Salesforce","ciudad":"Madrid","hTotales":7.0,"diasProy":3.0,"entrada":"2026-04-13"},{"mesIdx":5,"tipologia":"Web","deptRaw":"05 - Design","ganado":"","nombreProyecto":"Nuevos Formatos con IA","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2026-06-19"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"New Guidelines - Informe Mensual - CC","ciudad":"Madrid","hTotales":3.0,"diasProy":-46174.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"02- HS - CM","ganado":"","nombreProyecto":"Propuesta Seryca","ciudad":"Valencia","hTotales":10.0,"diasProy":10.0,"entrada":"2026-05-25"},{"mesIdx":4,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones","ciudad":"Madrid","hTotales":16.0,"diasProy":1.0,"entrada":"2026-05-21"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"04 - Research","ganado":"","nombreProyecto":"Boletín HS - ESP","ciudad":"Madrid","hTotales":11.0,"diasProy":3.0,"entrada":"2026-04-20"},{"mesIdx":0,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Trabajo - \n\nReuniones -","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":1,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Trabajo - Desempeño 2025 - Cambios boletin Supermercados\n\nReuniones - Desempeño 2025","ciudad":"","hTotales":12.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Reuniones : Monthly Design | Weekly data","ciudad":"","hTotales":3.0,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"Status Bdesign","ciudad":"","hTotales":2.0,"diasProy":0.0,"entrada":null},{"mesIdx":6,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":7,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"06 - Corporativo","ganado":"","nombreProyecto":"Brochure  - Valoraciones - Hoteles","ciudad":"","hTotales":0.0,"diasProy":21.0,"entrada":null},{"mesIdx":6,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":8,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":9,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":9,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":10,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":10,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"","deptRaw":"","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"","ciudad":"","hTotales":0.0,"diasProy":0.0,"entrada":null}];
+const RAW_2025 = [{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Board of Directors | Financiero","ciudad":"Madrid","hTotales":2.0,"diasProy":1.0,"entrada":"2025-12-11"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Board of Directors | Servicios Generales","ciudad":"Madrid","hTotales":20.0,"diasProy":0.0,"entrada":"2025-12-15"},{"mesIdx":8,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Salvando Peludos","ciudad":"Madrid","hTotales":2.5,"diasProy":125.0,"entrada":null},{"mesIdx":9,"tipologia":"Otros","deptRaw":"Research","ganado":"","nombreProyecto":"Mapas Mestalla + Valencia","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-10-14"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"TEKA | Showroom | Teaser | Concept+Midjourney","ciudad":"Madrid","hTotales":6.0,"diasProy":0.0,"entrada":"2025-11-28"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Welcome on board","ciudad":"Madrid","hTotales":11.0,"diasProy":349.0,"entrada":"2025-01-15"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletin Outlets | ING","ciudad":"Madrid","hTotales":5.5,"diasProy":3.0,"entrada":"2025-12-22"},{"mesIdx":11,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletin Outlets | Post RRSS","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Otros","deptRaw":"All Retail","ganado":"","nombreProyecto":"Ayuda PDF","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-12-10"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Oasiz | Propuesta Servicios","ciudad":"Madrid","hTotales":0.25,"diasProy":5.0,"entrada":"2025-12-15"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"TEKA | Showroom | Teaser | Portugal","ciudad":"Madrid","hTotales":4.5,"diasProy":2.0,"entrada":"2025-11-28"},{"mesIdx":11,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Newsletter | Clásica","ciudad":"Madrid","hTotales":0.0,"diasProy":121.0,"entrada":null},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Formación Legal | MASC","ciudad":"Madrid","hTotales":16.5,"diasProy":3.0,"entrada":"2025-10-27"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Brindis Directors | Fin de año","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2025-12-17"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"RetailCo | Dossier Venta | Madrid","ciudad":"Madrid","hTotales":9.0,"diasProy":1.0,"entrada":"2025-10-14"},{"mesIdx":9,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Riesgo Cero | Offsite","ciudad":"Madrid","hTotales":5.5,"diasProy":4.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Presentacion Mensual","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-12-16"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"Servicios","ganado":"NO","nombreProyecto":"La Salle Tormes","ciudad":"Madrid","hTotales":22.0,"diasProy":31.0,"entrada":"2025-02-17"},{"mesIdx":9,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"LinkedIn | Post | Ecommerce","ciudad":"Madrid","hTotales":0.25,"diasProy":7.0,"entrada":null},{"mesIdx":9,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"NO","nombreProyecto":"Sonae | Iberian Portfolio | Sales Proposal","ciudad":"Madrid","hTotales":18.0,"diasProy":2.0,"entrada":null},{"mesIdx":11,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones Navidad","ciudad":"Madrid","hTotales":8.0,"diasProy":0.0,"entrada":"2025-12-30"},{"mesIdx":9,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Nota de Prensa | Ecommerce","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":null},{"mesIdx":9,"tipologia":"Pitch","deptRaw":"Servicios","ganado":"NO","nombreProyecto":"Matosinhos","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":8,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Mapa Portugal","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2025-09-30"},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Presentación Mensual","ciudad":"Madrid","hTotales":2.15,"diasProy":0.0,"entrada":"2025-09-30"},{"mesIdx":8,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Madnum | Concepto","ciudad":"Madrid","hTotales":7.65,"diasProy":0.0,"entrada":"2025-09-29"},{"mesIdx":9,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Arenal | Vinilo","ciudad":"Madrid","hTotales":8.5,"diasProy":13.0,"entrada":"2025-09-24"},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Dossier Gondomar","ciudad":"Madrid","hTotales":8.0,"diasProy":2.0,"entrada":"2025-09-24"},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Brochure Corporativo | Informativo | retail","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":"2025-09-23"},{"mesIdx":8,"tipologia":"BDesign","deptRaw":"MKT","ganado":"","nombreProyecto":"Formación Dashboard","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-09-23"},{"mesIdx":8,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"OMO Cañaveral | Logo | Adaptacion","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-09-23"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55 | IM | ESP","ciudad":"Barcelona","hTotales":14.0,"diasProy":5.0,"entrada":"2025-10-16"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Portal de proveedores","ciudad":"Madrid","hTotales":6.5,"diasProy":0.0,"entrada":"2025-11-11"},{"mesIdx":9,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Figma Templates","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2025-10-31"},{"mesIdx":10,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Vinilo | Malagueta","ciudad":"Malaga","hTotales":12.5,"diasProy":2.0,"entrada":null},{"mesIdx":9,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Dashboard SEPT OCT | Banner Retail | Carpeta de recursos BDesign\n\nREUNIONES: Bids Academy | Offsite","ciudad":"","hTotales":17.5,"diasProy":0.0,"entrada":"1899-12-30"},{"mesIdx":10,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Foto Corporativa | Patricia Matias","ciudad":"Madrid","hTotales":4.0,"diasProy":0.0,"entrada":"2025-11-27"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Formación MASC | V2","ciudad":"Madrid","hTotales":25.5,"diasProy":8.0,"entrada":"2025-11-19"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"TEKA | Showroom | Teaser | España","ciudad":"Madrid","hTotales":8.0,"diasProy":2.0,"entrada":"2025-11-28"},{"mesIdx":10,"tipologia":"Otros","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Fotos | Local en Mediana","ciudad":"Barcelona","hTotales":0.5,"diasProy":0.0,"entrada":"2025-11-18"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"TEKA | Showroom | Larga","ciudad":"Madrid","hTotales":22.0,"diasProy":1.0,"entrada":"2025-11-24"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"IM&Teaser Félix Sáenz - Castellano","ciudad":"Malaga","hTotales":1.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Master | HS | Andres","ciudad":"Barcelona","hTotales":8.5,"diasProy":1.0,"entrada":"2025-11-19"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Template Team","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-11-18"},{"mesIdx":10,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín | Retail | Nota de prensa (Carrusel Linkedin)","ciudad":"Madrid","hTotales":9.0,"diasProy":7.0,"entrada":"2025-11-11"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Cristine Bedfor | Dossier venta","ciudad":"Malaga","hTotales":15.0,"diasProy":9.0,"entrada":null},{"mesIdx":10,"tipologia":"Carteleria","deptRaw":"HS","ganado":"","nombreProyecto":"Vinilo | Portal del Angel","ciudad":"Barcelona","hTotales":0.5,"diasProy":0.0,"entrada":"2025-11-14"},{"mesIdx":10,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletín | Outlets | ESP","ciudad":"Madrid","hTotales":17.5,"diasProy":60.0,"entrada":"2025-09-22"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Plantillas IT | Instrucciones | PPT","ciudad":"Madrid","hTotales":2.5,"diasProy":20.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Plantillas IT | Instrucciones | Word","ciudad":"Madrid","hTotales":0.0,"diasProy":20.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Plantillas IT | Instrucciones | Excel","ciudad":"Madrid","hTotales":1.5,"diasProy":20.0,"entrada":null},{"mesIdx":11,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Baby Pelones | JuegaTerapia","ciudad":"Madrid","hTotales":7.0,"diasProy":4.0,"entrada":"2025-12-15"},{"mesIdx":10,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín | Retail | Nota de prensa (Carrusel Insta)","ciudad":"Madrid","hTotales":7.0,"diasProy":2.0,"entrada":"2025-11-11"},{"mesIdx":11,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Vinilo | Canitas | La Rosaleda","ciudad":"Malaga","hTotales":1.5,"diasProy":7.0,"entrada":"2025-12-11"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"RetailCo | Dossier Venta | Mallorca","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":"2025-10-15"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Dossier de Venta | Template | Largo","ciudad":"Madrid","hTotales":1.5,"diasProy":5.0,"entrada":"2025-10-12"},{"mesIdx":8,"tipologia":"Pitch","deptRaw":"HS - CM","ganado":"SI","nombreProyecto":"Retail&Co | Pitch","ciudad":"Madrid","hTotales":54.5,"diasProy":13.0,"entrada":null},{"mesIdx":8,"tipologia":"Motion + Video","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Retail&Co | Video","ciudad":"Madrid","hTotales":26.5,"diasProy":13.0,"entrada":null},{"mesIdx":8,"tipologia":"Branding","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Retail&Co | branding","ciudad":"Madrid","hTotales":1.0,"diasProy":13.0,"entrada":null},{"mesIdx":8,"tipologia":"Infografia","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Retail&Co | Menu","ciudad":"Madrid","hTotales":1.0,"diasProy":13.0,"entrada":null},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55","ciudad":"Barcelona","hTotales":10.0,"diasProy":2.0,"entrada":"2025-09-15"},{"mesIdx":4,"tipologia":"Emailing","deptRaw":"Corporativo","ganado":"","nombreProyecto":"San fermines | logistico","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-05-26"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Board of Directors","ciudad":"Madrid","hTotales":13.0,"diasProy":1.0,"entrada":"2025-10-15"},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Welcome on board | Traduccion","ciudad":"Madrid","hTotales":2.0,"diasProy":1.0,"entrada":null},{"mesIdx":8,"tipologia":"Merchandaising","deptRaw":"MKT","ganado":"","nombreProyecto":"Señaletica | Congreso","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":"2025-09-16"},{"mesIdx":8,"tipologia":"Merchandaising","deptRaw":"MKT","ganado":"","nombreProyecto":"Vela | Congreso","ciudad":"Madrid","hTotales":0.65,"diasProy":1.0,"entrada":"2025-09-16"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Ordenar Carpeta Fotos Retail","ciudad":"Madrid","hTotales":3.0,"diasProy":6.0,"entrada":"2025-07-23"},{"mesIdx":8,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Newsletter | Guía","ciudad":"Madrid","hTotales":4.0,"diasProy":15.0,"entrada":null},{"mesIdx":8,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Flash Report | Ecommerce","ciudad":"Madrid","hTotales":18.0,"diasProy":11.0,"entrada":null},{"mesIdx":8,"tipologia":"Infografia","deptRaw":"Servicios","ganado":"","nombreProyecto":"Kiabi Druni | Escaparate Fotomontaje","ciudad":"Madrid","hTotales":1.75,"diasProy":0.0,"entrada":null},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"IM & Teaser | GV·30","ciudad":"Madrid","hTotales":7.5,"diasProy":4.0,"entrada":null},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"Formulario Satisfacción | ESP","ciudad":"Madrid","hTotales":2.0,"diasProy":1.0,"entrada":null},{"mesIdx":10,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO | Dashboard |\n\nREUNIONES | Monthly Brand Design(pre Riesgos+Riesgos) | Spain Bids | Dia Pendiente","ciudad":"","hTotales":18.0,"diasProy":0.0,"entrada":null},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletín | Retail | ESP","ciudad":"Madrid","hTotales":24.5,"diasProy":2.0,"entrada":"2025-10-24"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55 | Teaser | ESP","ciudad":"Barcelona","hTotales":1.0,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Photocall | PuertAranjuez","ciudad":"Madrid","hTotales":6.0,"diasProy":4.0,"entrada":null},{"mesIdx":9,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Madnum | Arte Final | Vinilo","ciudad":"Madrid","hTotales":9.5,"diasProy":9.0,"entrada":"2025-10-14"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletín | Retail | ING","ciudad":"Madrid","hTotales":11.0,"diasProy":2.0,"entrada":"2025-10-28"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55 | IM | ING","ciudad":"Barcelona","hTotales":1.0,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"Brochure Corporativo | Borrador","ciudad":"Madrid","hTotales":13.0,"diasProy":71.0,"entrada":"2024-11-20"},{"mesIdx":9,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Templates Rebrand para IT","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":8,"tipologia":"Banner","deptRaw":"All Retail","ganado":"","nombreProyecto":"CC Congreso 2025 | Después","ciudad":"Madrid","hTotales":1.5,"diasProy":4.0,"entrada":null},{"mesIdx":2,"tipologia":"Infografia","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Boletín HS Feb | info","ciudad":"Madrid","hTotales":24.5,"diasProy":14.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Oasiz | Template","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":null},{"mesIdx":8,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Presentación Mensual | Actualizacion","ciudad":"Madrid","hTotales":7.75,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Cross | Borrador","ciudad":"Madrid","hTotales":19.0,"diasProy":3.0,"entrada":null},{"mesIdx":7,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"","ciudad":"","hTotales":102.0,"diasProy":17.0,"entrada":null},{"mesIdx":7,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO :  Puerta Aranjuez | Vallas+Totem Circular | Preparar dashboard JUL AGO SEPT | CC Cpngreso Banner\n\nREUNIONES: Puerta Aranjuez | Vallas+Totem Circular","ciudad":"","hTotales":36.5,"diasProy":0.0,"entrada":null},{"mesIdx":6,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"Newsletter Branding","ciudad":"Madrid","hTotales":2.5,"diasProy":79.0,"entrada":"2025-05-13"},{"mesIdx":6,"tipologia":"Banner","deptRaw":"MKT","ganado":"","nombreProyecto":"CC Congreso 2025","ciudad":"Madrid","hTotales":5.0,"diasProy":5.0,"entrada":"2025-07-25"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"One Page | ANIS | Status","ciudad":"Madrid","hTotales":3.5,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Banner","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Savills Al día | Abstracto","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-12-11"},{"mesIdx":10,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Nota de Prensa | La Marina","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-11-13"},{"mesIdx":0,"tipologia":"Infografia","deptRaw":"MKT","ganado":"","nombreProyecto":"Fotos | banco Imagen","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":0,"tipologia":"Training","deptRaw":"MKT","ganado":"","nombreProyecto":"Copy | Putos Modernos","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Master | Presentacion","ciudad":"Madrid","hTotales":11.0,"diasProy":6.0,"entrada":null},{"mesIdx":6,"tipologia":"Emailing","deptRaw":"MKT","ganado":"","nombreProyecto":"Newsletter | Cuerpo de texto","ciudad":"Madrid","hTotales":13.5,"diasProy":79.0,"entrada":"2025-05-13"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Retail Trends | Carrusel | Linkedin","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":"2025-07-28"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Retail Trends | Carrusel | Instagram","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":"2025-07-28"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Portugal Portfolio | Castellana Properties","ciudad":"Madrid","hTotales":5.0,"diasProy":3.0,"entrada":"2025-07-25"},{"mesIdx":6,"tipologia":"Carteleria","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Vallas+Totem Circular","ciudad":"Madrid","hTotales":4.0,"diasProy":2.0,"entrada":"2025-07-22"},{"mesIdx":6,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Archivos Editables finales","ciudad":"Madrid","hTotales":2.5,"diasProy":1.0,"entrada":"2025-07-22"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Biblioteca de recursos","ciudad":"Madrid","hTotales":2.0,"diasProy":1.0,"entrada":"2025-07-21"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Ayuda Office Pulse Logo","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2025-07-21"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Retail Trends Linkedin","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2025-07-21"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Retail Trends Instagram","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-07-21"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Evolucion Dashboard","ciudad":"Madrid","hTotales":15.0,"diasProy":7.0,"entrada":"2025-07-10"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Tosa Business Plan","ciudad":"Madrid","hTotales":6.5,"diasProy":0.0,"entrada":"2025-07-16"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Actualizar Foto Patricia en Dossier","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-07-15"},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Prouedreed | 2 Slide Study Case","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-07-14"},{"mesIdx":6,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Fase 3","ciudad":"Madrid","hTotales":15.0,"diasProy":3.0,"entrada":null},{"mesIdx":6,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Evolucion Dashboard","ciudad":"Madrid","hTotales":3.5,"diasProy":1.0,"entrada":"2025-07-10"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Tosa IM","ciudad":"Madrid","hTotales":35.0,"diasProy":3.0,"entrada":null},{"mesIdx":6,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Pre-Brandign | Alcalde","ciudad":"Madrid","hTotales":3.5,"diasProy":1.0,"entrada":"2025-07-10"},{"mesIdx":6,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Agradecimiento","ciudad":"Madrid","hTotales":1.5,"diasProy":2.0,"entrada":null},{"mesIdx":6,"tipologia":"Otros","deptRaw":"HS-L","ganado":"","nombreProyecto":"Slide Equipo | Propuesta Lacer","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":null},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Keyplan Sevilla","ciudad":"Malaga","hTotales":0.0,"diasProy":0.0,"entrada":"2025-07-31"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Tres Aguas | Formacion | Concept","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-10-14"},{"mesIdx":6,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Marqués de Pickman 13 | Sevilla","ciudad":"Malaga","hTotales":4.5,"diasProy":1.0,"entrada":null},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Retail Services","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-10-20"},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Instagram | Yellow day CC","ciudad":"Madrid","hTotales":1.0,"diasProy":5.0,"entrada":null},{"mesIdx":6,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Linkedin | Yellow day CC","ciudad":"Madrid","hTotales":0.5,"diasProy":5.0,"entrada":null},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Entrada Cine","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Videomaping","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Exterior E","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Exterior D","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Dossier de Venta | Agora","ciudad":"Malaga","hTotales":9.5,"diasProy":4.0,"entrada":"2025-10-12"},{"mesIdx":10,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Fotos Bocanegra + Sofi","ciudad":"Malaga","hTotales":0.5,"diasProy":0.0,"entrada":"2025-11-13"},{"mesIdx":5,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Reminder","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":"2025-06-24"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Hall F","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":8,"tipologia":"Otros","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Cartel Popeyes | Pamplona","ciudad":"Madrid","hTotales":1.15,"diasProy":4.0,"entrada":null},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Ultra C","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Keyplan Sevilla","ciudad":"Malaga","hTotales":3.0,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Ascensor","ciudad":"Madrid","hTotales":21.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Web High Street","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Presentacion","ciudad":"Madrid","hTotales":32.5,"diasProy":4.0,"entrada":"2025-06-24"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Strong | Teaser","ciudad":"Madrid","hTotales":6.75,"diasProy":2.0,"entrada":"2025-06-25"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Avda. Constitución Sevilla","ciudad":"Malaga","hTotales":9.0,"diasProy":0.0,"entrada":null},{"mesIdx":5,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"PuertAranjuez | PRE-FASE 2","ciudad":"Madrid","hTotales":9.5,"diasProy":6.0,"entrada":"2025-06-21"},{"mesIdx":5,"tipologia":"Otros","deptRaw":"Research","ganado":"","nombreProyecto":"Fotos Google Earth","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-06-27"},{"mesIdx":5,"tipologia":"Merchandaising","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Gafas de sol","ciudad":"Madrid","hTotales":1.25,"diasProy":0.0,"entrada":"2025-06-26"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"San Cugat | Teaser","ciudad":"Madrid","hTotales":6.5,"diasProy":1.0,"entrada":"2025-06-18"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"PuertAranjuez | FASE 1","ciudad":"Madrid","hTotales":17.0,"diasProy":4.0,"entrada":"2025-06-14"},{"mesIdx":5,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"NO","nombreProyecto":"Camino Real","ciudad":"Madrid","hTotales":20.5,"diasProy":1.0,"entrada":"2025-06-16"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Indotek","ciudad":"Madrid","hTotales":4.25,"diasProy":1.0,"entrada":"2025-06-13"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Hall A","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"Servicios","ganado":"","nombreProyecto":"Bahía real | Bienvenida","ciudad":"Madrid","hTotales":2.5,"diasProy":4.0,"entrada":null},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Marqués de Pickman","ciudad":"Malaga","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Save the Date","ciudad":"Madrid","hTotales":1.5,"diasProy":11.0,"entrada":"2025-05-26"},{"mesIdx":5,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"E-commerce | One page","ciudad":"Madrid","hTotales":12.0,"diasProy":8.0,"entrada":"2025-05-29"},{"mesIdx":5,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Formulario","ciudad":"Madrid","hTotales":0.25,"diasProy":9.0,"entrada":"2025-05-28"},{"mesIdx":5,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO :  Dossier Comercial Specialty | Specialty Leasing  | Puerta Aranjuez | Dash Mayo +Junio | Aloft | Boletin Medianas | Trends Save the date | MKT-Retail\n\nREUNIONES: Monthly Design | Spain Bids | Aloft | Clima Laboral | Aranjuez Visita","ciudad":"","hTotales":66.5,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"Otros","deptRaw":"Research","ganado":"","nombreProyecto":"Revision Informe Mensual","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":"2025-05-27"},{"mesIdx":4,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"SI","nombreProyecto":"Parque Abadía","ciudad":"Madrid","hTotales":15.0,"diasProy":3.0,"entrada":"2025-05-25"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"Comite","ganado":"","nombreProyecto":"Trofeo","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-05-27"},{"mesIdx":5,"tipologia":"Motion + Video","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Exterior B","ciudad":"Madrid","hTotales":0.0,"diasProy":2.0,"entrada":"2025-06-30"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Revisión + Fotos | Arenal 7","ciudad":"Madrid","hTotales":2.25,"diasProy":0.0,"entrada":"2025-05-26"},{"mesIdx":4,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín Retail | Medianas | Nota Prensa","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-05-26"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletin P.Medianas | Mayo | ING","ciudad":"Madrid","hTotales":12.0,"diasProy":2.0,"entrada":"2025-05-22"},{"mesIdx":4,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"Encuesta satisfacción | Property","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-05-22"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Foto Raquel Melia","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":"2025-05-21"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletin P.Medianas | Mayo | ESP","ciudad":"Madrid","hTotales":27.5,"diasProy":13.0,"entrada":null},{"mesIdx":4,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Málaga Centro","ciudad":"Malaga","hTotales":1.75,"diasProy":0.0,"entrada":"2025-05-19"},{"mesIdx":5,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Eroski | Analisis rentabilidad","ciudad":"Madrid","hTotales":4.0,"diasProy":1.0,"entrada":null},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"Revisión Bootcamp","ciudad":"Madrid","hTotales":5.75,"diasProy":0.0,"entrada":"2025-05-19"},{"mesIdx":8,"tipologia":"Banner","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Savills al día | Globo","ciudad":"Madrid","hTotales":7.0,"diasProy":1.0,"entrada":null},{"mesIdx":4,"tipologia":"Banner","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Al día","ciudad":"Madrid","hTotales":2.5,"diasProy":0.0,"entrada":"2025-05-16"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Germany | CEO","ciudad":"Madrid","hTotales":1.75,"diasProy":0.0,"entrada":"2025-05-12"},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Castellana 2","ciudad":"Madrid","hTotales":11.75,"diasProy":5.0,"entrada":null},{"mesIdx":4,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Ayuda Dashboard","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-05-12"},{"mesIdx":4,"tipologia":"Propuesta Comercial","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Hines | Informe","ciudad":"Madrid","hTotales":2.25,"diasProy":1.0,"entrada":null},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Boletin Corporativo Template","ciudad":"Madrid","hTotales":14.5,"diasProy":3.0,"entrada":null},{"mesIdx":8,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Dashboard JUL AGO SEPT | Branding PuertAranjuez | GV30 | cambios Web de Savills\n\nREUNIONES: CC Congreso Banner | Onboarding Diseñadora | Bids Academy","ciudad":"","hTotales":23.0,"diasProy":0.0,"entrada":"1899-12-30"},{"mesIdx":4,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"SI","nombreProyecto":"Carrefour Portfolio","ciudad":"Madrid","hTotales":15.25,"diasProy":2.0,"entrada":null},{"mesIdx":4,"tipologia":"Training","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Word Templates","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Plan estratégico | HS","ciudad":"Madrid","hTotales":4.0,"diasProy":0.0,"entrada":null},{"mesIdx":4,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO :  Puerta el Sol 5 | Dossier Comercial Specialty | Update E-commerce Infografia | Specialty Leasing  | Oasiz | Presentación  Mercado HS | Objetivos | Puerta Aranjuez\n\nREUNIONES: Monthly Design | Spain Bids | MKT UPdate Retail | Weekly MKT","ciudad":"","hTotales":17.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Specialty Leasing  | Oasiz","ciudad":"Madrid","hTotales":0.0,"diasProy":0.0,"entrada":"2025-04-30"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"Plan estratégico 2025 | Centros Comerciales","ciudad":"Madrid","hTotales":6.75,"diasProy":4.0,"entrada":"2025-04-26"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Portfolio | Centros Comerciales Savills","ciudad":"Madrid","hTotales":5.0,"diasProy":0.0,"entrada":"2025-04-30"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Serrano 12","ciudad":"Madrid","hTotales":3.25,"diasProy":0.0,"entrada":"2025-04-30"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Servicios","ganado":"","nombreProyecto":"Comite Governance","ciudad":"Madrid","hTotales":0.65,"diasProy":0.0,"entrada":"2025-04-29"},{"mesIdx":3,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Apagon","ciudad":"Madrid","hTotales":6.0,"diasProy":0.0,"entrada":"2025-04-29"},{"mesIdx":3,"tipologia":"Emailing","deptRaw":"HS","ganado":"","nombreProyecto":"San Fermines","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-04-24"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Puerta del sol 5","ciudad":"Madrid","hTotales":22.5,"diasProy":3.0,"entrada":"2025-04-21"},{"mesIdx":3,"tipologia":"Emailing","deptRaw":"Research","ganado":"","nombreProyecto":"Desayunos | ABRIL | Agradecimientos 1 24 Abril","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-04-24"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Templates Word & Reports","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-04-22"},{"mesIdx":3,"tipologia":"Otros","deptRaw":"Research","ganado":"","nombreProyecto":"Boletin Retail | Mail","ciudad":"Madrid","hTotales":1.75,"diasProy":0.0,"entrada":"2025-04-21"},{"mesIdx":3,"tipologia":"Emailing","deptRaw":"Research","ganado":"","nombreProyecto":"Desayunos | ABRIL | Agradecimientos | 11 abril","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-04-11"},{"mesIdx":3,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones 2024","ciudad":"Madrid","hTotales":20.0,"diasProy":0.0,"entrada":"2025-04-14"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Mockups etc","ciudad":"Madrid","hTotales":3.0,"diasProy":1.0,"entrada":"2025-04-10"},{"mesIdx":2,"tipologia":"Training","deptRaw":"MKT","ganado":"","nombreProyecto":"My Learning | Formacion Obligatoria","ciudad":"Madrid","hTotales":1.0,"diasProy":30.0,"entrada":"2025-02-26"},{"mesIdx":3,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"NO","nombreProyecto":"Oasiz","ciudad":"Madrid","hTotales":26.5,"diasProy":1.0,"entrada":null},{"mesIdx":2,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Foto Amelia |Tosa","ciudad":"Madrid","hTotales":2.0,"diasProy":6.0,"entrada":"2025-03-26"},{"mesIdx":3,"tipologia":"Branding","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Logo","ciudad":"Madrid","hTotales":5.0,"diasProy":1.0,"entrada":"2025-04-10"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"SI","nombreProyecto":"Tosa","ciudad":"Madrid","hTotales":29.0,"diasProy":8.0,"entrada":"2025-03-25"},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | Agradecimiento | Recordatorio Releno Encuesta","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":"2025-03-10"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Guetaria 9","ciudad":"Madrid","hTotales":0.75,"diasProy":0.0,"entrada":"2025-04-10"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"XXX","ciudad":"Madrid","hTotales":0.75,"diasProy":0.0,"entrada":null},{"mesIdx":6,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Preparar Dash JUN | Evento Retail Trends(Pantallas +Presentacion) Gran Via 30(Act.)\n| Research: Flash Report | TOSA(Anexo Separado) | Act.Info  E-Commerce\nREUNIONES: Carteleria cervantes 7(no se lleva a cabo) | TOSA","ciudad":"","hTotales":33.0,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Preparar dash. Abril | Dash. FEB | Nota prensa Retail | Boletin ING Retail | DASH Cambios | Tres Aguas | Dash Mayo\n\nREUNIONES: Monthly Design | Template Informe | Tres Aguas | Spain Bids","ciudad":"","hTotales":17.75,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Tosa | Presentacion","ciudad":"Madrid","hTotales":16.0,"diasProy":5.0,"entrada":null},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Desayunos de Mercado | ING","ciudad":"Madrid","hTotales":9.0,"diasProy":0.0,"entrada":"2025-03-31"},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"MKT","ganado":"","nombreProyecto":"Fotos Corporativa | Patricia y Barragan","ciudad":"Madrid","hTotales":0.5,"diasProy":51.0,"entrada":null},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Dossier de Venta | Template | Corto | Crosselling","ciudad":"Madrid","hTotales":3.5,"diasProy":5.0,"entrada":"2025-10-12"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Reporting | IA Slides","ciudad":"Madrid","hTotales":4.5,"diasProy":23.0,"entrada":null},{"mesIdx":2,"tipologia":"Propuesta Comercial","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55","ciudad":"Barcelona","hTotales":10.5,"diasProy":2.0,"entrada":"2025-03-18"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletín | Marzo 2025 | ING","ciudad":"Madrid","hTotales":14.5,"diasProy":12.0,"entrada":null},{"mesIdx":2,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Dia del Planeta | nuestro futuro","ciudad":"Madrid","hTotales":2.0,"diasProy":3.0,"entrada":"2025-03-18"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Puerta Aranjuez | Concept","ciudad":"Madrid","hTotales":10.5,"diasProy":13.0,"entrada":"2025-03-25"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Boletín | Marzo 2025 | ESP","ciudad":"Madrid","hTotales":19.0,"diasProy":12.0,"entrada":null},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | Invitación","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":"2025-03-11"},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | te hemos echado de menos","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":"2025-03-10"},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | Agradecimiento","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":"2025-03-10"},{"mesIdx":2,"tipologia":"Pitch","deptRaw":"Servicios","ganado":"NO","nombreProyecto":"UBBO | Presentacion","ciudad":"Madrid","hTotales":17.5,"diasProy":7.0,"entrada":null},{"mesIdx":2,"tipologia":"Motion + Video","deptRaw":"Servicios","ganado":"","nombreProyecto":"UBBO | Video","ciudad":"Madrid","hTotales":1.0,"diasProy":1.0,"entrada":"2025-03-10"},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Desayunos | ABRIL","ciudad":"Madrid","hTotales":3.0,"diasProy":0.0,"entrada":null},{"mesIdx":9,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín | Retail | Nota de prensa (Linkedin)","ciudad":"Madrid","hTotales":0.75,"diasProy":0.0,"entrada":"2025-10-28"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | Mupi","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":"2025-03-10"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Fotos | La Vega","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-03-10"},{"mesIdx":2,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Dashboard Febrero","ciudad":"Madrid","hTotales":4.5,"diasProy":31.0,"entrada":null},{"mesIdx":3,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Desempeño","ciudad":"Madrid","hTotales":1.5,"diasProy":30.0,"entrada":null},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"Formulario Satisfacción | ING","ciudad":"Madrid","hTotales":0.5,"diasProy":1.0,"entrada":null},{"mesIdx":2,"tipologia":"Emailing","deptRaw":"All Retail","ganado":"","nombreProyecto":"Desayuno de Mercados | Save the date","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":null},{"mesIdx":2,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"La Salle | Fotos","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":null},{"mesIdx":2,"tipologia":"Otros","deptRaw":"Research","ganado":"","nombreProyecto":"RioSul | Loures | Exportar","ciudad":"Madrid","hTotales":2.5,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Savills Portugal | Evolucion+ Desarrollo","ciudad":"Madrid","hTotales":14.5,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Master | CM | Servicios | Salva","ciudad":"Madrid","hTotales":12.5,"diasProy":3.0,"entrada":"2025-12-15"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"HS","ganado":"","nombreProyecto":"Newsletter | High Street | Ceros","ciudad":"Madrid","hTotales":17.5,"diasProy":16.0,"entrada":"2025-02-17"},{"mesIdx":4,"tipologia":"Otros","deptRaw":"All Retail","ganado":"","nombreProyecto":"Retail Trends | Recursos","ciudad":"Madrid","hTotales":2.5,"diasProy":11.0,"entrada":"2025-05-26"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"HS - CM","ganado":"NO","nombreProyecto":"Cross | Presentación","ciudad":"Madrid","hTotales":6.5,"diasProy":3.0,"entrada":"2025-02-28"},{"mesIdx":1,"tipologia":"BDesign","deptRaw":"HS-L","ganado":"","nombreProyecto":"Informe de Gestión","ciudad":"Malaga","hTotales":1.0,"diasProy":5.0,"entrada":"2025-02-26"},{"mesIdx":2,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Nota Prensa | Boletin HS","ciudad":"Madrid","hTotales":1.0,"diasProy":-28.0,"entrada":"2025-03-31"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"SI","nombreProyecto":"AireSur | IM + Presentación","ciudad":"Madrid","hTotales":33.0,"diasProy":21.0,"entrada":"2025-02-10"},{"mesIdx":2,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Organizar Carpetas | Preparar Dash MAR | Crossbay\n\nREUNIONES: Crossbay | Spain Bids Academy","ciudad":"","hTotales":13.0,"diasProy":0.0,"entrada":null},{"mesIdx":1,"tipologia":"Training","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Planner","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-02-28"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Encuesta de Satisfacción","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-02-27"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"HS-L","ganado":"SI","nombreProyecto":"One & Only","ciudad":"Barcelona","hTotales":10.0,"diasProy":1.0,"entrada":"2025-02-25"},{"mesIdx":2,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Desayunos de Mercado","ciudad":"Madrid","hTotales":23.0,"diasProy":11.0,"entrada":"2025-03-14"},{"mesIdx":1,"tipologia":"Out","deptRaw":"Out","ganado":"","nombreProyecto":"Vacaciones","ciudad":"Madrid","hTotales":10.25,"diasProy":1.0,"entrada":"2025-02-20"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Datos Boletín","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-02-17"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"Servicios","ganado":"","nombreProyecto":"Link Revolution | Málaga","ciudad":"Malaga","hTotales":0.5,"diasProy":4.0,"entrada":"2025-02-10"},{"mesIdx":1,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Ayuda Dashboard","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-02-14"},{"mesIdx":0,"tipologia":"Infografia","deptRaw":"Research","ganado":"","nombreProyecto":"Info Mercado | Keyplan","ciudad":"Madrid","hTotales":16.5,"diasProy":31.0,"entrada":"2025-01-13"},{"mesIdx":1,"tipologia":"Dossier","deptRaw":"Comite","ganado":"","nombreProyecto":"Residential Algarve","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2025-02-13"},{"mesIdx":1,"tipologia":"Training","deptRaw":"MKT","ganado":"","nombreProyecto":"Bids Academy","ciudad":"Madrid","hTotales":4.0,"diasProy":0.0,"entrada":"2025-02-12"},{"mesIdx":1,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"JEREZ | Castellana Properties | Invitacion","ciudad":"Madrid","hTotales":1.5,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"JEREZ | Castellana Properties | Save the date","ciudad":"Madrid","hTotales":2.0,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Post | Sergio IA | Linkedin","ciudad":"Madrid","hTotales":2.0,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"JEREZ | Castellana Properties | Agradecimiento","ciudad":"Madrid","hTotales":0.0,"diasProy":3.0,"entrada":null},{"mesIdx":1,"tipologia":"Emailing","deptRaw":"Servicios","ganado":"","nombreProyecto":"JEREZ | Castellana Properties | Formulario Agradecimiento","ciudad":"Madrid","hTotales":0.0,"diasProy":3.0,"entrada":null},{"mesIdx":4,"tipologia":"Pitch","deptRaw":"HS - CM","ganado":"NO","nombreProyecto":"Aloft | Gran Vía | Hotel","ciudad":"Madrid","hTotales":13.0,"diasProy":4.0,"entrada":"2025-05-22"},{"mesIdx":1,"tipologia":"Pitch","deptRaw":"HS - CM","ganado":"NO","nombreProyecto":"Aligrupo | Maisonnave 40","ciudad":"Valencia","hTotales":29.5,"diasProy":6.0,"entrada":"2025-01-31"},{"mesIdx":1,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Fotos Nombramiento | Insta","ciudad":"Madrid","hTotales":2.0,"diasProy":2.0,"entrada":null},{"mesIdx":1,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Fotos Nombramiento | Linkedin","ciudad":"Madrid","hTotales":1.5,"diasProy":1.0,"entrada":null},{"mesIdx":1,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Brochure Corporativo | Datos","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-02-14"},{"mesIdx":1,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Info Mercado | Info Mercado Key Plans | Yellow Day | UNICO | Málaga Factory | \n\nREUNIONES: Monthly Design |  simulacro","ciudad":"","hTotales":52.5,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Desempeño","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-30"},{"mesIdx":0,"tipologia":"Pitch","deptRaw":"HS-L","ganado":"SI","nombreProyecto":"Necesidades ING","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-30"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Instalar Playfair","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-29"},{"mesIdx":0,"tipologia":"Infografia","deptRaw":"HS-L","ganado":"","nombreProyecto":"Mapa España | Secciones","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-29"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Link Revolution","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-29"},{"mesIdx":0,"tipologia":"Propuesta Comercial","deptRaw":"Servicios","ganado":"SI","nombreProyecto":"3 AGUAS 1 Propuesta Económica","ciudad":"Madrid","hTotales":19.0,"diasProy":8.0,"entrada":"2025-01-22"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS-L","ganado":"","nombreProyecto":"Madnum | Presentación Desayuno","ciudad":"Madrid","hTotales":10.0,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Enviar pantallas","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-29"},{"mesIdx":0,"tipologia":"BDesign","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Dashboard | 2024","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2025-01-27"},{"mesIdx":9,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín | Retail | Nota de prensa (web)","ciudad":"Madrid","hTotales":0.25,"diasProy":0.0,"entrada":"2025-10-28"},{"mesIdx":9,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Paseo de Gracia 55 | Teaser | ING","ciudad":"Barcelona","hTotales":0.5,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":9,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Boletín | Retail | Nota de prensa (grafico)","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-10-27"},{"mesIdx":10,"tipologia":"Pitch","deptRaw":"Capital Markets","ganado":"SI","nombreProyecto":"Rincón de la Victoria","ciudad":"Madrid","hTotales":11.0,"diasProy":0.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"EMEA","ciudad":"Madrid","hTotales":2.5,"diasProy":1.0,"entrada":"2025-01-23"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"All Retail","ganado":"","nombreProyecto":"Foto | Salva","ciudad":"Madrid","hTotales":0.5,"diasProy":0.0,"entrada":"2025-01-23"},{"mesIdx":0,"tipologia":"Motion + Video","deptRaw":"MKT","ganado":"","nombreProyecto":"Yellow Day | Video","ciudad":"Madrid","hTotales":1.0,"diasProy":14.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"All Retail","ganado":"","nombreProyecto":"BP 2025 | 1Q","ciudad":"Madrid","hTotales":8.0,"diasProy":1.0,"entrada":"2025-01-16"},{"mesIdx":0,"tipologia":"BDesign","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Encuesta Satisfaccion | Listado","ciudad":"Madrid","hTotales":4.5,"diasProy":3.0,"entrada":"2025-01-14"},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Yellow Day | Presentacion","ciudad":"Madrid","hTotales":9.5,"diasProy":14.0,"entrada":null},{"mesIdx":0,"tipologia":"Otros","deptRaw":"MKT","ganado":"","nombreProyecto":"Yellow Day | Midjourney | Storyboard","ciudad":"Madrid","hTotales":3.0,"diasProy":7.0,"entrada":"2025-01-10"},{"mesIdx":0,"tipologia":"Infografia","deptRaw":"MKT","ganado":"","nombreProyecto":"Yellow Day | Infografía","ciudad":"Madrid","hTotales":5.0,"diasProy":14.0,"entrada":null},{"mesIdx":0,"tipologia":"Emailing","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Félix Sáenz","ciudad":"Malaga","hTotales":0.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":0,"tipologia":"Otros","deptRaw":"All Retail","ganado":"","nombreProyecto":"Editar Factura | PDF","ciudad":"Madrid","hTotales":1.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":1,"tipologia":"Training","deptRaw":"MKT","ganado":"","nombreProyecto":"Copilot","ciudad":"Madrid","hTotales":1.5,"diasProy":0.0,"entrada":"2025-02-19"},{"mesIdx":0,"tipologia":"Carteleria","deptRaw":"HS-L","ganado":"","nombreProyecto":"Cartelería High Street","ciudad":"Malaga","hTotales":0.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":11,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO | Dashboard | Boletin Outlets ESP | Desempeño\n\nREUNIONES | Monthly Brand Design | Bdesign Status | Spain Bids | Reconocimiento Medico","ciudad":"","hTotales":37.0,"diasProy":0.0,"entrada":null},{"mesIdx":8,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO : Dashboard NOV\n\nREUNIONES: Bids Academy | Riesgo Cero | Pre-Riesgo Cero | Monthly Diseño","ciudad":"","hTotales":23.0,"diasProy":0.0,"entrada":"1899-11-30"},{"mesIdx":4,"tipologia":"Infografia","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"Diagrama Eroski","ciudad":"Madrid","hTotales":1.75,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"HS - CM","ganado":"","nombreProyecto":"Magdalena 9 | Desinversion","ciudad":"Malaga","hTotales":0.5,"diasProy":0.0,"entrada":null},{"mesIdx":3,"tipologia":"Dossier","deptRaw":"MKT","ganado":"","nombreProyecto":"Oasiz | Tenders","ciudad":"Madrid","hTotales":4.0,"diasProy":1.0,"entrada":null},{"mesIdx":0,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"Info Mercado | Brochure Borrador","ciudad":"Madrid","hTotales":18.5,"diasProy":101.0,"entrada":"2024-11-22"},{"mesIdx":1,"tipologia":"RRSS","deptRaw":"MKT","ganado":"","nombreProyecto":"Post | Sergio IA | Insta","ciudad":"Madrid","hTotales":3.5,"diasProy":3.0,"entrada":null},{"mesIdx":0,"tipologia":"BDesign","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Dashboard | 2025","ciudad":"Madrid","hTotales":13.0,"diasProy":0.0,"entrada":"2025-01-13"},{"mesIdx":0,"tipologia":"TAREAS CONTINUADAS","deptRaw":"TAREAS CONTINUADAS","ganado":"","nombreProyecto":"TRABAJO | Dashboard | Málaga Factory | GV30 IM | GV30 Teaser | Organizar Carpetas | Objetivos | Boletin NOV  | Welcome on board  | Horas No sumadas en DIC de 2024\n\nREUNIONES | Monthly Brand Design | Tres Aguas","ciudad":"","hTotales":32.5,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Capital Markets","ganado":"","nombreProyecto":"One Page | Valor mercado Activo","ciudad":"","hTotales":0.5,"diasProy":0.0,"entrada":null},{"mesIdx":11,"tipologia":"Otros","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Back Up | Marca Agua Fotos Web | Residencial","ciudad":"Barcelona","hTotales":0.5,"diasProy":9.0,"entrada":"2025-12-20"},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Research","ganado":"","nombreProyecto":"TEKA | Portugal + España","ciudad":"Madrid","hTotales":12.0,"diasProy":1.0,"entrada":null},{"mesIdx":11,"tipologia":"Dossier","deptRaw":"Corporativo","ganado":"","nombreProyecto":"Back Up | Cambio Fuentes Meningier Fire | Hoteles","ciudad":"Madrid","hTotales":2.0,"diasProy":0.0,"entrada":"2025-12-29"}];
 
-// SERVICIOS
-const SVC_YTD=[
-  {l:"Dossier",h:224,p:39,pct:100},
-  {l:"Pitch",h:216,p:13,pct:96},
-  {l:"Otros",h:104,p:17,pct:46},
-  {l:"RRSS",h:27,p:2,pct:12},
-  {l:"Motion+Vídeo",h:21,p:4,pct:9},
-  {l:"Web",h:23,p:2,pct:10},
-  {l:"Infografía",h:17,p:3,pct:8},
-  {l:"Cartelería",h:22,p:6,pct:10},
-  {l:"Training",h:17,p:2,pct:8},
-];
-const SVC_ENE=[
-  {l:"Pitch",h:20,p:1,pct:100},
-  {l:"Training",h:17,p:1,pct:85},
-  {l:"Dossier",h:14,p:4,pct:70},
-  {l:"RRSS",h:12,p:1,pct:59},
-  {l:"Merchandising",h:11,p:1,pct:54},
-  {l:"Motion+Vídeo",h:2,p:1,pct:7},
-  {l:"Otros",h:2,p:2,pct:7},
-  {l:"Infografía",h:1,p:1,pct:5},
-];
-const SVC_FEB=[
-  {l:"Dossier",h:110,p:10,pct:100},
-  {l:"Pitch",h:96,p:5,pct:87},
-  {l:"Otros",h:12,p:6,pct:11},
-  {l:"Infografía",h:5,p:1,pct:5},
-  {l:"Motion+Vídeo",h:4,p:1,pct:4},
-  {l:"Cartelería",h:2,p:1,pct:2},
-];
-const SVC_MAR=[
-  {l:"Pitch",h:72,p:3,pct:100},
-  {l:"Dossier",h:59,p:8,pct:82},
-  {l:"Otros",h:44,p:3,pct:62},
-  {l:"Web",h:23,p:2,pct:32},
-  {l:"RRSS",h:16,p:1,pct:22},
-  {l:"Motion+Vídeo",h:14,p:2,pct:19},
-  {l:"Stand",h:11,p:1,pct:15},
-  {l:"Branding",h:2,p:2,pct:3},
-];
-const SVC_ABR=[
-  {l:"Dossier",h:38,p:9,pct:100},
-  {l:"Pitch",h:28,p:2,pct:74},
-  {l:"Cartelería",h:18,p:2,pct:47},
-  {l:"Infografía",h:11,p:1,pct:29},
-  {l:"Otros",h:10,p:2,pct:26},
-  {l:"Emailing",h:9,p:2,pct:23},
-];
-const SVC_MAY=[
-  {l:"Dossier",h:82,p:8,pct:100},
-  {l:"Otros",h:26,p:4,pct:32},
-  {l:"Pitch",h:9,p:1,pct:11},
-  {l:"Cartelería",h:4,p:3,pct:5},
-  {l:"Web",h:2,p:1,pct:2},
-  {l:"Training",h:1,p:1,pct:1},
-];
+// Proyectos Destacados por mes — edición manual: pide a Claude "actualiza destacados de [mes]: ..."
+// Clave = índice de mes (0=Enero ... 11=Diciembre). Si un mes no aparece aquí, se calculan
+// automáticamente como el Top 6 por horas de ese mes.
+const FEATURED_BY_MONTH = {
+  // 5: [ {nombreProyecto:"Propuesta Seryca", hTotales:12}, {nombreProyecto:"Brochure Hoteles", hTotales:7} ],
+};
 
-// GEO
-const GEO_YTD=[
-  {c:"Madrid",h:655,p:77,x:50,y:38},
-  {c:"Barcelona",h:43,p:7,x:70,y:20},
-  {c:"Portugal",h:34,p:3,x:26,y:48},
-  {c:"Málaga",h:15,p:4,x:45,y:75},
-  {c:"Valencia",h:16,p:2,x:62,y:50},
-  {c:"Iberia",h:17,p:1,x:30,y:58},
-  {c:"Norte",h:1,p:1,x:42,y:10},
-];
-const GEO_ENE=[
-  {c:"Madrid",h:62,p:6,x:50,y:38},
-  {c:"Portugal",h:12,p:2,x:26,y:48},
-  {c:"Barcelona",h:3,p:2,x:70,y:20},
-  {c:"Málaga",h:3,p:3,x:45,y:75},
-];
-const GEO_FEB=[
-  {c:"Madrid",h:192,p:19,x:50,y:38},
-  {c:"Barcelona",h:22,p:3,x:70,y:20},
-  {c:"Málaga",h:12,p:1,x:45,y:75},
-  {c:"Valencia",h:2,p:1,x:62,y:50},
-];
-const GEO_MAR=[
-  {c:"Madrid",h:204,p:21,x:50,y:38},
-  {c:"Portugal",h:22,p:1,x:26,y:48},
-  {c:"Barcelona",h:16,p:1,x:70,y:20},
-];
-const GEO_ABR=[
-  {c:"Madrid",h:79,p:15,x:50,y:38},
-  {c:"Iberia",h:16,p:1,x:30,y:58},
-  {c:"Valencia",h:14,p:1,x:62,y:50},
-  {c:"Barcelona",h:3,p:1,x:70,y:20},
-];
-const GEO_MAY=[
-  {c:"Madrid",h:118,p:16,x:50,y:38},
-  {c:"Barcelona",h:2,p:1,x:70,y:20},
-  {c:"Norte",h:1,p:1,x:42,y:10},
-  {c:"Valencia",h:1,p:1,x:62,y:50},
-];
+const MES_NOMBRES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
-// PITCHES YTD
-const PITCH_YTD=[
-  {n:"Elcano. Corporativo (20,5h)",g:1},
-  {n:"Oasiz. CC-Servicios (30h)",g:1},
-  {n:"Caleido. CC-Servicios (22h)",g:1},
-  {n:"Serrano 53. HS-CM (19h)"},
-  {n:"Torre Sevilla. CC-Serv. (15,5h)"},
-  {n:"Albufera Plaza. Cap.Mkt (9h)"},
-  {n:"GV52. Corporativo (9h)",g:1},
-  {n:"Primark. HS-CM (41h)"},
-  {n:"City Park. Cap.Mkt (21,5h)"},
-  {n:"Ores. CC-Cap.Mkt (16,5h)"},
-  {n:"Rincón Victoria. Cap.Mkt (11,5h)",g:1},
-  {n:"Imperial Portfolio Lidl (8,5h)"},
-  {n:"Teatro Barceló. HS-CM (16h)",b:1},
+const DEPT_MAP = [
+  {re:/^02\s*-\s*all\s*(street|hs)$/i, group:"High Street", label:"All Street"},
+  {re:/^02\s*-?\s*hs\s*-\s*cm$/i,   group:"High Street", label:"Capital Markets"},
+  {re:/^02\s*-\s*hs\s*-\s*l$/i,    group:"High Street", label:"Leasing"},
+  {re:/^03\s*-\s*capital\s*markets$/i, group:"C. Comerciales", label:"Capital Markets"},
+  {re:/^03\s*-\s*servicios$/i,         group:"C. Comerciales", label:"Servicios"},
+  {re:/^04\s*-\s*research$/i, group:"Research", label:"Research"},
+  {re:/^01\s*-\s*all\s*retail$/i, group:"Retail MKT", label:"General"},
+  {re:/^05\s*-\s*mkt$/i,          group:"Retail MKT", label:"Marketing"},
+  {re:/^05\s*-\s*design$/i,       group:"Retail MKT", label:"Design"},
+  {re:/^06\s*-\s*corporativo$/i, group:"Corporativo", label:"Corporativo"},
+  {re:/^06\s*-\s*comit[ée]$/i,    group:"Corporativo", label:"Comité"},
 ];
+function normDept(raw){
+  if(!raw) return null;
+  const clean = raw.trim().replace(/\s+/g," ");
+  for(const d of DEPT_MAP){ if(d.re.test(clean)) return d; }
+  return null;
+}
+const EXCLUDE_TIPOLOGIA = new Set(["tareas continuadas"]);
+const EXCLUDE_DEPT_RAW = new Set(["out"]);
 
-// DESTACADOS YTD
-const DEST_YTD=[
-  "Dossier LVMH Cross Border (Feb)","Stand Feria Retail ZIG-ZAG (Mar)",
-  "Teatro Barceló – Web+Dossier (Mar)","Hoteles IM Fergus Calvia (Mar)",
-  "Template FM – Obras Doc Final (May)","Dashboard Retail Design (May)",
-  "Template Research – Outlook (May)","Boletines Medianas ING+ESP (May)",
-];
+function toNumber(s){
+  if(s===undefined||s===null) return 0;
+  s = String(s).trim();
+  if(s==="") return 0;
+  s = s.replace(/\./g,"").replace(",",".");
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
 
-// VOLUMEN POR MES
-function makeVol(darkIdx){
-  const data=[
-    {l:"En",v:79,p:13},{l:"Feb",v:229,p:24},{l:"Mar",v:241,p:23},
-    {l:"Abr",v:113,p:18},{l:"May",v:123,p:19},{l:"Jun",v:0},{l:"Jul",v:0},
-    {l:"Ago",v:0},{l:"Sep",v:0},{l:"Oct",v:0},{l:"Nov",v:0},{l:"Dic",v:0},
-  ];
-  const maxV=241;
-  return data.map((d,i)=>({
-    l:d.l,pct:d.v?Math.round(d.v/maxV*100):0,
-    note:d.p?`${d.v}h (${d.p} proy.)`:'',
-    dark:i===darkIdx?1:0
+function hydrate(raw){
+  return raw.map(r=>({
+    mesIdx: r.mesIdx,
+    tipologia: r.tipologia, tipoLower: r.tipologia.toLowerCase(),
+    deptRaw: r.deptRaw, deptLower: r.deptRaw.toLowerCase(),
+    ganado: r.ganado,
+    nombreProyecto: r.nombreProyecto,
+    entrada: r.entrada ? new Date(r.entrada+"T00:00:00") : null,
+    diasProy: r.diasProy,
+    ciudad: r.ciudad,
+    hTotales: r.hTotales,
   }));
 }
-const VOL_YTD=makeVol(-1);
-const VOL_ENE=makeVol(0);
-const VOL_FEB=makeVol(1);
-const VOL_MAR=makeVol(2);
-const VOL_ABR=makeVol(3);
-const VOL_MAY=makeVol(4);
 
-// DEPARTAMENTOS
-const DEPT_YTD=[
-  {name:"High Street",sub:"349h (30 proy.)",rows:[
-    {l:"All HS",h:70,p:7,pct:45,dark:0},
-    {l:"CM",h:207,p:14,pct:100,dark:1},
-    {l:"Leasing",h:72,p:9,pct:37,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"228h (20 proy.)",rows:[
-    {l:"Cap.Markets",h:55,p:7,pct:28,dark:0},
-    {l:"Servicios",h:173,p:13,pct:89,dark:1},
-  ]},
-  {name:"Research",sub:"104h (14 proy.)",rows:[
-    {l:"Research",h:104,p:14,pct:53,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"43h (9 proy.)",rows:[
-    {l:"Design",h:20,p:3,pct:10,dark:0},
-    {l:"MKT",h:3,p:5,pct:2,dark:0},
-    {l:"RRSS",h:27,p:2,pct:14,dark:0},
-  ]},
-  {name:"Corporativo",sub:"180h (24 proy.)",rows:[
-    {l:"Corporativo",h:152,p:19,pct:78,dark:1},
-    {l:"Comité",h:28,p:5,pct:14,dark:0},
-  ]},
-];
-const DEPT_ENE=[
-  {name:"High Street",sub:"7h (5 proy.)",rows:[
-    {l:"All HS",h:2,p:1,pct:14,dark:0},
-    {l:"CM",h:0,p:0,pct:0,dark:0},
-    {l:"Leasing",h:2,p:3,pct:14,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"0h (0 proy.)",rows:[
-    {l:"Cap.Markets",h:0,p:0,pct:0,dark:0},
-    {l:"Servicios",h:0,p:0,pct:0,dark:0},
-  ]},
-  {name:"Research",sub:"1h (2 proy.)",rows:[
-    {l:"Research",h:1,p:2,pct:6,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"25h (3 proy.)",rows:[
-    {l:"Training",h:17,p:1,pct:100,dark:1},
-    {l:"MKT",h:1,p:1,pct:6,dark:0},
-    {l:"RRSS",h:12,p:1,pct:70,dark:0},
-  ]},
-  {name:"Corporativo",sub:"46h (3 proy.)",rows:[
-    {l:"Corporativo",h:21,p:1,pct:100,dark:1},
-    {l:"Comité",h:22,p:2,pct:100,dark:1},
-  ]},
-];
-const DEPT_FEB=[
-  {name:"High Street",sub:"85h (10 proy.)",rows:[
-    {l:"All HS",h:8,p:3,pct:9,dark:0},
-    {l:"CM",h:54,p:4,pct:62,dark:1},
-    {l:"Leasing",h:18,p:4,pct:21,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"137h (8 proy.)",rows:[
-    {l:"Cap.Markets",h:9,p:1,pct:10,dark:0},
-    {l:"Servicios",h:137,p:7,pct:100,dark:1},
-  ]},
-  {name:"Research",sub:"13h (3 proy.)",rows:[
-    {l:"Research",h:13,p:3,pct:15,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"3h (2 proy.)",rows:[
-    {l:"Design",h:2,p:1,pct:2,dark:0},
-    {l:"MKT",h:2,p:1,pct:2,dark:0},
-    {l:"RRSS",h:0,p:0,pct:0,dark:0},
-  ]},
-  {name:"Corporativo",sub:"4h (2 proy.)",rows:[
-    {l:"Corporativo",h:4,p:2,pct:5,dark:0},
-    {l:"Comité",h:0,p:0,pct:0,dark:0},
-  ]},
-];
-const DEPT_MAR=[
-  {name:"High Street",sub:"125h (9 proy.)",rows:[
-    {l:"All HS",h:41,p:1,pct:33,dark:0},
-    {l:"CM",h:83,p:6,pct:66,dark:1},
-    {l:"Leasing",h:4,p:2,pct:3,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"49h (6 proy.)",rows:[
-    {l:"Cap.Markets",h:22,p:1,pct:17,dark:0},
-    {l:"Servicios",h:27,p:5,pct:22,dark:0},
-  ]},
-  {name:"Research",sub:"0h (0 proy.)",rows:[
-    {l:"Research",h:0,p:0,pct:0,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"27h (3 proy.)",rows:[
-    {l:"Design",h:0,p:0,pct:0,dark:0},
-    {l:"MKT",h:1,p:2,pct:1,dark:0},
-    {l:"RRSS",h:16,p:1,pct:13,dark:0},
-    {l:"Stand",h:11,p:1,pct:9,dark:0},
-  ]},
-  {name:"Corporativo",sub:"60h (5 proy.)",rows:[
-    {l:"Corporativo",h:55,p:3,pct:44,dark:1},
-    {l:"Comité",h:1,p:2,pct:1,dark:0},
-  ]},
-];
-const DEPT_ABR=[
-  {name:"High Street",sub:"33h (5 proy.)",rows:[
-    {l:"All HS",h:18,p:1,pct:47,dark:0},
-    {l:"CM",h:0,p:0,pct:0,dark:0},
-    {l:"Leasing",h:14,p:4,pct:37,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"29h (7 proy.)",rows:[
-    {l:"Cap.Markets",h:29,p:4,pct:76,dark:1},
-    {l:"Servicios",h:4,p:3,pct:10,dark:0},
-  ]},
-  {name:"Research",sub:"34h (5 proy.)",rows:[
-    {l:"Research",h:34,p:5,pct:89,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"9h (2 proy.)",rows:[
-    {l:"Design",h:0,p:0,pct:0,dark:0},
-    {l:"MKT",h:0,p:1,pct:0,dark:0},
-    {l:"RRSS",h:0,p:0,pct:0,dark:0},
-    {l:"Emailing",h:9,p:1,pct:23,dark:0},
-  ]},
-  {name:"Corporativo",sub:"19h (4 proy.)",rows:[
-    {l:"Corporativo",h:19,p:4,pct:50,dark:0},
-    {l:"Comité",h:0,p:0,pct:0,dark:0},
-  ]},
-];
-const DEPT_MAY=[
-  {name:"High Street",sub:"6h (4 proy.)",rows:[
-    {l:"All HS",h:0,p:0,pct:0,dark:0},
-    {l:"CM",h:1,p:1,pct:2,dark:0},
-    {l:"Leasing",h:5,p:3,pct:9,dark:0},
-  ]},
-  {name:"C.Comerciales",sub:"8h (1 proy.)",rows:[
-    {l:"Cap.Markets",h:8,p:1,pct:14,dark:0},
-    {l:"Servicios",h:0,p:0,pct:0,dark:0},
-  ]},
-  {name:"Research",sub:"34h (4 proy.)",rows:[
-    {l:"Research",h:34,p:4,pct:58,dark:0},
-  ]},
-  {name:"Retail MKT",sub:"19h (2 proy.)",rows:[
-    {l:"Design",h:19,p:2,pct:33,dark:1},
-    {l:"MKT",h:0,p:1,pct:0,dark:0},
-    {l:"RRSS",h:0,p:0,pct:0,dark:0},
-  ]},
-  {name:"Corporativo",sub:"56h (6 proy.)",rows:[
-    {l:"Corporativo",h:55,p:5,pct:95,dark:1},
-    {l:"Comité",h:1,p:1,pct:2,dark:0},
-  ]},
-];
+function isContinuada(rec){ return EXCLUDE_TIPOLOGIA.has(rec.tipoLower); }
+function isOut(rec){ return EXCLUDE_DEPT_RAW.has(rec.deptLower) || EXCLUDE_DEPT_RAW.has(rec.tipoLower); }
+function isRealProject(rec){ return !isContinuada(rec) && !isOut(rec); }
 
-// GANTT
-const GANTT_YTD=[
-  {l:"Ene-2",n:2,y:0},{l:"Ene-3",n:6,y:0},{l:"Ene-4",n:2,y:0},{l:"Ene-5",n:3,y:1},
-  {l:"Feb-1",n:9,y:1},{l:"Feb-2",n:4,y:0},{l:"Feb-3",n:2,y:0},{l:"Feb-4",n:9,y:1},
-  {l:"Mar-1",n:6,y:0},{l:"Mar-2",n:8,y:1},{l:"Mar-3",n:6,y:1},{l:"Mar-4",n:3,y:0},
-  {l:"Abr-2",n:3,y:0},{l:"Abr-3",n:7,y:1},{l:"Abr-4",n:4,y:0},{l:"Abr-5",n:4,y:0},
-  {l:"May-1",n:4,y:1},{l:"May-2",n:7,y:0},{l:"May-4",n:1,y:0},{l:"May-5",n:7,y:1},
-];
-const GANTT_ENE=[
-  {l:"Ene-2",n:2,y:0},{l:"Ene-3",n:6,y:0},{l:"Ene-4",n:2,y:0},{l:"Ene-5",n:3,y:1},
-];
-const GANTT_FEB=[
-  {l:"Feb-1",n:9,y:1},{l:"Feb-2",n:4,y:1},{l:"Feb-3",n:2,y:0},{l:"Feb-4",n:9,y:1},
-];
-const GANTT_MAR=[
-  {l:"Mar-1",n:6,y:0},{l:"Mar-2",n:8,y:1},{l:"Mar-3",n:6,y:1},{l:"Mar-4",n:3,y:0},
-];
-const GANTT_ABR=[
-  {l:"Abr-2",n:3,y:0},{l:"Abr-3",n:7,y:1},{l:"Abr-4",n:4,y:0},{l:"Abr-5",n:4,y:0},
-];
-const GANTT_MAY=[
-  {l:"May-1",n:4,y:1},{l:"May-2",n:7,y:0},{l:"May-4",n:1,y:0},{l:"May-5",n:7,y:1},
-];
-
-// ── RENDER FUNCTIONS ──────────────────────────────────────────────────────
-
-function renderSvc(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=data.map(d=>`
-    <div class="br">
-      <div class="bl">${d.l}</div>
-      <div class="bt"><div class="bf" style="width:${d.pct}%"></div></div>
-      <div class="bv">${d.h}h (${d.p} proy.)</div>
-    </div>`).join('');
-}
-
-function renderGeo(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML='';
-  const maxH=Math.max(...data.map(d=>d.h));
-  data.forEach(d=>{
-    // Radio proporcional a raíz cuadrada de horas, máx 46px mín 7px
-    const r=Math.max(7,Math.round(Math.sqrt(d.h/maxH)*46));
-    const b=document.createElement('div');
-    b.className='gb';
-    b.style.cssText=`left:${d.x}%;top:${d.y}%;width:${r*2}px;height:${r*2}px;opacity:0.85;`;
-    b.title=`${d.c}: ${d.h}h · ${d.p} proy.`;
-    el.appendChild(b);
-    const t=document.createElement('div');
-    t.className='gt';
-    t.style.cssText=`left:${d.x}%;top:${d.y}%;margin-left:${r+3}px;margin-top:-8px;`;
-    t.innerHTML=`<b>${d.c}</b><br>${d.h}h · ${d.p}p.`;
-    el.appendChild(t);
+function aggregateByMonth(records){
+  const months = Array.from({length:12}, ()=>({horas:0, proyectos:0}));
+  records.forEach(r=>{
+    months[r.mesIdx].horas += r.hTotales;
+    if(isRealProject(r)) months[r.mesIdx].proyectos += 1;
   });
+  return months;
 }
 
-function renderPitch(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=data.map(d=>`<div class="pi"><span class="${d.g?'g':d.b?'bl2':''}">${d.n}</span></div>`).join('');
+function pct(curr, prev){
+  if(prev === 0) return curr === 0 ? 0 : null;
+  return ((curr-prev)/prev)*100;
+}
+function fmtPct(p){
+  if(p===null) return "—";
+  const sign = p>0 ? "+" : "";
+  return sign + p.toFixed(1).replace(".",",") + "%";
+}
+function fmtNum(n, dec=0){
+  return n.toLocaleString("es-ES",{minimumFractionDigits:dec, maximumFractionDigits:dec});
+}
+function yoyClass(p){
+  if(p===null) return "yoy-flat";
+  if(p>0.05) return "yoy-up";
+  if(p<-0.05) return "yoy-down";
+  return "yoy-flat";
+}
+function yoyArrow(p){
+  if(p===null) return "•";
+  if(p>0.05) return "▲";
+  if(p<-0.05) return "▼";
+  return "■";
 }
 
-function renderDest(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=data.map(d=>`<div class="di">${d}</div>`).join('');
+/* ===================== CAPACIDAD PRODUCTIVA REAL (días hábiles Comunidad de Madrid) =====================
+   Jornada estándar: 8h/día · 1 persona. Festivos: calendario oficial CAM (nacional+autonómico),
+   sin festivos locales municipales (varían por trabajador). L-V, excluyendo festivos en día laborable.
+   Fuente: Decreto 75/2025 (CAM 2026) y calendario laboral CAM 2025. */
+const JORNADA_HORAS_DIA = 8;
+const DIAS_HABILES_2026 = [20,20,22,20,20,22,23,21,22,21,20,20]; // Ene..Dic
+const DIAS_HABILES_2025 = [21,20,21,20,20,21,22,20,22,23,20,21]; // Ene..Dic
+
+function capacidadDisponible(mesIdx, year){
+  const tabla = year===2026 ? DIAS_HABILES_2026 : DIAS_HABILES_2025;
+  return tabla[mesIdx] * JORNADA_HORAS_DIA;
 }
-
-function renderVol(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=data.map(d=>`
-    <div class="vr">
-      <div class="vl">${d.l}</div>
-      <div class="vt" style="max-width:${Math.round(d.pct*1.4)}px;min-width:${d.pct>0?'4px':'0'};">
-        <div class="vf" style="width:100%;background:${d.dark?'var(--dark)':'var(--bar-rest)'}"></div>
-      </div>
-      ${d.note?`<div class="vv">${d.note}</div>`:''}
-    </div>`).join('');
+// % de ocupación de un trabajador a tiempo completo: horas reales / horas disponibles según calendario CAM
+function pctOcupacion(horas, mesIdx, year){
+  const disp = capacidadDisponible(mesIdx, year);
+  return disp>0 ? (horas/disp)*100 : null;
 }
-
-function renderDept(id,data){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML=data.map((dept,i)=>`
-    <div class="dg">
-      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px;">
-        <div class="dn">${dept.name}</div>
-        <div class="ds">${dept.sub}</div>
-      </div>
-      ${dept.rows.map(r=>`
-        <div class="dr">
-          <div class="dl">${r.l}</div>
-          <div class="dtk"><div class="db" style="width:${r.pct}%;background:${r.dark?'var(--dark)':'var(--bar-rest)'}"></div></div>
-          <div class="dv">${r.h}h (${r.p} proy.)</div>
-        </div>`).join('')}
-      ${i<data.length-1?'<hr class="dsep">':''}
-    </div>`).join('');
+// Suma de capacidad disponible para un rango de meses (YTD)
+function capacidadDisponibleRango(mesIdxs, year){
+  return mesIdxs.reduce((s,mi)=>s+capacidadDisponible(mi,year),0);
 }
+/* ===================== ESTADO ===================== */
+let DATA26 = [], DATA25 = [];
+let currentMonth = 0;
+let viewMode = "monthly";
+let detailMode = "resumen";
+let isFocusMode = false; // Modo Enfoque — sustituye por completo al antiguo dark/light toggle
+let _charts = [];
 
-function renderGantt(id,data,avgLabel){
-  const el=document.getElementById(id);if(!el)return;
-  el.innerHTML='';
-  const maxN=Math.max(...data.map(d=>d.n));
-  const avg=data.reduce((s,d)=>s+d.n,0)/data.length;
-  const BAR_H=90;
-  const LABEL_H=24;
-  // Posición de la línea de media: proporcional a avg/maxN
-  const avgBottom=LABEL_H+Math.round((avg/maxN)*BAR_H);
-  const avgLine=document.createElement('div');
-  avgLine.className='gavg';
-  avgLine.style.cssText=`bottom:${avgBottom}px;`;
-  const avgTag=document.createElement('div');
-  avgTag.className='gavgt';
-  avgTag.style.cssText=`bottom:${avgBottom}px;`;
-  avgTag.textContent=`Media ${avgLabel}`;
-  el.appendChild(avgLine);
-  el.appendChild(avgTag);
-  data.forEach(d=>{
-    const col=document.createElement('div');
-    col.className='gc';
-    const h=Math.max(4,Math.round((d.n/maxN)*BAR_H));
-    const bg=d.y?'var(--yellow)':'#c8cdd1';
-    col.innerHTML=`
-      <div class="gbw" style="height:${BAR_H}px;">
-        <div class="gbar" style="height:${h}px;background:${bg};">
-          <div class="gnum">${d.n}</div>
-        </div>
-      </div>
-      <div class="glbl">${d.l}</div>`;
-    el.appendChild(col);
-  });
+/* ===================== FOCUS MODE ===================== */
+function initFocusMode(){
+  let saved=null; try{ saved=localStorage.getItem("bt-dash-focus"); }catch(e){}
+  isFocusMode = saved === "1";
+  document.body.classList.toggle("focus-mode", isFocusMode);
 }
-
-// ── VIEW SWITCHING ────────────────────────────────────────────────────────
-const MES_VIEWS=['ene','feb','mar','abr','may'];
-
-function setView(id,el){
-  const isMes=MES_VIEWS.includes(id);
-  document.body.setAttribute('data-view',isMes?'mes':'ytd');
-  if(isMes){
-    document.body.style.setProperty('--bg','#E4E6E8');
-    document.body.style.setProperty('--bar-rest','#99a0a6');
-  } else {
-    document.body.style.setProperty('--bg','#E5F2FE');
-    document.body.style.setProperty('--bar-rest','#E4E6E8');
+function toggleFocusMode(){
+  isFocusMode = !isFocusMode;
+  document.body.classList.toggle("focus-mode", isFocusMode);
+  try{ localStorage.setItem("bt-dash-focus", isFocusMode ? "1" : "0"); }catch(e){}
+  buildUI();
+}
+function cssv(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function themeColors(){
+  return {
+    ink:cssv("--ink"), inkDim:cssv("--ink-dim"), inkFaint:cssv("--ink-faint"),
+    stroke:cssv("--stroke"), glass:cssv("--glass-2")||cssv("--glass"),
+    cyan:cssv("--cyan"), rose:cssv("--rose"), green:cssv("--green"),
+    amber:cssv("--amber"), violet:cssv("--violet"),
+  };
+}
+function hexAlpha(c, a){
+  c=(c||"").trim();
+  if(c.startsWith("rgb")){
+    const n=c.match(/[\d.]+/g)||[]; return `rgba(${n[0]||0},${n[1]||0},${n[2]||0},${a})`;
   }
-  document.querySelectorAll('.view').forEach(v=>{v.classList.remove('active');v.style.display='none';});
-  document.querySelectorAll('.month-ul a, .btn-ytd').forEach(a=>a.classList.remove('active'));
-  const v=document.getElementById('view-'+id);
-  if(v){v.classList.add('active');v.style.display=v.classList.contains('grid')?'grid':'flex';}
-  if(el) el.classList.add('active');
+  let hex=c.replace('#','');
+  if(hex.length===3) hex=hex.split('').map(x=>x+x).join('');
+  const r=parseInt(hex.substr(0,2),16)||0,g=parseInt(hex.substr(2,2),16)||0,b=parseInt(hex.substr(4,2),16)||0;
+  return `rgba(${r},${g},${b},${a})`;
+}
+function tip(c){ return {backgroundColor:c.glass,borderColor:c.stroke,borderWidth:1,titleColor:c.ink,bodyColor:c.inkDim,padding:11,cornerRadius:10,displayColors:false}; }
+
+/* ===================== CARGA ===================== */
+async function loadAll(){
+  try{
+    initFocusMode();
+    DATA26=hydrate(RAW_2026);
+    DATA25=hydrate(RAW_2025);
+    if(DATA26.length===0) throw new Error("No se encontraron registros en los datos de 2026.");
+    const mh=aggregateByMonth(DATA26).map((m,i)=>({i,h:m.horas})).filter(m=>m.h>0);
+    currentMonth=mh.length?Math.max(...mh.map(m=>m.i)):0;
+    buildUI();
+    document.getElementById("loading").style.display="none";
+    document.getElementById("app").style.display="block";
+  }catch(err){ showError(err); }
+}
+function showError(err){
+  document.getElementById("loading").innerHTML=`
+    <div class="errbox">
+      <b style="color:var(--rose)">No se pudo cargar el dashboard</b><br><br>
+      ${err.message}<br><br>
+      Pídele a Claude que regenere el dashboard con los CSV actualizados.<br><br>
+      <button class="rfbtn" onclick="location.reload()">Reintentar</button>
+    </div>`;
+}
+function monthsWithDataOptions(){
+  const agg=aggregateByMonth(DATA26); const set=new Set();
+  DATA26.forEach(r=>{ if(agg[r.mesIdx].horas>0||agg[r.mesIdx].proyectos>0) set.add(r.mesIdx); });
+  return Array.from(set).sort((a,b)=>a-b);
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────
-function init(){
-  renderSvc('svc-ytd',SVC_YTD);
-  renderSvc('svc-ene',SVC_ENE);
-  renderSvc('svc-feb',SVC_FEB);
-  renderSvc('svc-mar',SVC_MAR);
-  renderSvc('svc-abr',SVC_ABR);
-  renderSvc('svc-may',SVC_MAY);
+/* ===================== MÉTRICAS (núcleo único — LÓGICA INTACTA) ===================== */
+function computeMetrics(){
+  const isYTD = viewMode==="ytd";
+  const range = isYTD ? Array.from({length:currentMonth+1},(_,i)=>i) : [currentMonth];
+  const agg26=aggregateByMonth(DATA26), agg25=aggregateByMonth(DATA25);
+  const m26=DATA26.filter(r=>range.includes(r.mesIdx));
+  const m25=DATA25.filter(r=>range.includes(r.mesIdx));
+  const real26=m26.filter(isRealProject), real25=m25.filter(isRealProject);
 
-  renderGeo('geo-ytd',GEO_YTD);
-  renderGeo('geo-ene',GEO_ENE);
-  renderGeo('geo-feb',GEO_FEB);
-  renderGeo('geo-mar',GEO_MAR);
-  renderGeo('geo-abr',GEO_ABR);
-  renderGeo('geo-may',GEO_MAY);
+  const totalProy=real26.length, totalProyPrev=real25.length;
+  const totalProyYoy=pct(totalProy,totalProyPrev);
 
-  renderPitch('pitch-ytd',PITCH_YTD);
-  renderDest('dest-ytd',DEST_YTD);
+  const horas=m26.filter(r=>!isOut(r)).reduce((s,r)=>s+r.hTotales,0);
+  const horasPrev=m25.filter(r=>!isOut(r)).reduce((s,r)=>s+r.hTotales,0);
+  const horasYoy=pct(horas,horasPrev);
 
-  renderVol('vol-ytd',VOL_YTD);
-  renderVol('vol-ene',VOL_ENE);
-  renderVol('vol-feb',VOL_FEB);
-  renderVol('vol-mar',VOL_MAR);
-  renderVol('vol-abr',VOL_ABR);
-  renderVol('vol-may',VOL_MAY);
+  // Capacidad productiva real: % de ocupación de 1 persona a jornada completa,
+  // según días hábiles del calendario laboral de la Comunidad de Madrid (no festivos, no fines de semana).
+  const capDisp26=capacidadDisponibleRango(range,2026);
+  const capDisp25=capacidadDisponibleRango(range,2025);
+  const ocupacionPct=capDisp26>0 ? (horas/capDisp26)*100 : null;
+  const ocupacionPctPrev=capDisp25>0 ? (horasPrev/capDisp25)*100 : null;
+  const ocupacionYoy=(ocupacionPct!==null && ocupacionPctPrev!==null) ? pct(ocupacionPct,ocupacionPctPrev) : null;
 
-  renderDept('dept-ytd',DEPT_YTD);
-  renderDept('dept-ene',DEPT_ENE);
-  renderDept('dept-feb',DEPT_FEB);
-  renderDept('dept-mar',DEPT_MAR);
-  renderDept('dept-abr',DEPT_ABR);
-  renderDept('dept-may',DEPT_MAY);
+  const d26=real26.map(r=>r.diasProy).filter(d=>d!==null&&d>=0&&d<200);
+  const d25=real25.map(r=>r.diasProy).filter(d=>d!==null&&d>=0&&d<200);
+  const plazo=d26.length?d26.reduce((a,b)=>a+b,0)/d26.length:0;
+  const plazoPrev=d25.length?d25.reduce((a,b)=>a+b,0)/d25.length:0;
+  const plazoYoy=pct(plazo,plazoPrev);
 
-  renderGantt('gantt-ytd',GANTT_YTD,'2,3 d/proy.');
-  renderGantt('gantt-ene',GANTT_ENE,'1,7 d/proy.');
-  renderGantt('gantt-feb',GANTT_FEB,'2,3 d/proy.');
-  renderGantt('gantt-mar',GANTT_MAR,'2,9 d/proy.');
-  renderGantt('gantt-abr',GANTT_ABR,'2,5 d/proy.');
-  renderGantt('gantt-may',GANTT_MAY,'2,1 d/proy.');
+  const ytdProy=agg26.slice(0,currentMonth+1).reduce((s,m)=>s+m.proyectos,0);
+  const ytdHoras=agg26.slice(0,currentMonth+1).reduce((s,m)=>s+m.horas,0);
+  const ytdProyPrev=agg25.slice(0,currentMonth+1).reduce((s,m)=>s+m.proyectos,0);
+  const ytdHorasPrev=agg25.slice(0,currentMonth+1).reduce((s,m)=>s+m.horas,0);
+  const ytdYoy=pct(ytdProy,ytdProyPrev), ytdHorasYoy=pct(ytdHoras,ytdHorasPrev);
+  const ytdRange=Array.from({length:currentMonth+1},(_,i)=>i);
+  const ytdCapDisp26=capacidadDisponibleRango(ytdRange,2026);
+  const ytdCapDisp25=capacidadDisponibleRango(ytdRange,2025);
+  const ytdOcupacionPct=ytdCapDisp26>0 ? (ytdHoras/ytdCapDisp26)*100 : null;
+  const ytdOcupacionPctPrev=ytdCapDisp25>0 ? (ytdHorasPrev/ytdCapDisp25)*100 : null;
+  const ytdOcupacionYoy=(ytdOcupacionPct!==null && ytdOcupacionPctPrev!==null) ? pct(ytdOcupacionPct,ytdOcupacionPctPrev) : null;
+  const monthsElapsed=currentMonth+1;
+  const avgPerMonth=ytdProy/monthsElapsed;
+  const forecast=Math.round(avgPerMonth*12);
+  const yearPrev25=agg25.reduce((s,m)=>s+m.proyectos,0);
+  const forecastYoy=pct(forecast,yearPrev25);
 
-  document.getElementById('btn-ytd').classList.add('active');
+  const tipoAgg={};
+  real26.forEach(r=>{ (tipoAgg[r.tipologia]=tipoAgg[r.tipologia]||{horas:0,proyectos:0}); tipoAgg[r.tipologia].horas+=r.hTotales; tipoAgg[r.tipologia].proyectos+=1; });
+  const topTipos=Object.entries(tipoAgg).sort((a,b)=>b[1].horas-a[1].horas).slice(0,5);
+
+  const cityAgg={};
+  m26.filter(r=>!isOut(r)).forEach(r=>{ (cityAgg[r.ciudad]=cityAgg[r.ciudad]||{horas:0,proyectos:0}); cityAgg[r.ciudad].horas+=r.hTotales; if(isRealProject(r)) cityAgg[r.ciudad].proyectos+=1; });
+  const cities=Object.entries(cityAgg).filter(([c,v])=>v.proyectos>0||v.horas>0).sort((a,b)=>b[1].horas-a[1].horas);
+
+  const deptOrder=["High Street","C. Comerciales","Research","Retail MKT","Corporativo"];
+  const deptGroups={}; deptOrder.forEach(d=>deptGroups[d]={horas:0,proyectos:0});
+  const deptGroups25={}; deptOrder.forEach(d=>deptGroups25[d]={horas:0,proyectos:0});
+  m26.filter(r=>!isOut(r)).forEach(r=>{ const d=normDept(r.deptRaw); if(!d)return; deptGroups[d.group].horas+=r.hTotales; if(isRealProject(r)) deptGroups[d.group].proyectos+=1; });
+  m25.filter(r=>!isOut(r)).forEach(r=>{ const d=normDept(r.deptRaw); if(!d)return; deptGroups25[d.group].horas+=r.hTotales; });
+
+  const pitches=m26.filter(r=>r.tipoLower==="pitch");
+  const pitchesPrev=m25.filter(r=>r.tipoLower==="pitch").length;
+  const won=pitches.filter(r=>r.ganado==="SI"||r.ganado==="SÍ").length;
+  const lost=pitches.filter(r=>r.ganado==="NO").length;
+  const pend=pitches.length-won-lost;
+  const winPct=pitches.length?(won/pitches.length*100):0;
+  const pitchesYoy=pct(pitches.length,pitchesPrev);
+
+  const rrss=m26.filter(r=>r.tipoLower==="rrss");
+  const rrss25=m25.filter(r=>r.tipoLower==="rrss");
+  const rrssYoy=pct(rrss.length,rrss25.length);
+  const rrssHoras=rrss.reduce((s,r)=>s+r.hTotales,0);
+
+  let destacados;
+  if(!isYTD && FEATURED_BY_MONTH[currentMonth] && Array.isArray(FEATURED_BY_MONTH[currentMonth])){
+    destacados=FEATURED_BY_MONTH[currentMonth];
+  } else {
+    destacados=real26.slice().sort((a,b)=>b.hTotales-a.hTotales).slice(0,6).map(p=>({nombreProyecto:p.nombreProyecto||"(sin nombre)",hTotales:p.hTotales}));
+  }
+
+  let rhythmLabels, rhythmVals;
+  if(isYTD){
+    rhythmLabels=range.map(i=>MES_NOMBRES[i].slice(0,3));
+    rhythmVals=range.map(i=>agg26[i].proyectos);
+  }else{
+    const wk={};
+    real26.forEach(r=>{ if(!r.entrada)return; const d=Math.min(Math.ceil(r.entrada.getDate()/7),5); wk[d]=(wk[d]||0)+1; });
+    const keys=[1,2,3,4,5].filter(w=>wk[w]);
+    rhythmLabels=keys.map(w=>"Sem "+w); rhythmVals=keys.map(w=>wk[w]);
+  }
+  const rhythmAvg=rhythmVals.length?rhythmVals.reduce((a,b)=>a+b,0)/rhythmVals.length:0;
+
+  const yoyHorasSerie=agg26.map((m,i)=>pct(m.horas,agg25[i].horas));
+
+  return {isYTD,range,agg26,agg25,
+    totalProy,totalProyYoy,horas,horasYoy,plazo,plazoYoy,
+    ocupacionPct,ocupacionYoy,capDisp26,
+    ytdProy,ytdHoras,ytdYoy,ytdHorasYoy,monthsElapsed,avgPerMonth,forecast,forecastYoy,yearPrev25,
+    ytdOcupacionPct,ytdOcupacionYoy,ytdCapDisp26,
+    topTipos,cities,deptGroups,deptGroups25,deptOrder,
+    pitches,won,lost,pend,winPct,pitchesYoy,
+    rrss,rrssYoy,rrssHoras,destacados,
+    rhythmLabels,rhythmVals,rhythmAvg,yoyHorasSerie};
 }
-document.addEventListener('DOMContentLoaded',init);
+
+/* ===================== HELPERS DE VEREDICTO / TAGS IA ===================== */
+function verdictWord(yoy, lowerIsBetter){
+  if(yoy===null) return {txt:"sin referencia",cls:"v-flat"};
+  const good = lowerIsBetter ? yoy<-0.05 : yoy>0.05;
+  const bad  = lowerIsBetter ? yoy>0.05  : yoy<-0.05;
+  if(good) return {txt:"Por encima",cls:"v-up"};
+  if(bad)  return {txt:"Por debajo",cls:"v-down"};
+  return {txt:"En línea",cls:"v-flat"};
+}
+// Veredicto sobre el NIVEL ABSOLUTO de ocupación (no interanual): ¿está la persona dentro de su jornada disponible?
+function ocupacionVerdict(pctOcup){
+  if(pctOcup===null) return {txt:"sin datos",cls:"v-flat"};
+  if(pctOcup>110) return {txt:"",cls:"v-down"}; // sobrecarga, aunque no es necesariamente negativo
+  if(pctOcup<70)  return {txt:"",cls:"v-down"};
+  return {txt:"",cls:"v-up"};
+}
+// Tag IA predictivo: proyecta el cierre estimado a fin de mes/periodo
+function aiTag(label, cls){ return `<span class="aitag ${cls||''}">${label}</span>`; }
+function trendTag(yoy, lowerIsBetter){
+  if(yoy===null) return aiTag("Sin histórico","");
+  const good = lowerIsBetter ? yoy<-0.05 : yoy>0.05;
+  const bad  = lowerIsBetter ? yoy>0.05  : yoy<-0.05;
+  if(good) return aiTag("IA · Tendencia al alza","green");
+  if(bad)  return aiTag("IA · Señal de riesgo","rose");
+  return aiTag("IA · Estable","");
+}
+// Tag IA de ocupación: sincronizado con el mismo umbral (70-110%) que el color del badge de ocupacionVerdict
+function ocupacionTag(pctOcup){
+  if(pctOcup===null) return aiTag("Sin histórico","");
+  if(pctOcup>110) return aiTag("IA · Señal de riesgo","rose");
+  if(pctOcup<70)  return aiTag("IA · Señal de riesgo","rose");
+  return aiTag("IA · Estable","green");
+}
+// Glow de foco: rose si caída fuerte, amber si caída leve
+function glowClass(yoy, lowerIsBetter){
+  if(yoy===null) return "";
+  const v = lowerIsBetter ? -yoy : yoy;
+  if(v <= -0.15) return "glow-rose";
+  if(v <= -0.05) return "glow-amber";
+  return "";
+}
+// Glow específico para ocupación: alerta si muy por debajo (infrautilizado) o muy por encima (sobrecarga) de jornada
+function glowOcupacion(pctOcup){
+  if(pctOcup===null) return "";
+  if(pctOcup>130 || pctOcup<60) return "glow-rose";
+  if(pctOcup>110 || pctOcup<70) return "glow-amber";
+  return "";
+}
+
+/* ===================== INSIGHT EJECUTIVO ===================== */
+function buildInsight(m){
+  const periodo = m.isYTD ? `El acumulado hasta ${MES_NOMBRES[currentMonth]}` : `${MES_NOMBRES[currentMonth]}`;
+  const topDept = m.deptOrder.map(d=>[d,m.deptGroups[d].horas]).sort((a,b)=>b[1]-a[1])[0];
+  const swings=[{k:"proyectos",v:m.totalProyYoy},{k:"horas",v:m.horasYoy}].filter(s=>s.v!==null);
+  swings.sort((a,b)=>Math.abs(b.v)-Math.abs(a.v));
+  const anomaly = swings.length?swings[0]:null;
+  const proyYoyTxt = m.totalProyYoy===null ? "" : `<span class="${m.totalProyYoy>=0?'pos':'neg'}">${fmtPct(m.totalProyYoy)}</span> interanual`;
+  let proyChunk = `<b>${fmtNum(m.totalProy)}</b> proyectos`;
+  let horasChunk = `${fmtNum(m.horas)}h de capacidad`;
+  if(anomaly && anomaly.k==="proyectos") proyChunk = `<span class="hl">${fmtNum(m.totalProy)} proyectos</span>`;
+  if(anomaly && anomaly.k==="horas") horasChunk = `<span class="hl">${fmtNum(m.horas)}h</span> de capacidad`;
+  const driver = topDept && topDept[1]>0 ? ` <b>${topDept[0]}</b> concentra el mayor rendimiento por espacio.` : "";
+  let pitchTxt="";
+  if(m.pitches.length>0){ pitchTxt = ` Los pitches comerciales cierran con un <b>${m.winPct.toFixed(0)}%</b> de conversión (${m.won}/${m.pitches.length}).`; }
+  return `${periodo} cierra con ${proyChunk}${proyYoyTxt?` (${proyYoyTxt})`:''} y ${horasChunk}.${driver}${pitchTxt}`;
+}
+
+/* ===================== HELPERS UI ===================== */
+function sparkSVG(values, colorVar){
+  const w=200,h=36,n=values.length;
+  if(n<2) return "";
+  const max=Math.max(...values,1), min=Math.min(...values,0);
+  const rng=(max-min)||1;
+  const pts=values.map((v,i)=>{ const x=(i/(n-1))*w; const y=h-((v-min)/rng)*(h-5)-2.5; return `${x.toFixed(1)},${y.toFixed(1)}`; });
+  const last=pts[pts.length-1].split(',');
+  const areaPts=`0,${h} ${pts.join(' ')} ${w},${h}`;
+  const gid="g"+Math.random().toString(36).slice(2,7);
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(${colorVar})" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="var(${colorVar})" stop-opacity="0"/>
+    </linearGradient></defs>
+    <polygon points="${areaPts}" fill="url(#${gid})"/>
+    <polyline points="${pts.join(' ')}" fill="none" stroke="var(${colorVar})" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last[0]}" cy="${last[1]}" r="3" fill="var(${colorVar})"/>
+  </svg>`;
+}
+function animateCount(el, target, dec, suffix){
+  if(!el) return;
+  const dur=850, t0=performance.now();
+  const fmt=v=>fmtNum(v,dec)+(suffix||"");
+  function step(now){
+    const p=Math.min((now-t0)/dur,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=fmt(target*e);
+    if(p<1) requestAnimationFrame(step); else el.textContent=fmt(target);
+  }
+  requestAnimationFrame(step);
+}
+function destroyCharts(){ _charts.forEach(c=>{try{c.destroy();}catch(e){}}); _charts=[]; }
+function runCounts(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const t=parseFloat(el.getAttribute('data-count'));
+    const dec=parseInt(el.getAttribute('data-dec')||"0");
+    if(isFocusMode){
+      // Estático: sin animación de conteo para evitar fatiga visual y distracción
+      el.textContent=fmtNum(t,dec);
+    } else {
+      animateCount(el,t,dec,"");
+    }
+  });
+}
+
+/* ===================== TOP BAR ===================== */
+function topBarHTML(){
+  const periodLabel = viewMode==="ytd"
+    ? `Acumulado Enero – ${MES_NOMBRES[currentMonth]} 2026`
+    : `${MES_NOMBRES[currentMonth]} 2026`;
+  return `
+    <div class="topbar">
+      <div class="brand">
+        <div class="kicker">Beatriz Tobalina. Retail Brand Designer.</div>
+        <h1>Iberia Retail <b>Design</b></h1>
+      </div>
+      <div class="chrome">
+        <div class="tabs">
+          <button class="tab ${detailMode==='resumen'?'active':''}" id="tabResumen">Resumen</button>
+          <button class="tab ${detailMode==='detalle'?'active':''}" id="tabDetalle">Detalle</button>
+        </div>
+        <div class="seg">
+          <button class="${viewMode==='monthly'?'active':''}" id="segMonthly">Mensual</button>
+          <button class="${viewMode==='ytd'?'active':''}" id="segYTD">YTD</button>
+        </div>
+        <select id="monthSel"></select>
+        <button class="iconbtn focusbtn ${isFocusMode?'is-on':''}" id="focusBtn" title="Modo Enfoque · reduce ruido visual a lo crítico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg>
+          Focus Mode
+        </button>
+      </div>
+    </div>
+    <div class="periodline"><b>${periodLabel}</b> &nbsp;·&nbsp; ${DATA26.length} registros 2026 &nbsp;·&nbsp; ${DATA25.length} registros 2025 &nbsp;·&nbsp; Datos del equipo de diseño BT</div>
+  `;
+}
+function wireChrome(){
+  document.getElementById("tabResumen").onclick=()=>{ if(detailMode!=="resumen"){detailMode="resumen";buildUI();} };
+  document.getElementById("tabDetalle").onclick=()=>{ if(detailMode!=="detalle"){detailMode="detalle";buildUI();} };
+  document.getElementById("segMonthly").onclick=()=>{ if(viewMode!=="monthly"){viewMode="monthly";buildUI();} };
+  document.getElementById("segYTD").onclick=()=>{ if(viewMode!=="ytd"){viewMode="ytd";buildUI();} };
+  document.getElementById("focusBtn").onclick=toggleFocusMode;
+  const sel=document.getElementById("monthSel");
+  monthsWithDataOptions().forEach(mi=>{ const o=document.createElement("option"); o.value=mi; o.textContent=MES_NOMBRES[mi]; if(mi===currentMonth)o.selected=true; sel.appendChild(o); });
+  sel.onchange=e=>{ currentMonth=parseInt(e.target.value); buildUI(); };
+}
+
+/* ===================== ROUTER ===================== */
+function buildUI(){
+  destroyCharts();
+  const m=computeMetrics();
+  const app=document.getElementById("app");
+  app.innerHTML = topBarHTML() + (detailMode==="resumen" ? resumenHTML(m) : detalleHTML(m));
+  wireChrome();
+  if(detailMode==="resumen") resumenCharts(m); else detalleCharts(m);
+}
+
+/* ===================== VISTA RESUMEN (orden ejecutivo) ===================== */
+function resumenHTML(m){
+  const pv=verdictWord(m.totalProyYoy,false);
+  const ocupVerdict=ocupacionVerdict(m.ocupacionPct);
+  const spark=sparkSVG(m.agg26.slice(0,currentMonth+1).map(x=>x.horas),"--cyan");
+  const sparkP=sparkSVG(m.agg26.slice(0,currentMonth+1).map(x=>x.proyectos),"--cyan");
+  const gP=glowClass(m.totalProyYoy,false), gH=glowOcupacion(m.ocupacionPct);
+  const gPitch = m.pitches.length && m.winPct<50 ? "glow-amber" : (m.winPct>=50?"glow-green":"");
+  return `
+    <div class="insight">
+      <div class="eyebrow"><span class="pulse"></span>Resumen Ejecutivo · IA</div>
+      <p>${buildInsight(m)}</p>
+    </div>
+    <div class="bento">
+      <div class="cell col-4 ${gP}" data-focus="primary" style="animation-delay:.04s">
+        <div class="lbl">Volumen de Operaciones <span>${trendTag(m.totalProyYoy,false)}</span></div>
+        <div class="metric" data-count="${m.totalProy}" data-dec="0">0</div>
+        <div class="verdict ${pv.cls}">${m.totalProyYoy===null?'—':fmtPct(m.totalProyYoy)} · ${pv.txt}</div>
+        ${sparkP}
+        <div class="subnote">${m.totalProy} proyectos entregados · interanual vs 2025</div>
+      </div>
+      <div class="cell col-4 ${gH}" data-focus="primary" style="animation-delay:.10s">
+        <div class="lbl">Capacidad Productiva <span>${ocupacionTag(m.ocupacionPct)}</span></div>
+        <div class="metric"><span data-count="${m.horas}" data-dec="0">0</span><span class="unit">h</span></div>
+        <div class="verdict ${ocupVerdict.cls}">${m.ocupacionPct===null?'—':fmtNum(m.ocupacionPct,0)+'%'} ocupación${ocupVerdict.txt?' · '+ocupVerdict.txt:''}</div>
+        ${spark}
+        <div class="subnote">jornada 8h/día, días hábiles Com. Madrid${m.ocupacionYoy===null?'':' · '+fmtPct(m.ocupacionYoy)+' YOY'}</div>
+      </div>
+      <div class="cell col-4 ${gPitch}" data-focus="primary" style="animation-delay:.16s">
+        <div class="lbl">Conversión Comercial <span>${m.pitches.length?aiTag(m.winPct>=50?'IA · Ratio sólido':'IA · Optimizable',m.winPct>=50?'green':'amber'):aiTag('Sin pitches','')}</span></div>
+        <div class="metric"><span data-count="${m.winPct}" data-dec="0">0</span><span class="unit">%</span></div>
+        <div class="verdict ${m.winPct>=50?'v-up':m.pitches.length?'v-down':'v-flat'}">${m.won} ganados / ${m.pitches.length} pitches</div>
+        <div class="word">${m.pitches.length?(m.winPct>=50?'Tasa de éxito por encima del umbral':'Margen de mejora en cierre'):'Sin actividad de pitch este periodo'}</div>
+        <div class="subnote divider">${m.lost} perdidos${m.pend>0?` · ${m.pend} en curso`:''}</div>
+      </div>
+
+      <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.22s">
+        <div class="lbl">Evolución de Capacidad por Mes <span>${m.isYTD?aiTag('Periodo acumulado',''):aiTag('Mes en foco','')}</span></div>
+        <canvas id="cTrend" height="118"></canvas>
+      </div>
+      <div class="cell col-4" data-focus="hide" style="animation-delay:.28s">
+        <div class="lbl">Operaciones Destacadas <span class="sub">por dedicación</span></div>
+        <div id="featList"></div>
+      </div>
+
+      <div class="cell col-6" data-focus="hide" style="animation-delay:.34s">
+        <div class="lbl">Rendimiento por Espacio <span class="sub">distribución por línea de negocio</span></div>
+        <div id="deptRows"></div>
+      </div>
+      <div class="cell col-6" data-focus="hide" style="animation-delay:.40s">
+        <div class="lbl">Mix de Servicios <span class="sub">Top 5 · por capacidad</span></div>
+        <div id="svcRows"></div>
+      </div>
+    </div>
+  `;
+}
+function resumenCharts(m){
+  runCounts(); renderFeatured(m); renderDeptRows(m); renderSvcRows(m); renderTrend(m,"cTrend",false);
+}
+
+/* ===================== VISTA DETALLE ===================== */
+function detalleHTML(m){
+  const pv=verdictWord(m.totalProyYoy,false), plv=verdictWord(m.plazoYoy,true);
+  const ocupVerdict=ocupacionVerdict(m.ocupacionPct), ytdOcupVerdict=ocupacionVerdict(m.ytdOcupacionPct);
+  const gP=glowClass(m.totalProyYoy,false), gH=glowOcupacion(m.ocupacionPct), gPl=glowClass(m.plazoYoy,true);
+  return `
+    <div class="bento" style="margin-top:4px">
+      <div class="cell col-3 ${gP}" data-focus="primary" style="animation-delay:.04s">
+        <div class="lbl">Volumen Operaciones <span>${trendTag(m.totalProyYoy,false)}</span></div>
+        <div class="metric" data-count="${m.totalProy}" data-dec="0">0</div>
+        <div class="verdict ${pv.cls}">${m.totalProyYoy===null?'—':fmtPct(m.totalProyYoy)} YOY</div>
+        <div class="subnote divider"><b>${fmtNum(m.ytdProy)}</b> YTD · ${m.ytdYoy===null?'—':fmtPct(m.ytdYoy)} vs 2025</div>
+      </div>
+      <div class="cell col-3 ${gH}" data-focus="primary" style="animation-delay:.08s">
+        <div class="lbl">Capacidad Productiva <span>${ocupacionTag(m.ocupacionPct)}</span></div>
+        <div class="metric"><span data-count="${m.horas}" data-dec="0">0</span><span class="unit">h</span></div>
+        <div class="verdict ${ocupVerdict.cls}">${m.ocupacionPct===null?'—':fmtNum(m.ocupacionPct,0)+'%'} ocupación${ocupVerdict.txt?' · '+ocupVerdict.txt:''}</div>
+        <div class="subnote divider"><b>${fmtNum(m.ytdHoras)}</b> YTD · ${m.ytdOcupacionPct===null?'—':fmtNum(m.ytdOcupacionPct,0)+'% ocup.'}${ytdOcupVerdict.txt?' · '+ytdOcupVerdict.txt:''}</div>
+      </div>
+      <div class="cell col-3 ${gPl}" data-focus="primary" style="animation-delay:.12s">
+        <div class="lbl">Velocidad de Entrega <span class="sub">días / operación</span></div>
+        <div class="metric"><span data-count="${m.plazo}" data-dec="1">0</span><span class="unit">d</span></div>
+        <div class="verdict ${plv.cls}">${m.plazoYoy===null?'—':fmtPct(m.plazoYoy)} YOY</div>
+        <div class="subnote divider">media por operación${m.isYTD?' · acumulado':''}</div>
+      </div>
+      <div class="cell col-3" data-focus="primary" style="animation-delay:.16s">
+        <div class="lbl">Proyección Anual <span>${aiTag('IA · Forecast','')}</span></div>
+        <div class="metric" data-count="${m.forecast}" data-dec="0">0</div>
+        <div class="verdict ${m.forecastYoy>=0?'v-up':'v-down'}">${m.forecastYoy===null?'—':fmtPct(m.forecastYoy)} vs 2025</div>
+        <div class="subnote divider">${m.avgPerMonth.toFixed(1)} oper./mes · cierre 2025: <b>${fmtNum(m.yearPrev25)}</b></div>
+      </div>
+
+      <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.20s">
+        <div class="lbl">Evolución de Capacidad <span class="sub">barras = horas · línea = variación YOY</span></div>
+        <canvas id="cTrend" height="108"></canvas>
+      </div>
+      <div class="cell col-4" data-focus="hide" style="animation-delay:.24s">
+        <div class="lbl">Mix de Servicios <span class="sub">Top 5</span></div>
+        <div id="svcRows"></div>
+      </div>
+
+      <div class="cell col-6" data-focus="hide" style="animation-delay:.28s">
+        <div class="lbl">Rendimiento por Espacio <span class="sub">capacidad por línea de negocio</span></div>
+        <div id="deptRows"></div>
+      </div>
+      <div class="cell col-6" data-focus="hide" style="animation-delay:.32s">
+        <div class="lbl">Cobertura Geográfica <span class="sub">X = operaciones · tamaño = horas</span></div>
+        <canvas id="cGeo" height="150"></canvas>
+      </div>
+
+      <div class="cell col-4" data-focus="hide" style="animation-delay:.36s">
+        <div class="lbl">Pipeline Comercial <span>${aiTag(m.pitchesYoy===null?'—':fmtPct(m.pitchesYoy)+' YOY', m.pitchesYoy>=0?'green':'rose')}</span></div>
+        <div class="pitchhead">
+          <div class="ring">
+            <svg width="66" height="66" viewBox="0 0 66 66">
+              <circle cx="33" cy="33" r="27" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="7"/>
+              <circle cx="33" cy="33" r="27" fill="none" stroke="var(--green)" stroke-width="7" stroke-linecap="round"
+                stroke-dasharray="${(m.winPct/100*169.6).toFixed(1)} 169.6" style="transform:rotate(-90deg);transform-origin:33px 33px;filter:drop-shadow(0 0 4px var(--green));"/>
+            </svg>
+            <div class="pctxt">${m.winPct.toFixed(0)}%</div>
+          </div>
+          <div>
+            <div class="metric" style="font-size:30px">${fmtNum(m.pitches.length)}</div>
+            <div class="subnote">${m.won} ganados · ${m.lost} perdidos${m.pend>0?` · ${m.pend} en curso`:''}</div>
+          </div>
+        </div>
+        <div class="pitchlist" id="pitchList"></div>
+      </div>
+      <div class="cell col-4" data-focus="hide" style="animation-delay:.40s">
+        <div class="lbl">Activación en Medios <span class="sub">RRSS &amp; contenido</span></div>
+        <div class="metric" style="font-size:34px" data-count="${m.rrss.length}" data-dec="0">0</div>
+        <div class="verdict ${m.rrssYoy>=0?'v-up':'v-down'}">${m.rrssYoy===null?'—':fmtPct(m.rrssYoy)} YOY</div>
+        <div class="subnote divider">${fmtNum(m.rrssHoras,1)} horas de producción</div>
+      </div>
+      <div class="cell col-4" data-focus="hide" style="animation-delay:.44s">
+        <div class="lbl">Operaciones Destacadas <span class="sub">por dedicación</span></div>
+        <div id="featList"></div>
+      </div>
+
+      <div class="cell col-12" data-focus="hide" style="animation-delay:.48s">
+        <div class="lbl">Ritmo de Producción <span class="sub">${m.isYTD?'evolución mensual vs media':'volumen semanal vs media'}</span></div>
+        <canvas id="cRhythm" height="68"></canvas>
+      </div>
+    </div>
+  `;
+}
+function detalleCharts(m){
+  runCounts(); renderSvcRows(m); renderDeptRows(m); renderFeatured(m);
+  renderTrend(m,"cTrend",true); renderGeo(m,"cGeo"); renderPitchList(m); renderRhythm(m,"cRhythm");
+}
+
+/* ===================== RENDER COMPARTIDO ===================== */
+function renderFeatured(m){
+  const host=document.getElementById("featList"); if(!host) return;
+  if(!m.destacados.length){ host.innerHTML='<div class="subnote">Sin operaciones destacadas este periodo.</div>'; return; }
+  host.innerHTML=m.destacados.map((p,i)=>`
+    <div class="chip ${i===0?'top':''}">
+      <div class="rank">${i+1}</div>
+      <div class="nm">${(p.nombreProyecto||'(sin nombre)')}</div>
+      <div class="hrs">${fmtNum(p.hTotales,1)}h</div>
+    </div>`).join('');
+}
+function renderDeptRows(m){
+  const host=document.getElementById("deptRows"); if(!host) return;
+  const max=Math.max(1,...m.deptOrder.map(d=>m.deptGroups[d].horas));
+  const top=m.deptOrder.slice().sort((a,b)=>m.deptGroups[b].horas-m.deptGroups[a].horas)[0];
+  host.innerHTML=`<div class="ranklist">`+m.deptOrder.map(d=>{
+    const v=m.deptGroups[d]; const w=(v.horas/max*100).toFixed(1);
+    return `<div class="rankrow"><div class="nm">${d}</div>
+      <div class="track"><div class="fill ${d===top?'hl':''}" style="width:${w}%"></div></div>
+      <div class="vl">${fmtNum(v.horas,1)}h · ${v.proyectos}op</div></div>`;
+  }).join('')+`</div>`;
+}
+function renderSvcRows(m){
+  const host=document.getElementById("svcRows"); if(!host) return;
+  if(!m.topTipos.length){ host.innerHTML='<div class="subnote">Sin servicios este periodo.</div>'; return; }
+  const max=Math.max(1,...m.topTipos.map(t=>t[1].horas));
+  host.innerHTML=`<div class="ranklist">`+m.topTipos.map((t,i)=>{
+    const w=(t[1].horas/max*100).toFixed(1);
+    return `<div class="rankrow"><div class="nm">${t[0]} <span style="color:var(--ink-faint)">(${t[1].proyectos})</span></div>
+      <div class="track"><div class="fill ${i===0?'hl':''}" style="width:${w}%"></div></div>
+      <div class="vl">${fmtNum(t[1].horas,1)}h</div></div>`;
+  }).join('')+`</div>`;
+}
+function renderPitchList(m){
+  const host=document.getElementById("pitchList"); if(!host) return;
+  if(!m.pitches.length){ host.innerHTML='<div class="subnote">Sin pitches registrados.</div>'; return; }
+  host.innerHTML=m.pitches.map(p=>{
+    const won=p.ganado==="SI"||p.ganado==="SÍ", lost=p.ganado==="NO";
+    const cls=won?'b-won':lost?'b-lost':'b-pend', tx=won?'GANADO':lost?'PERDIDO':'EN CURSO';
+    return `<div class="pitem"><span class="nm">${p.nombreProyecto||'(sin nombre)'}</span><span class="badge ${cls}">${tx}</span></div>`;
+  }).join('');
+}
+
+/* ===================== CHARTS ===================== */
+function renderTrend(m, id, withYoyLine){
+  const el=document.getElementById(id); if(!el) return;
+  const c=themeColors();
+  const barColors=m.agg26.map((x,i)=>{
+    if(viewMode==="ytd"){ return m.range.includes(i)?(i===currentMonth?c.cyan:hexAlpha(c.cyan,.55)):hexAlpha(c.inkFaint,.20); }
+    return i===currentMonth?c.cyan:hexAlpha(c.inkFaint,.30);
+  });
+  const proyPorMes=m.agg26.map(x=>x.proyectos);
+  const ds=[{type:"bar",label:"Horas",data:m.agg26.map(x=>x.horas),proyectos:proyPorMes,backgroundColor:barColors,borderRadius:6,yAxisID:"y",order:2}];
+  if(withYoyLine){
+    ds.push({type:"line",label:"Var. YOY (%)",data:m.yoyHorasSerie,borderColor:c.violet,backgroundColor:"transparent",yAxisID:"y1",tension:.35,pointRadius:2.5,pointBackgroundColor:c.violet,borderWidth:2,order:1,spanGaps:true});
+  }
+  const scales={
+    x:{grid:{display:false},ticks:{color:c.inkFaint,font:{size:11}}},
+    y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true}
+  };
+  if(withYoyLine) scales.y1={position:"right",grid:{display:false},ticks:{color:c.inkFaint,callback:v=>v+'%'}};
+  const trendTip={...tip(c),callbacks:{
+    label:ctx=>{
+      if(ctx.dataset.type==="line") return `${ctx.dataset.label}: ${ctx.formattedValue}%`;
+      const proy=proyPorMes[ctx.dataIndex];
+      return [`Horas: ${fmtNum(ctx.parsed.y,1)}h`,`Proyectos: ${fmtNum(proy)}`];
+    }
+  }};
+  _charts.push(new Chart(el,{data:{labels:MES_NOMBRES.map(x=>x.slice(0,3)),datasets:ds},
+    options:{plugins:{legend:{display:withYoyLine,labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:trendTip},scales}}));
+}
+function renderGeo(m, id){
+  const el=document.getElementById(id); if(!el) return;
+  const c=themeColors();
+  const maxH=Math.max(1,...m.cities.map(x=>x[1].horas));
+  _charts.push(new Chart(el,{type:"bubble",
+    data:{datasets:m.cities.map(([city,v])=>({label:city,data:[{x:v.proyectos,y:1,r:7+(v.horas/maxH)*30}],backgroundColor:hexAlpha(c.cyan,.28),borderColor:c.cyan,borderWidth:1.5}))},
+    options:{plugins:{legend:{display:false},tooltip:{...tip(c),callbacks:{label:ctx=>{const cc=m.cities[ctx.datasetIndex];return `${cc[0]}: ${fmtNum(cc[1].horas,1)}h · ${cc[1].proyectos}op`;}}}},
+      scales:{x:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true,title:{display:true,text:'Nº Operaciones',color:c.inkFaint,font:{size:10}}},y:{display:false,min:0,max:2}}},
+    plugins:[{id:'lbl',afterDatasetsDraw(ch){const ctx=ch.ctx;ch.data.datasets.forEach((d,i)=>{const pt=ch.getDatasetMeta(i).data[0];if(!pt)return;ctx.save();ctx.font='600 11px '+getComputedStyle(document.body).fontFamily;ctx.fillStyle=c.inkDim;ctx.textAlign='center';ctx.fillText(d.label,pt.x,pt.y-pt.options.radius-5);ctx.restore();});}}]
+  }));
+}
+function renderRhythm(m, id){
+  const el=document.getElementById(id); if(!el) return;
+  const c=themeColors();
+  _charts.push(new Chart(el,{type:"bar",
+    data:{labels:m.rhythmLabels,datasets:[
+      {type:"bar",label:"Operaciones",data:m.rhythmVals,backgroundColor:hexAlpha(c.cyan,.6),borderRadius:6,order:2},
+      {type:"line",label:"Media",data:m.rhythmVals.map(()=>m.rhythmAvg),borderColor:c.amber,borderWidth:2.5,pointRadius:0,borderDash:[6,4],order:1}
+    ]},
+    options:{plugins:{legend:{labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:tip(c)},
+      scales:{x:{grid:{display:false},ticks:{color:c.inkFaint}},y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true}}}}));
+}
+
+/* ===================== FIN ===================== */
+
+loadAll();
+
 </script>
 </body>
 </html>
