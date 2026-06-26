@@ -161,8 +161,13 @@
   .b-pend{color:var(--ink-dim);background:rgba(10,43,43,.05);}
 
   canvas{max-width:100%;position:relative;z-index:1;}
-  .chartbox{position:relative;width:100%;margin-top:6px;}
-  .chartbox>canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;}
+  .chartbox{position:relative;width:100%;z-index:1;}
+  .chartbox > canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
+  .cb-trend{height:200px;}
+  .cb-geo{height:230px;}
+  .cb-rhythm{height:150px;}
+  .ring svg{overflow:visible;}
+  @media (max-width:1080px){.cb-geo{height:210px;}.cb-trend{height:180px;}}
 
   .loading{position:fixed;inset:0;background:var(--bg-0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:60;}
   .spin{width:32px;height:32px;border-radius:50%;border:3px solid rgba(10,43,43,.1);border-top-color:var(--cyan);animation:sp .8s linear infinite;}
@@ -325,7 +330,6 @@ let viewMode = "monthly";
 let detailMode = "resumen";
 let isFocusMode = false; // Modo Enfoque — sustituye por completo al antiguo dark/light toggle
 let _charts = [];
-if(window.Chart){ Chart.defaults.responsive=true; Chart.defaults.maintainAspectRatio=false; Chart.defaults.devicePixelRatio=Math.min(window.devicePixelRatio||1,2); }
 
 /* ===================== FOCUS MODE ===================== */
 function initFocusMode(){
@@ -472,18 +476,8 @@ function computeMetrics(){
 
   let rhythmLabels, rhythmVals;
   if(isYTD){
-    // Semana a semana a lo largo de todo el periodo YTD (Enero -> mes en foco)
-    const wk={};
-    real26.forEach(r=>{ if(!r.entrada)return; const w=Math.min(Math.ceil(r.entrada.getDate()/7),5); (wk[r.mesIdx]=wk[r.mesIdx]||{}); wk[r.mesIdx][w]=(wk[r.mesIdx][w]||0)+1; });
-    rhythmLabels=[]; rhythmVals=[];
-    range.forEach(mi=>{
-      let wMax=Math.ceil(new Date(2026,mi+1,0).getDate()/7);
-      if(mi===currentMonth){ const pres=Object.keys(wk[mi]||{}).map(Number); wMax=pres.length?Math.max(...pres):1; }
-      for(let w=1;w<=wMax;w++){
-        rhythmVals.push((wk[mi]&&wk[mi][w])||0);
-        rhythmLabels.push(w===1?MES_NOMBRES[mi].slice(0,3):"S"+w);
-      }
-    });
+    rhythmLabels=range.map(i=>MES_NOMBRES[i].slice(0,3));
+    rhythmVals=range.map(i=>agg26[i].proyectos);
   }else{
     const wk={};
     real26.forEach(r=>{ if(!r.entrada)return; const d=Math.min(Math.ceil(r.entrada.getDate()/7),5); wk[d]=(wk[d]||0)+1; });
@@ -707,7 +701,7 @@ function resumenHTML(m){
 
       <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.22s">
         <div class="lbl">Evolución de Capacidad por Mes <span>${m.isYTD?aiTag('Periodo acumulado',''):aiTag('Mes en foco','')}</span></div>
-        <div class="chartbox" style="height:200px"><canvas id="cTrend"></canvas></div>
+        <div class="chartbox cb-trend"><canvas id="cTrend"></canvas></div>
       </div>
       <div class="cell col-4" data-focus="hide" style="animation-delay:.28s">
         <div class="lbl">Operaciones Destacadas <span class="sub">por dedicación</span></div>
@@ -763,7 +757,7 @@ function detalleHTML(m){
 
       <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.20s">
         <div class="lbl">Evolución de Capacidad <span class="sub">barras = horas · línea = variación YOY</span></div>
-        <div class="chartbox" style="height:200px"><canvas id="cTrend"></canvas></div>
+        <div class="chartbox cb-trend"><canvas id="cTrend"></canvas></div>
       </div>
       <div class="cell col-4" data-focus="hide" style="animation-delay:.24s">
         <div class="lbl">Mix de Servicios <span class="sub">Top 5</span></div>
@@ -776,7 +770,7 @@ function detalleHTML(m){
       </div>
       <div class="cell col-6" data-focus="hide" style="animation-delay:.32s">
         <div class="lbl">Cobertura Geográfica <span class="sub">X = operaciones · tamaño = horas</span></div>
-        <div class="chartbox" style="height:210px"><canvas id="cGeo"></canvas></div>
+        <div class="chartbox cb-geo"><canvas id="cGeo"></canvas></div>
       </div>
 
       <div class="cell col-4" data-focus="hide" style="animation-delay:.36s">
@@ -809,8 +803,8 @@ function detalleHTML(m){
       </div>
 
       <div class="cell col-12" data-focus="hide" style="animation-delay:.48s">
-        <div class="lbl">Ritmo de Mercado <span class="sub">${m.isYTD?'volumen semanal · YTD':'volumen semanal vs media'}</span></div>
-        <div class="chartbox" style="height:150px"><canvas id="cRhythm"></canvas></div>
+        <div class="lbl">Ritmo de Producción <span class="sub">${m.isYTD?'evolución mensual vs media':'volumen semanal vs media'}</span></div>
+        <div class="chartbox cb-rhythm"><canvas id="cRhythm"></canvas></div>
       </div>
     </div>
   `;
@@ -889,20 +883,16 @@ function renderTrend(m, id, withYoyLine){
     }
   }};
   _charts.push(new Chart(el,{data:{labels:MES_NOMBRES.map(x=>x.slice(0,3)),datasets:ds},
-    options:{plugins:{legend:{display:withYoyLine,labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:trendTip},scales}}));
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:withYoyLine,labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:trendTip},scales}}));
 }
 function renderGeo(m, id){
   const el=document.getElementById(id); if(!el) return;
   const c=themeColors();
   const maxH=Math.max(1,...m.cities.map(x=>x[1].horas));
-  const maxP=Math.max(1,...m.cities.map(x=>x[1].proyectos));
   _charts.push(new Chart(el,{type:"bubble",
-    data:{datasets:m.cities.map(([city,v])=>({label:city,data:[{x:v.proyectos,y:v.horas,r:6+(v.horas/maxH)*18}],backgroundColor:hexAlpha(c.cyan,.28),borderColor:c.cyan,borderWidth:1.5}))},
-    options:{layout:{padding:{top:18,right:16}},plugins:{legend:{display:false},tooltip:{...tip(c),callbacks:{label:ctx=>{const cc=m.cities[ctx.datasetIndex];return `${cc[0]}: ${fmtNum(cc[1].horas,1)}h · ${cc[1].proyectos}op`;}}}},
-      scales:{
-        x:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint,precision:0},beginAtZero:true,max:maxP+1,title:{display:true,text:'Nº Operaciones',color:c.inkFaint,font:{size:10}}},
-        y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true,suggestedMax:maxH*1.15,title:{display:true,text:'Horas',color:c.inkFaint,font:{size:10}}}
-      }},
+    data:{datasets:m.cities.map(([city,v])=>({label:city,data:[{x:v.proyectos,y:1,r:7+(v.horas/maxH)*30}],backgroundColor:hexAlpha(c.cyan,.28),borderColor:c.cyan,borderWidth:1.5}))},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:34,right:24,left:8,bottom:4}},plugins:{legend:{display:false},tooltip:{...tip(c),callbacks:{label:ctx=>{const cc=m.cities[ctx.datasetIndex];return `${cc[0]}: ${fmtNum(cc[1].horas,1)}h · ${cc[1].proyectos}op`;}}}},
+      scales:{x:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true,title:{display:true,text:'Nº Operaciones',color:c.inkFaint,font:{size:10}}},y:{display:false,min:0,max:2}}},
     plugins:[{id:'lbl',afterDatasetsDraw(ch){const ctx=ch.ctx;ch.data.datasets.forEach((d,i)=>{const pt=ch.getDatasetMeta(i).data[0];if(!pt)return;ctx.save();ctx.font='600 11px '+getComputedStyle(document.body).fontFamily;ctx.fillStyle=c.inkDim;ctx.textAlign='center';ctx.fillText(d.label,pt.x,pt.y-pt.options.radius-5);ctx.restore();});}}]
   }));
 }
@@ -914,7 +904,7 @@ function renderRhythm(m, id){
       {type:"bar",label:"Operaciones",data:m.rhythmVals,backgroundColor:hexAlpha(c.cyan,.6),borderRadius:6,order:2},
       {type:"line",label:"Media",data:m.rhythmVals.map(()=>m.rhythmAvg),borderColor:c.amber,borderWidth:2.5,pointRadius:0,borderDash:[6,4],order:1}
     ]},
-    options:{plugins:{legend:{labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:tip(c)},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:tip(c)},
       scales:{x:{grid:{display:false},ticks:{color:c.inkFaint}},y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true}}}}));
 }
 
