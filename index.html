@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
 <style>
   :root{
     --bg-0:#F2F3F5; --bg-1:#E3E6E8; --bg-2:#D7DADE;
@@ -32,30 +32,31 @@
     background-image:linear-gradient(160deg, #E3E6E8 0%, #F2F3F5 45%, #D7DADE 100%);
     background-attachment:fixed;
     color:var(--ink); font-family:var(--font); -webkit-font-smoothing:antialiased;
+    font-size:22px; line-height:1.7;
     transition:background .3s ease,color .3s ease;
   }
   #app{max-width:1500px;margin:0 auto;padding:var(--pad-app);transition:padding .5s ease;}
 
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px;}
-  .brand .kicker{font-family:var(--font);font-size:11px;text-transform:uppercase;color:var(--ink-dim);font-weight:600;margin-bottom:5px;}
-  .brand h1{font-family:var(--font-display);font-size:21px;margin:0;font-weight:600;color:var(--ink);}
+  .brand .kicker{font-family:var(--font);font-size:15px;text-transform:uppercase;color:var(--ink-dim);font-weight:600;margin-bottom:5px;}
+  .brand h1{font-family:var(--font-display);font-size:28px;margin:0;font-weight:600;color:var(--ink);}
   .brand h1 b{font-weight:800;color:var(--cyan);}
   .chrome{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
 
   .tabs{display:flex;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--stroke);border-radius:13px;padding:4px;gap:3px;}
-  .tab{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 17px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
+  .tab{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:18px;font-weight:600;padding:10px 20px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
   .tab.active{background:linear-gradient(180deg,rgba(161,167,173,.16),rgba(161,167,173,.05));color:var(--ink);border:1px solid var(--stroke-hover);box-shadow:inset 0 0 12px rgba(161,167,173,.10);}
   .tab:not(.active):hover{color:var(--ink);}
 
   .seg{display:flex;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--stroke);border-radius:13px;padding:4px;gap:3px;}
-  .seg button{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:12px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
+  .seg button{border:none;background:transparent;color:var(--ink-dim);font-family:var(--font);font-size:17px;font-weight:600;padding:9px 15px;border-radius:9px;cursor:pointer;transition:all .25s ease;}
   .seg button.active{background:rgba(161,167,173,.10);color:var(--cyan);}
 
-  select{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;padding:9px 13px;font-size:13px;font-family:var(--font);cursor:pointer;transition:all .25s ease;}
+  select{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;padding:10px 14px;font-size:18px;font-family:var(--font);cursor:pointer;transition:all .25s ease;}
   select:hover{border-color:var(--stroke-hover);}
-  .iconbtn{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;height:39px;min-width:39px;padding:0 13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-family:var(--font);font-weight:600;transition:all .3s ease-out;}
+  .iconbtn{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ink);border:1px solid var(--stroke);border-radius:11px;height:46px;min-width:46px;padding:0 15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:18px;font-family:var(--font);font-weight:600;transition:all .3s ease-out;}
   .iconbtn:hover{border-color:var(--stroke-hover);box-shadow:0 0 18px rgba(161,167,173,.12);}
-  .iconbtn svg{width:15px;height:15px;}
+  .iconbtn svg{width:20px;height:20px;}
 
   /* Focus Mode toggle — estado propio, distinto del resto de iconbtn */
   .focusbtn{position:relative;}
@@ -63,16 +64,16 @@
   .focusbtn svg{transition:transform .3s ease;}
   .focusbtn.is-on svg{transform:scale(1.05);}
 
-  .periodline{font-family:var(--font);font-size:11px;color:var(--ink-faint);margin:0 2px 22px;transition:opacity .5s ease;}
+  .periodline{font-family:var(--font);font-size:16px;color:var(--ink-dim);margin:0 2px 22px;transition:opacity .5s ease;}
   .periodline b{color:var(--ink-dim);font-weight:600;}
 
   .insight{position:relative;border-radius:var(--radius);padding:26px 28px;margin-bottom:24px;background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(161,167,173,.05));backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--stroke);box-shadow:0 8px 24px rgba(37,39,58,.04);overflow:hidden;transition:padding .5s ease,margin .5s ease;}
   .insight::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(161,167,173,.5),transparent);}
-  .insight .eyebrow{font-family:var(--font);font-size:10px;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px;}
+  .insight .eyebrow{font-family:var(--font);font-size:13px;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px;}
   .insight .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2.4s ease-in-out infinite;}
   body.focus-mode .insight .eyebrow .pulse{animation:none;opacity:.85;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-  .insight p{margin:0;font-family:var(--font-display);font-size:clamp(18px,2.2vw,24px);line-height:1.45;font-weight:450;max-width:74ch;color:var(--ink);}
+  .insight p{margin:0;font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);line-height:1.5;font-weight:450;max-width:74ch;color:var(--ink);}
   .insight b{font-weight:700;}
   .insight .hl{color:var(--cyan);font-weight:600;}
   .insight .pos{color:var(--green);font-weight:600;}
@@ -111,73 +112,83 @@
   /* En Focus Mode los glows quedan fijos y suaves, sin hover-intensify, para evitar parpadeo de atención */
   body.focus-mode .cell.glow-rose:hover,body.focus-mode .cell.glow-amber:hover{box-shadow:inset 0 0 14px rgba(211,57,127,.15);}
 
-  .lbl{font-family:var(--font);font-size:10px;text-transform:uppercase;color:var(--ink-dim);font-weight:700;margin:0 0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1;}
-  .lbl .sub{font-weight:500;text-transform:none;color:var(--ink-faint);font-size:11px;}
+  .lbl{font-family:var(--font);font-size:16px;text-transform:uppercase;color:var(--ink-dim);font-weight:700;margin:0 0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1;letter-spacing:.03em;}
+  .lbl .sub{font-weight:500;text-transform:none;color:var(--ink-dim);font-size:15px;letter-spacing:0;}
 
-  .aitag{font-family:var(--font);display:inline-flex;align-items:center;gap:4px;background:var(--cyan-soft);color:var(--cyan);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid rgba(161,167,173,.20);white-space:nowrap;}
+  .aitag{font-family:var(--font);display:inline-flex;align-items:center;gap:4px;background:var(--cyan-soft);color:var(--cyan);font-size:14px;font-weight:700;padding:4px 11px;border-radius:20px;border:1px solid rgba(161,167,173,.20);white-space:nowrap;}
   .aitag.rose{background:var(--rose-soft);color:var(--rose);border-color:rgba(211,57,127,.25);}
   .aitag.amber{background:var(--amber-soft);color:var(--amber);border-color:rgba(239,107,0,.25);}
   .aitag.green{background:var(--green-soft);color:var(--green);border-color:rgba(58,169,92,.22);}
-  .aitag::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;}
+  .aitag::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;}
   body.focus-mode .aitag::before{box-shadow:none;}
 
-  .metric{font-family:var(--font-display);font-size:clamp(36px,4.8vw,56px);font-weight:300;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;position:relative;z-index:1;}
+  .metric{font-family:var(--font-display);font-size:clamp(42px,5.2vw,64px);font-weight:300;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;position:relative;z-index:1;}
   .metric .unit{font-size:.38em;color:var(--ink-dim);font-weight:500;margin-left:4px;}
-  .verdict{font-family:var(--font);display:inline-flex;align-items:center;gap:6px;margin-top:15px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:30px;width:fit-content;position:relative;z-index:1;}
+  .verdict{font-family:var(--font);display:inline-flex;align-items:center;gap:6px;margin-top:15px;font-size:17px;font-weight:600;padding:6px 14px;border-radius:30px;width:fit-content;position:relative;z-index:1;}
   .v-up{color:var(--green);background:var(--green-soft);}
   .v-down{color:var(--rose);background:var(--rose-soft);}
   .v-flat{color:var(--ink-dim);background:rgba(37,39,58,.05);}
-  .word{font-family:var(--font);font-size:12px;color:var(--ink-dim);margin-top:10px;font-weight:400;position:relative;z-index:1;}
-  .spark{margin-top:15px;height:36px;width:100%;position:relative;z-index:1;}
-  .subnote{font-family:var(--font);font-size:11px;color:var(--ink-faint);margin-top:9px;position:relative;z-index:1;}
+  .word{font-family:var(--font);font-size:18px;color:var(--ink-dim);margin-top:10px;font-weight:400;position:relative;z-index:1;line-height:1.6;}
+  .spark{margin-top:15px;height:40px;width:100%;position:relative;z-index:1;}
+  .subnote{font-family:var(--font);font-size:17px;color:var(--ink-dim);margin-top:9px;position:relative;z-index:1;}
   .subnote.divider{border-top:1px solid var(--stroke);padding-top:11px;margin-top:13px;}
-  .subnote b{color:var(--ink-dim);font-weight:600;}
+  .subnote b{color:var(--ink);font-weight:600;}
 
-  .ranklist{display:flex;flex-direction:column;gap:11px;margin-top:2px;position:relative;z-index:1;}
-  .rankrow{font-family:var(--font);display:flex;align-items:center;gap:12px;font-size:12.5px;}
+  .ranklist{display:flex;flex-direction:column;gap:14px;margin-top:2px;position:relative;z-index:1;}
+  .rankrow{font-family:var(--font);display:flex;align-items:center;gap:14px;font-size:18px;}
   .rankrow .nm{flex:1;min-width:0;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .rankrow .vl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);white-space:nowrap;flex:0 0 auto;min-width:78px;text-align:right;}
-  .track{height:6px;background:rgba(37,39,58,.06);border-radius:4px;overflow:hidden;flex:0 0 92px;}
+  .rankrow .vl{font-family:var(--mono);font-size:16px;color:var(--ink-dim);white-space:nowrap;flex:0 0 auto;min-width:84px;text-align:right;}
+  .track{height:12px;background:rgba(37,39,58,.08);border-radius:4px;overflow:hidden;flex:0 0 92px;}
   .fill{height:100%;border-radius:4px;background:linear-gradient(90deg,rgba(148,163,184,.6),rgba(148,163,184,.9));}
   .fill.hl{background:linear-gradient(90deg,rgba(161,167,173,.6),var(--cyan));box-shadow:0 0 10px rgba(161,167,173,.4);}
 
-  .chip{font-family:var(--font);display:flex;align-items:center;gap:10px;background:rgba(37,39,58,.03);border:1px solid var(--stroke);border-radius:11px;padding:10px 12px;font-size:12.5px;margin-bottom:8px;position:relative;z-index:1;transition:all .25s ease;}
+  .chip{font-family:var(--font);display:flex;align-items:center;gap:12px;background:rgba(37,39,58,.03);border:1px solid var(--stroke);border-radius:12px;padding:12px 14px;font-size:17px;margin-bottom:10px;position:relative;z-index:1;transition:all .25s ease;}
   .chip:hover{border-color:var(--stroke-hover);}
   .chip .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-dim);}
-  .chip .hrs{font-family:var(--mono);font-size:11px;color:var(--ink-faint);}
-  .chip .rank{font-family:var(--font);width:19px;height:19px;border-radius:6px;background:rgba(37,39,58,.07);color:var(--ink-dim);font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .chip .hrs{font-family:var(--mono);font-size:16px;color:var(--ink-dim);}
+  .chip .rank{font-family:var(--font);width:24px;height:24px;border-radius:6px;background:rgba(37,39,58,.07);color:var(--ink-dim);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .chip.top{border-color:rgba(161,167,173,.25);}
   .chip.top .rank{background:linear-gradient(135deg,rgba(161,167,173,.3),rgba(161,167,173,.15));color:var(--cyan);}
 
   .pitchhead{display:flex;align-items:center;gap:18px;margin-bottom:16px;position:relative;z-index:1;}
-  .ring{position:relative;width:66px;height:66px;flex-shrink:0;}
-  .ring .pctxt{font-family:var(--font-display);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);}
-  .pitchlist{max-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;position:relative;z-index:1;}
-  .pitem{font-family:var(--font);display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(37,39,58,.03);border-radius:9px;padding:8px 11px;font-size:12px;}
+  .ring{position:relative;width:72px;height:72px;flex-shrink:0;}
+  .ring .pctxt{font-family:var(--font-display);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .pitchlist{max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;position:relative;z-index:1;}
+  .pitem{font-family:var(--font);display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(37,39,58,.03);border-radius:10px;padding:10px 13px;font-size:17px;}
   .pitem .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-dim);}
-  .badge{font-family:var(--font);font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .badge{font-family:var(--font);font-size:14px;font-weight:700;padding:4px 11px;border-radius:20px;white-space:nowrap;}
   .b-won{color:var(--green);background:var(--green-soft);}
   .b-lost{color:var(--rose);background:var(--rose-soft);}
   .b-pend{color:var(--ink-dim);background:rgba(37,39,58,.05);}
 
-  canvas{max-width:100%;position:relative;z-index:1;}
+  canvas{max-width:100%;display:block;}
   .chartbox{position:relative;width:100%;z-index:1;}
   .geowrap{position:relative;width:100%;min-height:160px;flex:1;z-index:1;}
   .geoblock{cursor:default;}
   .geoblock:hover rect{opacity:.82;}
-  .geotip{position:absolute;pointer-events:none;background:var(--glass-2);backdrop-filter:blur(14px);border:1px solid var(--stroke);border-radius:8px;padding:6px 10px;font-size:11px;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .12s ease;transform:translate(-50%,-100%);z-index:5;box-shadow:0 4px 14px rgba(37,39,58,.12);}
-  .chartbox > canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
-  .cb-trend{height:200px;}
-  .cb-rhythm{height:150px;}
+  .geotip{position:absolute;pointer-events:none;background:var(--glass-2);backdrop-filter:blur(14px);border:1px solid var(--stroke);border-radius:8px;padding:8px 14px;font-size:16px;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .12s ease;transform:translate(-50%,-100%);z-index:5;box-shadow:0 4px 14px rgba(37,39,58,.12);}
   .ring svg{overflow:visible;}
-  @media (max-width:1080px){.cb-trend{height:180px;}}
+  /* svgbox: contenedor con posición relativa; SVG hijo absolute:inset:0 llena exactamente el área */
+  .svgbox{position:relative;width:100%;z-index:1;}
+  .svgbox svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  /* Alturas definidas en el contenedor — el SVG hereda width/height 100% de estas */
+  .cb-trend{height:clamp(220px,26vw,340px);}
+  .cb-rhythm{height:clamp(180px,20vw,280px);}
+  @media (max-width:1080px){
+    .cb-trend{height:clamp(190px,28vw,300px);}
+    .cb-rhythm{height:clamp(160px,22vw,240px);}
+  }
+  @media (max-width:680px){
+    .cb-trend{height:clamp(200px,50vw,280px);}
+    .cb-rhythm{height:clamp(160px,40vw,220px);}
+  }
 
   .loading{position:fixed;inset:0;background:var(--bg-0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:60;}
   .spin{width:32px;height:32px;border-radius:50%;border:3px solid rgba(37,39,58,.1);border-top-color:var(--cyan);animation:sp .8s linear infinite;}
   @keyframes sp{to{transform:rotate(360deg);}}
-  .loadtx{font-family:var(--font);color:var(--ink-dim);font-size:13px;}
-  .errbox{font-family:var(--font);background:var(--rose-soft);border:1px solid rgba(211,57,127,.3);border-radius:16px;padding:20px 22px;color:var(--ink);font-size:13px;max-width:560px;line-height:1.5;}
-  .rfbtn{font-family:var(--font);background:var(--cyan);color:#06121a;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
+  .loadtx{font-family:var(--font);color:var(--ink-dim);font-size:18px;}
+  .errbox{font-family:var(--font);background:var(--rose-soft);border:1px solid rgba(211,57,127,.3);border-radius:16px;padding:20px 22px;color:var(--ink);font-size:17px;max-width:560px;line-height:1.6;}
+  .rfbtn{font-family:var(--font);background:var(--cyan);color:#06121a;border:none;border-radius:10px;padding:10px 18px;font-size:17px;font-weight:700;cursor:pointer;margin-top:8px;}
 
   @media (max-width:1080px){
     .col-3{grid-column:span 6;}.col-4{grid-column:span 6;}
@@ -188,7 +199,8 @@
     .col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9{grid-column:span 12;}
     .topbar{flex-direction:column;align-items:stretch;}
     .chrome{justify-content:space-between;}
-    .metric{font-size:40px;}
+    .metric{font-size:48px;}
+    body{font-size:18px;}
   }
   body.focus-mode .cell[data-focus="primary"]{grid-column:span 12 !important;}
   @media (min-width:900px){
@@ -243,6 +255,7 @@ function normDept(raw){
 }
 const EXCLUDE_TIPOLOGIA = new Set(["tareas continuadas"]);
 const EXCLUDE_DEPT_RAW = new Set(["out"]);
+const EXCLUDE_FROM_FEATURED = new Set(["control bcn - hs"]); // aparecen en conteo pero no en destacados
 
 function toNumber(s){
   if(s===undefined||s===null) return 0;
@@ -345,7 +358,7 @@ let currentMonth = 0;
 let viewMode = "ytd";
 let detailMode = "resumen";
 let isFocusMode = false; // Modo Enfoque — sustituye por completo al antiguo dark/light toggle
-let _charts = [];
+let _charts = []; // kept for compatibility — SVG charts don't need destroy()
 
 /* ===================== FOCUS MODE ===================== */
 function initFocusMode(){
@@ -469,7 +482,8 @@ function computeMetrics(){
   const deptOrder=["High Street","C. Comerciales","Research","Retail MKT","Corporativo"];
   const deptGroups={}; deptOrder.forEach(d=>deptGroups[d]={horas:0,proyectos:0});
   const deptGroups25={}; deptOrder.forEach(d=>deptGroups25[d]={horas:0,proyectos:0});
-  m26.filter(r=>!isOut(r)).forEach(r=>{ const d=normDept(r.deptRaw); if(!d)return; deptGroups[d.group].horas+=r.hTotales; if(isRealProject(r)) deptGroups[d.group].proyectos+=1; });
+  const deptSubs={}; deptOrder.forEach(d=>deptSubs[d]={});
+  m26.filter(r=>!isOut(r)).forEach(r=>{ const d=normDept(r.deptRaw); if(!d)return; deptGroups[d.group].horas+=r.hTotales; if(isRealProject(r)) deptGroups[d.group].proyectos+=1; if(!deptSubs[d.group][d.label]) deptSubs[d.group][d.label]={horas:0,proyectos:0}; deptSubs[d.group][d.label].horas+=r.hTotales; if(isRealProject(r)) deptSubs[d.group][d.label].proyectos+=1; });
   m25.filter(r=>!isOut(r)).forEach(r=>{ const d=normDept(r.deptRaw); if(!d)return; deptGroups25[d.group].horas+=r.hTotales; });
 
   const pitches=m26.filter(r=>r.tipoLower==="pitch");
@@ -489,7 +503,7 @@ function computeMetrics(){
   if(!isYTD && FEATURED_BY_MONTH[currentMonth] && Array.isArray(FEATURED_BY_MONTH[currentMonth])){
     destacados=FEATURED_BY_MONTH[currentMonth];
   } else {
-    destacados=real26.slice().sort((a,b)=>b.hTotales-a.hTotales).slice(0,6).map(p=>({nombreProyecto:p.nombreProyecto||"(sin nombre)",hTotales:p.hTotales}));
+    destacados=real26.filter(p=>!EXCLUDE_FROM_FEATURED.has((p.nombreProyecto||"").toLowerCase())).slice().sort((a,b)=>b.hTotales-a.hTotales).slice(0,6).map(p=>({nombreProyecto:p.nombreProyecto||"(sin nombre)",hTotales:p.hTotales}));
   }
 
   // Ritmo de Mercado: siempre semana a semana (semana ISO), tanto en vista mensual como en YTD.
@@ -521,7 +535,7 @@ function computeMetrics(){
     ocupacionPct,ocupacionYoy,capDisp26,
     ytdProy,ytdHoras,ytdYoy,ytdHorasYoy,monthsElapsed,avgPerMonth,forecast,forecastYoy,yearPrev25,
     ytdOcupacionPct,ytdOcupacionYoy,ytdCapDisp26,
-    topTipos,cities,deptGroups,deptGroups25,deptOrder,
+    topTipos,cities,deptGroups,deptGroups25,deptSubs,deptOrder,
     pitches,won,lost,pend,winPct,pitchesYoy,
     rrss,rrssYoy,rrssHoras,destacados,
     rhythmLabels,rhythmVals,rhythmAvg,yoyHorasSerie};
@@ -626,7 +640,11 @@ function animateCount(el, target, dec, suffix){
   }
   requestAnimationFrame(step);
 }
-function destroyCharts(){ _charts.forEach(c=>{try{c.destroy();}catch(e){}}); _charts=[]; }
+function destroyCharts(){
+  _charts=[];
+  // Limpiar SVG de gráficos para evitar duplicados al cambiar de vista
+  ["cTrend","cRhythm"].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=""; });
+}
 function runCounts(){
   document.querySelectorAll('[data-count]').forEach(el=>{
     const t=parseFloat(el.getAttribute('data-count'));
@@ -667,7 +685,7 @@ function topBarHTML(){
         </button>
       </div>
     </div>
-    <div class="periodline"><b>${periodLabel}</b> &nbsp;·&nbsp; ${DATA26.length} registros 2026 &nbsp;·&nbsp; ${DATA25.length} registros 2025 &nbsp;·&nbsp; Datos del equipo de diseño BT</div>
+    <div class="periodline"><b>${periodLabel}</b> &nbsp;·&nbsp; ${DATA26.length} registros 2026 &nbsp;·&nbsp; ${DATA25.length} registros 2025</div>
   `;
 }
 function wireChrome(){
@@ -729,7 +747,7 @@ function resumenHTML(m){
 
       <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.22s">
         <div class="lbl">Evolución de Capacidad por Mes <span>${m.isYTD?aiTag('Periodo acumulado',''):aiTag('Mes en foco','')}</span></div>
-        <div class="chartbox cb-trend"><canvas id="cTrend"></canvas></div>
+        <div class="svgbox cb-trend" id="cTrend"></div>
       </div>
       <div class="cell col-4" data-focus="hide" style="animation-delay:.28s">
         <div class="lbl">Operaciones Destacadas <span class="sub">por dedicación</span></div>
@@ -785,7 +803,7 @@ function detalleHTML(m){
 
       <div class="cell col-8 col-wide" data-focus="primary" style="animation-delay:.20s">
         <div class="lbl">Evolución de Capacidad <span class="sub">barras = horas · línea = variación YOY</span></div>
-        <div class="chartbox cb-trend"><canvas id="cTrend"></canvas></div>
+        <div class="svgbox cb-trend" id="cTrend"></div>
       </div>
       <div class="cell col-4" data-focus="hide" style="animation-delay:.24s">
         <div class="lbl">Top Servicios <span class="sub">Top 5</span></div>
@@ -832,7 +850,7 @@ function detalleHTML(m){
 
       <div class="cell col-12" data-focus="hide" style="animation-delay:.48s">
         <div class="lbl">Ritmo de Mercado <span class="sub">${m.isYTD?'volumen semanal acumulado vs media':'volumen semanal vs media'}</span></div>
-        <div class="chartbox cb-rhythm"><canvas id="cRhythm"></canvas></div>
+        <div class="svgbox cb-rhythm" id="cRhythm"></div>
       </div>
     </div>
   `;
@@ -857,23 +875,61 @@ function renderDeptRows(m){
   const host=document.getElementById("deptRows"); if(!host) return;
   const max=Math.max(1,...m.deptOrder.map(d=>m.deptGroups[d].horas));
   const top=m.deptOrder.slice().sort((a,b)=>m.deptGroups[b].horas-m.deptGroups[a].horas)[0];
-  host.innerHTML=`<div class="ranklist">`+m.deptOrder.map(d=>{
+  // Grid de 3 columnas: nombre fijo (140px), barra flexible (llena todo el espacio disponible), valor fijo (120px)
+  // El subdesglose usa el MISMO grid — eso garantiza alineación perfecta entre niveles
+  const COL="minmax(120px,160px) 1fr minmax(100px,130px)";
+  host.innerHTML=m.deptOrder.map(d=>{
     const v=m.deptGroups[d]; const w=(v.horas/max*100).toFixed(1);
-    return `<div class="rankrow"><div class="nm">${d}</div>
-      <div class="track"><div class="fill ${d===top?'hl':''}" style="width:${w}%"></div></div>
-      <div class="vl">${fmtNum(v.horas,1)}h · ${v.proyectos}op</div></div>`;
-  }).join('')+`</div>`;
+    const subs=m.deptSubs[d]||{};
+    const subKeys=Object.keys(subs).sort((a,b)=>subs[b].horas-subs[a].horas);
+    const hasMultipleSubs=subKeys.length>1;
+    const subId="sub_"+d.replace(/[\s.]/g,"_");
+    const subRows=hasMultipleSubs?subKeys.map(s=>{
+      const sw=(subs[s].horas/v.horas*100).toFixed(1);
+      return `<div style="display:grid;grid-template-columns:${COL};align-items:center;gap:14px;margin-bottom:10px;padding-left:20px;">
+        <div style="font-size:17px;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">↳ ${s}</div>
+        <div style="height:14px;background:rgba(37,39,58,.07);border-radius:4px;overflow:hidden;">
+          <div style="height:100%;width:${sw}%;background:rgba(161,167,173,.55);border-radius:4px;transition:width .4s ease;"></div>
+        </div>
+        <div style="text-align:right;font-size:17px;color:var(--ink-dim);font-family:var(--mono);">${fmtNum(subs[s].horas,1)}h · ${subs[s].proyectos}op</div>
+      </div>`;
+    }).join(''):'';
+    const expandBtn=hasMultipleSubs
+      ?`<button onclick="(function(btn){const el=document.getElementById('${subId}');const open=el.style.display==='block';el.style.display=open?'none':'block';btn.textContent=open?'▸':'▾';})(this)"
+          style="background:none;border:none;color:var(--ink-dim);font-size:26px;padding:4px 6px;line-height:1;cursor:pointer;flex-shrink:0;border-radius:6px;transition:background .15s ease;" title="Ver desglose"
+          onmouseenter="this.style.background='rgba(37,39,58,.08)'" onmouseleave="this.style.background='none'">▸</button>`
+      :'';
+    return `<div style="margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:${COL};align-items:center;gap:14px;">
+        <div style="display:flex;align-items:center;min-width:0;">
+          <span style="font-size:18px;font-weight:600;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d}</span>
+          ${expandBtn}
+        </div>
+        <div style="height:28px;background:rgba(37,39,58,.07);border-radius:6px;overflow:hidden;">
+          <div class="fill ${d===top?'hl':''}" style="width:${w}%;height:100%;border-radius:6px;transition:width .4s ease;"></div>
+        </div>
+        <div style="text-align:right;font-size:18px;color:var(--ink-dim);font-family:var(--mono);">${fmtNum(v.horas,1)}h · ${v.proyectos}op</div>
+      </div>
+      ${hasMultipleSubs?`<div id="${subId}" style="display:none;margin-top:10px;border-top:1px solid var(--stroke);padding-top:12px;">${subRows}</div>`:''}
+    </div>`;
+  }).join('');
 }
 function renderSvcRows(m){
   const host=document.getElementById("svcRows"); if(!host) return;
   if(!m.topTipos.length){ host.innerHTML='<div class="subnote">Sin servicios este periodo.</div>'; return; }
   const max=Math.max(1,...m.topTipos.map(t=>t[1].horas));
-  host.innerHTML=`<div class="ranklist">`+m.topTipos.map((t,i)=>{
+  // Mismo grid de 3 columnas que deptRows para coherencia visual
+  const COL="minmax(120px,160px) 1fr minmax(100px,130px)";
+  host.innerHTML=m.topTipos.map((t,i)=>{
     const w=(t[1].horas/max*100).toFixed(1);
-    return `<div class="rankrow"><div class="nm">${t[0]} <span style="color:var(--ink-faint)">(${t[1].proyectos})</span></div>
-      <div class="track"><div class="fill ${i===0?'hl':''}" style="width:${w}%"></div></div>
-      <div class="vl">${fmtNum(t[1].horas,1)}h</div></div>`;
-  }).join('')+`</div>`;
+    return `<div style="display:grid;grid-template-columns:${COL};align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="font-size:18px;font-weight:600;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t[0]}<br><span style="font-size:15px;font-weight:400;color:var(--ink-dim);">${t[1].proyectos} proy.</span></div>
+      <div style="height:28px;background:rgba(37,39,58,.07);border-radius:6px;overflow:hidden;">
+        <div class="fill ${i===0?'hl':''}" style="width:${w}%;height:100%;border-radius:6px;transition:width .4s ease;"></div>
+      </div>
+      <div style="text-align:right;font-size:18px;color:var(--ink-dim);font-family:var(--mono);">${fmtNum(t[1].horas,1)}h · ${t[1].proyectos}op</div>
+    </div>`;
+  }).join('');
 }
 function renderPitchList(m){
   const host=document.getElementById("pitchList"); if(!host) return;
@@ -887,31 +943,104 @@ function renderPitchList(m){
 
 /* ===================== CHARTS ===================== */
 function renderTrend(m, id, withYoyLine){
-  const el=document.getElementById(id); if(!el) return;
+  const host=document.getElementById(id); if(!host) return;
   const c=themeColors();
-  const barColors=m.agg26.map((x,i)=>{
-    if(viewMode==="ytd"){ return m.range.includes(i)?(i===currentMonth?c.cyan:hexAlpha(c.cyan,.55)):hexAlpha(c.inkFaint,.20); }
-    return i===currentMonth?c.cyan:hexAlpha(c.inkFaint,.30);
-  });
-  const proyPorMes=m.agg26.map(x=>x.proyectos);
-  const ds=[{type:"bar",label:"Horas",data:m.agg26.map(x=>x.horas),proyectos:proyPorMes,backgroundColor:barColors,borderRadius:6,yAxisID:"y",order:2}];
-  if(withYoyLine){
-    ds.push({type:"line",label:"Var. YOY (%)",data:m.yoyHorasSerie,borderColor:c.violet,backgroundColor:"transparent",yAxisID:"y1",tension:.35,pointRadius:2.5,pointBackgroundColor:c.violet,borderWidth:2,order:1,spanGaps:true});
+  // viewBox fijo proporcional. El CSS (svgbox + position:absolute;inset:0) hace que
+  // el SVG llene width:100% height:100% del contenedor .cb-trend sin distorsión.
+  const VW=800, VH=280;
+  const padL=54, padR=withYoyLine?60:18, padT=18, padB=46;
+  const chartW=VW-padL-padR, chartH=VH-padT-padB;
+  const labels=MES_NOMBRES.map(x=>x.slice(0,3));
+  const horasData=m.agg26.map(x=>x.horas);
+  const proyData=m.agg26.map(x=>x.proyectos);
+  const yoyData=withYoyLine?m.yoyHorasSerie:[];
+  const maxH=Math.max(1,...horasData);
+  const n=labels.length;
+  const gap=chartW/n;
+  const barW=Math.max(6,gap*0.65);
+  const yScale=v=>padT+chartH*(1-v/maxH);
+  const xPos=i=>padL+gap*i+gap/2;
+  // Eje Y
+  let yAxis='';
+  for(let t=0;t<=4;t++){
+    const v=maxH/4*t;
+    const y=yScale(v);
+    yAxis+=`<line x1="${padL}" y1="${y.toFixed(1)}" x2="${padL+chartW}" y2="${y.toFixed(1)}" stroke="${c.inkFaint}" stroke-width="1" opacity="0.18"/>`;
+    yAxis+=`<text x="${padL-8}" y="${(y+5).toFixed(1)}" text-anchor="end" font-size="14" fill="${c.inkDim}">${fmtNum(v,0)}</text>`;
   }
-  const scales={
-    x:{grid:{display:false},ticks:{color:c.inkFaint,font:{size:11}}},
-    y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true}
-  };
-  if(withYoyLine) scales.y1={position:"right",grid:{display:false},ticks:{color:c.inkFaint,callback:v=>v+'%'}};
-  const trendTip={...tip(c),callbacks:{
-    label:ctx=>{
-      if(ctx.dataset.type==="line") return `${ctx.dataset.label}: ${ctx.formattedValue}%`;
-      const proy=proyPorMes[ctx.dataIndex];
-      return [`Horas: ${fmtNum(ctx.parsed.y,1)}h`,`Proyectos: ${fmtNum(proy)}`];
+  // Barras — sin etiqueta de valor estática; hover muestra tooltip HTML
+  const bars=horasData.map((h,i)=>{
+    const isActive=viewMode==="ytd"?m.range.includes(i):i===currentMonth;
+    const isCurrent=i===currentMonth;
+    const fill=isActive?(isCurrent?c.cyan:hexAlpha(c.cyan,.55)):hexAlpha(c.inkFaint,.22);
+    const bh=Math.max(3,h/maxH*chartH);
+    const by=padT+chartH-bh;
+    const bx=xPos(i)-barW/2;
+    return `<g>
+      <rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" fill="${fill}" rx="5"/>
+      <text x="${xPos(i).toFixed(1)}" y="${VH-padB+26}" text-anchor="middle" font-size="15" fill="${c.inkDim}" font-weight="${isCurrent?700:500}">${labels[i]}</text>
+      <rect class="bar-hover" x="${(xPos(i)-gap/2).toFixed(1)}" y="${padT}" width="${gap.toFixed(1)}" height="${chartH}"
+        fill="transparent" style="cursor:default"
+        data-i="${i}" data-h="${fmtNum(h,1)}" data-p="${proyData[i]}" data-lbl="${labels[i]}"/>
+    </g>`;
+  }).join('');
+  // Línea YOY
+  let yoyLine='';
+  if(withYoyLine){
+    const valid=yoyData.filter(v=>v!=null);
+    if(valid.length){
+      const maxY=Math.max(1,...valid.map(Math.abs));
+      const yS2=v=>padT+chartH*(1-(v+maxY)/(maxY*2));
+      const pts=yoyData.map((v,i)=>v!=null?`${xPos(i).toFixed(1)},${yS2(v).toFixed(1)}`:null).filter(Boolean);
+      if(pts.length>1){
+        yoyLine+=`<line x1="${VW-padR}" y1="${padT}" x2="${VW-padR}" y2="${padT+chartH}" stroke="${c.inkFaint}" stroke-width="1" opacity="0.22"/>`;
+        [-maxY,0,maxY].forEach(v=>{
+          const y=yS2(v);
+          yoyLine+=`<text x="${VW-padR+7}" y="${(y+5).toFixed(1)}" font-size="12" fill="${c.inkDim}">${v>0?'+':''}${v}%</text>`;
+        });
+        yoyLine+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${c.violet}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+        yoyData.forEach((v,i)=>{ if(v!=null) yoyLine+=`<circle cx="${xPos(i).toFixed(1)}" cy="${yS2(v).toFixed(1)}" r="4.5" fill="${c.violet}" stroke="#fff" stroke-width="1.5"/>`; });
+      }
     }
-  }};
-  _charts.push(new Chart(el,{data:{labels:MES_NOMBRES.map(x=>x.slice(0,3)),datasets:ds},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:withYoyLine,labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:trendTip},scales}}));
+  }
+  // Tooltip HTML (más fiable que SVG tooltip — no depende de querySelector en SVG)
+  const tipId='tip_'+id;
+  host.style.position='relative';
+  host.innerHTML=`
+    <svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;">
+      ${yAxis}${bars}${yoyLine}
+    </svg>
+    <div id="${tipId}" style="display:none;position:absolute;background:${c.glass};border:1.5px solid ${c.stroke};border-radius:10px;padding:8px 14px;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(37,39,58,.14);z-index:10;">
+      <div style="font-size:13px;color:${c.inkDim};margin-bottom:3px;" id="${tipId}_lbl"></div>
+      <div style="font-size:16px;font-weight:700;color:${c.ink};" id="${tipId}_val"></div>
+    </div>`;
+  // Eventos hover sobre los rectángulos transparentes
+  const tipEl=host.querySelector('#'+tipId);
+  const lblEl=host.querySelector('#'+tipId+'_lbl');
+  const valEl=host.querySelector('#'+tipId+'_val');
+  host.querySelectorAll('.bar-hover').forEach(rect=>{
+    rect.addEventListener('mouseenter', e=>{
+      lblEl.textContent=rect.dataset.lbl;
+      valEl.textContent=rect.dataset.h+'h · '+rect.dataset.p+' op';
+      // Posicionar el tooltip centrado sobre la barra, en % del contenedor
+      const svgEl=host.querySelector('svg');
+      const svgRect=svgEl.getBoundingClientRect();
+      const hostRect=host.getBoundingClientRect();
+      const i=parseInt(rect.dataset.i);
+      const xFrac=(parseFloat(xPos(i))/VW);
+      const leftPx=xFrac*svgRect.width + (svgRect.left-hostRect.left);
+      tipEl.style.display='block';
+      // reposicionar tras medir el tooltip
+      requestAnimationFrame(()=>{
+        const tw=tipEl.offsetWidth;
+        const th=tipEl.offsetHeight;
+        tipEl.style.left=Math.max(0,Math.min(hostRect.width-tw,leftPx-tw/2))+'px';
+        tipEl.style.top=Math.max(0,(svgRect.top-hostRect.top)+8)+'px';
+      });
+    });
+    rect.addEventListener('mouseleave',()=>{ tipEl.style.display='none'; });
+  });
 }
 function renderGeoSVG(m){
   const host=document.getElementById("geoChart"); if(!host) return;
@@ -1008,15 +1137,78 @@ function truncateLabel(text, cellWidthPx){
   return cut+"…";
 }
 function renderRhythm(m, id){
-  const el=document.getElementById(id); if(!el) return;
+  const host=document.getElementById(id); if(!host) return;
   const c=themeColors();
-  _charts.push(new Chart(el,{type:"bar",
-    data:{labels:m.rhythmLabels,datasets:[
-      {type:"bar",label:"Operaciones",data:m.rhythmVals,backgroundColor:hexAlpha(c.cyan,.6),borderRadius:6,order:2},
-      {type:"line",label:"Media",data:m.rhythmVals.map(()=>m.rhythmAvg),borderColor:c.amber,borderWidth:2.5,pointRadius:0,borderDash:[6,4],order:1}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:c.inkDim,boxWidth:12,font:{size:11}}},tooltip:tip(c)},
-      scales:{x:{grid:{display:false},ticks:{color:c.inkFaint}},y:{grid:{color:hexAlpha(c.inkFaint,.12)},ticks:{color:c.inkFaint},beginAtZero:true}}}}));
+  const VW=1200, VH=240;
+  const padL=44, padR=16, padT=18, padB=48;
+  const chartW=VW-padL-padR, chartH=VH-padT-padB;
+  const labels=m.rhythmLabels, vals=m.rhythmVals, avg=m.rhythmAvg;
+  const n=labels.length;
+  if(!n){ host.innerHTML='<div class="subnote">Sin datos de ritmo este periodo.</div>'; return; }
+  const maxV=Math.max(1,...vals,avg*1.25);
+  const yScale=v=>padT+chartH*(1-v/maxV);
+  const gap=chartW/n;
+  const barW=Math.max(4,gap*0.72);
+  const xPos=i=>padL+gap*i+gap/2;
+  // Eje Y
+  let yAxis='';
+  for(let t=0;t<=4;t++){
+    const v=maxV/4*t;
+    const y=yScale(v);
+    yAxis+=`<line x1="${padL}" y1="${y.toFixed(1)}" x2="${padL+chartW}" y2="${y.toFixed(1)}" stroke="${c.inkFaint}" stroke-width="1" opacity="0.15"/>`;
+    yAxis+=`<text x="${padL-6}" y="${(y+5).toFixed(1)}" text-anchor="end" font-size="13" fill="${c.inkDim}">${fmtNum(v,0)}</text>`;
+  }
+  // Barras — sin valor estático, dato solo en hover
+  const bars=vals.map((v,i)=>{
+    const bh=Math.max(2,v/maxV*chartH);
+    const by=padT+chartH-bh;
+    const bx=xPos(i)-barW/2;
+    const showLabel=n<=14||(i%Math.ceil(n/14)===0);
+    return `<g>
+      <rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" fill="${hexAlpha(c.cyan,.65)}" rx="4"/>
+      ${showLabel?`<text x="${xPos(i).toFixed(1)}" y="${VH-padB+24}" text-anchor="middle" font-size="13" fill="${c.inkDim}">${labels[i]}</text>`:''}
+      <rect class="bar-hover" x="${(xPos(i)-gap/2).toFixed(1)}" y="${padT}" width="${gap.toFixed(1)}" height="${chartH}"
+        fill="transparent" style="cursor:default"
+        data-i="${i}" data-v="${v}" data-lbl="${labels[i]}"/>
+    </g>`;
+  }).join('');
+  // Línea de media
+  const avgY=yScale(avg);
+  const avgLine=`<line x1="${padL}" y1="${avgY.toFixed(1)}" x2="${padL+chartW}" y2="${avgY.toFixed(1)}" stroke="${c.amber}" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="${padL+chartW-6}" y="${(avgY-8).toFixed(1)}" text-anchor="end" font-size="14" fill="${c.amber}" font-weight="600">media ${fmtNum(avg,1)}</text>`;
+  const tipId='tip_'+id;
+  host.style.position='relative';
+  host.innerHTML=`
+    <svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;">
+      ${yAxis}${bars}${avgLine}
+    </svg>
+    <div id="${tipId}" style="display:none;position:absolute;background:${c.glass};border:1.5px solid ${c.stroke};border-radius:10px;padding:8px 14px;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(37,39,58,.14);z-index:10;">
+      <div style="font-size:13px;color:${c.inkDim};margin-bottom:3px;" id="${tipId}_lbl"></div>
+      <div style="font-size:16px;font-weight:700;color:${c.ink};" id="${tipId}_val"></div>
+    </div>`;
+  const tipEl=host.querySelector('#'+tipId);
+  const lblEl=host.querySelector('#'+tipId+'_lbl');
+  const valEl=host.querySelector('#'+tipId+'_val');
+  host.querySelectorAll('.bar-hover').forEach(rect=>{
+    rect.addEventListener('mouseenter', e=>{
+      lblEl.textContent=rect.dataset.lbl;
+      valEl.textContent=rect.dataset.v+' operaciones';
+      const svgEl=host.querySelector('svg');
+      const svgRect=svgEl.getBoundingClientRect();
+      const hostRect=host.getBoundingClientRect();
+      const i=parseInt(rect.dataset.i);
+      const xFrac=parseFloat(xPos(i))/VW;
+      const leftPx=xFrac*svgRect.width+(svgRect.left-hostRect.left);
+      tipEl.style.display='block';
+      requestAnimationFrame(()=>{
+        const tw=tipEl.offsetWidth;
+        tipEl.style.left=Math.max(0,Math.min(hostRect.width-tw,leftPx-tw/2))+'px';
+        tipEl.style.top=Math.max(0,(svgRect.top-hostRect.top)+8)+'px';
+      });
+    });
+    rect.addEventListener('mouseleave',()=>{ tipEl.style.display='none'; });
+  });
 }
 
 /* ===================== FIN ===================== */
